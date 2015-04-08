@@ -35,15 +35,63 @@ $app->get('/', function () {
 	echo phpinfo();       
 });
 
+$env = $app->environment();
+$env['dbUser'] = "root";
+$env['server'] = "localhost";
+$env['dbPass'] = "";
+$env['dbName'] = "uconnjobsearch";
 
-//	Get all names
-$app->get('/employees', function() {
-	$sql = "SELECT * FROM Hello";
+
+//	Get all jobs
+$app->get('/jobs', function() use ($env) {
+	$sql = "SELECT * FROM job";
+	$result = NULL;
+	// Create connection
+    $conn = new mysqli($env['server'], $env['dbUser'], $env['dbPass'], $env['dbName']);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } else {
+	    $result = $conn->query($sql);
+		
+		if (!$result) {
+		    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+		} else {
+		    $array = array();
+			
+		/*	
+			//new code
+			echo "<table>";
+			echo "<tr><th>JobID</th><th>JobTitle</th></tr>";
+			
+			while($row = mysqli_fetch_array($result)) {
+				$JobID = $row['JobID'];
+				$JobTitle = $row['JobTitle'];
+				echo "<tr><td style='width: 400px;'>".$JobID."</td><td style='width: 			              600px;'>".$JobTitle."</td></tr>";
+			} 
+			
+			echo "</table>";
+		*/
+			
+			//end new code
+		    while($row = $result->fetch_assoc()) $array[] = $row;
+			
+			//	Echo result in JSON
+			echo json_encode($array)."\n";	
+		}
+		
+		$conn->close();
+    }
+});
+
+$app->get('/usernames', function() {
+	$sql = "SELECT username FROM user";
 	
 	$dbServerName = "localhost";
     $dbUser = "root";
     $dbPassword = "";
-    $dbName = "mydb";
+    $dbName = "uconnjobsearch";
 	
 	$result = NULL;
     
@@ -69,18 +117,15 @@ $app->get('/employees', function() {
     }
 });
 
-$app->get('/usernames', function() {
-	$sql = "SELECT username FROM user";
-	
-	$dbServerName = "localhost";
-    $dbUser = "root";
-    $dbPassword = "";
-    $dbName = "mydb";
-	
+
+//check if username exists in the database
+
+$app->get('/user_exists/:name', function($name) use($env){
+	$sql = "SELECT username FROM user where username = '".$name."'";
+
 	$result = NULL;
-    
 	// Create connection
-    $conn = new mysqli($dbServerName, $dbUser, $dbPassword, $dbName);
+    $conn = new mysqli($env['server'], $env['dbUser'], $env['dbPass'], $env['dbName']);
 
     // Check connection
     if ($conn->connect_error) {
@@ -91,10 +136,10 @@ $app->get('/usernames', function() {
 		if (!$result) {
 		    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
 		} else {
-		    $array = array();
-		    while($row = $result->fetch_assoc()) $array[] = $row;
+		    $array = array();	
+			echo $result->num_rows;
 			
-			echo json_encode($array);	//	Echo result in JSON
+		
 		}
 		
 		$conn->close();
