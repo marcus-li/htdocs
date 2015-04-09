@@ -1,27 +1,10 @@
-<?php
-	$username = "root";
-	$password = "6379133";
-	$database = "uconnjobsearch";
-	$address = "localhost";
-	
-	 // Create connection
-    $mysqlConnection = new mysqli($address, $username, $password, $database);
-
-    // Check connection
-    if ($mysqlConnection->connect_error) {
-        die("Connection failed: " . mysqli_connect_error());
-	}
-	echo "Connected successfully";	
-	
-	//check if username exists in the database
-	
-	$response =file_get_contents('http://localhost/sample_api/user_exists/');
-
-?>
 
 <!doctype html>
 <html>
 <head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+
 <meta charset="utf-8">
 <title>Register</title>
 </head>
@@ -30,11 +13,11 @@
 <form method="post" action="insert.php" name="send" onSubmit="return Check()">
   Account Information:<br>
   UserID:<br>
-  <input type="text" name="username" size="20" class="c3a">
+  <input type="text" name="username" onchange= "checkUserName()" size="20" class="c3a">
   <br>
   Email: <br>
   <label>
-    <input name="email" type="email" id="email" placeholder="example@abc.com">
+    <input name="email" type="email" onchange = "checkEmail()" id="email" placeholder="example@abc.com">
   </label>
   <label></label>
   <br>
@@ -141,6 +124,50 @@
 var exists = false;
 
 
+
+
+function checkUserName(){
+var exists = "";
+	var a = $.ajax({
+	  type: 'GET',
+	  url: '/dbScripts/UNameCheck.php',
+	  data: {'param1': document.send.username.value},
+	  async:false,
+	  dataType:"json",
+	  success: function(data){
+			exists=data; 
+	  }
+	});
+	
+    if(exists=="1"){
+         window.alert('UserID exists, please choose another');
+		 return false;
+    }
+	return true;
+}
+
+
+function checkEmail(){
+var exists = "";
+	var a = $.ajax({
+	  type: 'GET',
+	  url: '/dbScripts/emailCheck.php',
+	  data: {'param1': document.send.email.value},
+	  async:false,
+	  dataType:"json",
+	  success: function(data){
+			exists=data; 
+	  }
+	});
+	
+    if(exists=="1"){
+         window.alert('email address already registered, please choose another');
+		 return false;
+    }
+	return true;
+}
+
+
 function Check()
 {
 		if (document.send.username.value=="") 
@@ -149,26 +176,34 @@ function Check()
         
         return false;
     }
-	/***
-	exists=false;
-    var urls = "/sample_api/user_exists/"+ document.send.username.value;
-    
-    jQuery.ajax({
-    type: "GET",
-    url: urls,
-    contentType:"text",
-    dataType:"text",
-    success: function(data){ if (data == "1") exists=true;     },
-    error: function(){alert('fail')},
-    async:  false
-    
-    });
-	***/
-    
-    if(exists){
-         window.alert('UserID exists, please choose another');
-         return false;
+
+	
+	var exists = "";
+	var a = $.ajax({
+	  type: 'GET',
+	  url: '/dbScripts/UNameCheck.php',
+	  data: {'param1': document.send.username.value},
+	  async:false,
+	  dataType:"json",
+	  success: function(data){
+			exists=data; 
+	  }
+	});
+	
+    if(!checkUserName()){
+	return false;
+	}
+	if (document.send.email.value=="")
+    {
+        alert('Please enter your email address');
+         
+        return false;
     }
+	
+	if(!checkEmail()){
+	return false;
+	}
+	
     	if (document.send.firstname.value=="") 
     {
         window.alert('Please enter your first name'); 
@@ -181,12 +216,7 @@ function Check()
         
         return false;
     }
-	    if (document.send.email.value=="")
-    {
-        alert('Please enter your email address');
-         
-        return false;
-    }
+	   
     	if (document.send.password.value=="") 
     {
         alert('Please enter your password'); 
