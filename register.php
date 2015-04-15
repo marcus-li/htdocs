@@ -1,58 +1,180 @@
-
 <!doctype html>
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
-
 <meta charset="utf-8">
 <title>Register</title>
-</head>
 
+<script type="text/javascript" src="jquery-1.2.6.min.js"></script>
+<meta name="keywords" content="register">
+<link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+<SCRIPT type="text/javascript">
+
+pic1 = new Image(16, 16); 
+pic1.src = "loader.gif";
+
+$(document).ready(function(){
+
+$("#UserName").change(function() { 
+
+var usr = $("#UserName").val();
+
+if(usr.length >= 4)
+{
+$("#status").html('<img src="loader.gif" align="absmiddle">&nbsp;Checking availability...');
+
+    $.ajax({  
+    type: "POST",  
+    url: "check.php",  
+    data: "UserName="+ usr,  
+    success: function(msg){  
+   
+   $("#status").ajaxComplete(function(event, request, settings){ 
+
+	if(msg == 'OK')
+	{ 
+        $("#UserName").removeClass('object_error'); // if necessary
+		$("#UserName").addClass("object_ok");
+		$(this).html('&nbsp;<img src="tick.gif" align="absmiddle">');
+	}  
+	else  
+	{  
+		$("#UserName").removeClass('object_ok'); // if necessary
+		$("#UserName").addClass("object_error");
+		$(this).html(msg);
+	}  
+   
+   });
+
+ } 
+   
+  }); 
+
+}
+elseif(usr.length <= 4)
+	{
+	$("#status").html('<font color="red">The username should have at least <strong>4</strong> characters.</font>');
+	$("#UserName").removeClass('object_ok'); // if necessary
+	$("#UserName").addClass("object_error");
+	}
+
+});
+
+});
+
+//-->
+</SCRIPT>
+</head>
 <body>
-<form method="post" action="insert.php" name="send" onSubmit="return Check()">
-  Account Information:<br>
-  UserID:<br>
-  <input type="text" name="username" onchange= "checkUserName()" size="20" class="c3a">
+<?php
+if(isset($_POST['submit']))
+{
+$dbhost = 'localhost';
+$dbuser = 'root';
+$dbpass = '6379133';
+$conn = mysql_connect($dbhost, $dbuser, $dbpass);
+if(! $conn )
+{
+  die('Could not connect: ' . mysql_error());
+}
+
+if(! get_magic_quotes_gpc() )
+{
+   $UserName = addslashes ($_POST['UserName']);
+   $UserPassword = addslashes ($_POST['UserPassword']);
+   $UserFirstName = addslashes ($_POST['UserFirstName']);
+   $UserLastName = addslashes ($_POST['UserLastName']);
+   $UserStreet1 = addslashes ($_POST['UserStreet1']);
+   $UserStreet2 = addslashes ($_POST['UserStreet2']);
+   $UserCity = addslashes ($_POST['UserCity']);
+   $UserState = addslashes ($_POST['UserState']);
+   $UserZip = addslashes ($_POST['UserZip']);
+   $UserEmail = addslashes ($_POST['UserEmail']);
+   $UserPhone = addslashes ($_POST['UserPhone']);
+}
+else
+{
+   $UserName = $_POST['UserName'];
+   $UserPassword = $_POST['UserPassword'];
+   $UserFirstName = $_POST['UserFirstName'];
+   $UserLastName = $_POST['UserLastName'];
+   $UserStreet1 = $_POST['UserStreet1'];
+   $UserStreet2 = $_POST['UserStreet2'];
+   $UserCity = $_POST['UserCity'];
+   $UserState = $_POST['UserState'];
+   $UserZip = $_POST['UserZip'];
+   $UserEmail = $_POST['UserEmail'];
+   $UserPhone = $_POST['UserPhone'];
+}
+
+$sql = "INSERT INTO user ".
+       "(UserName, UserPassword, UserFirstName, UserLastName, UserStreet1, UserStreet2, UserCity, UserState, UserZip, UserEmail, UserPhone) ".
+       "VALUES('$UserName','$UserPassword', '$UserFirstName', '$UserLastName', '$UserStreet1', '$UserStreet2', '$UserCity', '$UserState', '$UserZip', '$UserEmail', '$UserPhone')";
+	   
+mysql_select_db('uconnjobsearch');
+$retval = mysql_query( $sql, $conn);
+
+if(!$retval or mysql_errno() == 1062)
+{
+	header('Location: http://localhost/wrong_username.php');
+	
+}else{
+	//echo "Entered data successfully.\n";
+	header('Location: http://localhost/registration_success.php');
+	mysql_close($conn);
+}
+}
+else
+{
+?>
+
+<h1>Uconn's Job Search Register</h1>
+
+<div class="frame">
+<form method="post" action="<?php $_PHP_SELF ?>" name="send" onSubmit="return Check()">
+  <h2>Account Information:</h2><br>
+  <a>UserID:</a>
+  <input type="text" name="UserName" size="20" id="UserName" class="c3a">
+  <a id="status"></a>
   <br>
-  Email: <br>
+  <a>Email:</a>
   <label>
-    <input name="email" type="email" onchange = "checkEmail()" id="email" placeholder="example@abc.com">
+    <input name="UserEmail" type="email" id="UserEmail" placeholder="example@abc.com">
   </label>
   <label></label>
   <br>
-  Password：<br>
+  <a>Password：</a>
   <input name="password" type="password" id="password">
   <br>
-  Password Confirm：<br>
-  <input name="cpassword" type="password" id="cpassword">
+  <a>Password Confirm：</a>
+  <input name="UserPassword" type="password" id="UserPassword">
   <br>
   <br>
-  Personal Information:<br>
-  First Name：<br>
-  <input type="text" name="firstname" size="20" class="c3a" placeholder="firstname">
+  <h2>Personal Information:</h2><br>
+  <a>First Name：</a>
+  <input type="text" name="UserFirstName" size="20" id="UserFirstName" class="c3a" placeholder="firstname">
   <br>
-  Last Name：<br>
-  <input type="text" name="lastname" size="20" class="c3a" placeholder="lastname">
+  <a>Last Name：</a>
+  <input type="text" name="UserLastName" size="20" id="UserLastName" class="c3a" placeholder="lastname">
   <br>
-  Phone Number：<br>
-  <input type="tel" name="tel" size="20" class="c3a" placeholder="(xxx)xxx-xxxx">
+  <a>Phone Number：</a>
+  <input type="tel" name="UserPhone" size="20" id="UserPhone" class="c3a" placeholder="(xxx)xxx-xxxx">
   <br>
-  <input type="tel" name="cell" size="20" class="c3a" placeholder="(xxx)xxx-xxxx">
-  <a>(optinal)</a> <br>
-  Address：<br>
-  <input type="text" name="addr1" size="20" class="c3a" placeholder="address line 1">
+  <input type="tel" class="cell" name="UserCell" size="20" class="c3a" placeholder="(xxx)xxx-xxxx">
+  (optional) <br>
+  <a>Address：</a>
+  <input type="text" name="UserAddress1" size="20" class="c3a" placeholder="address line 1">
   <br>
-  <input type="text" name="addr2" size="20" class="c3a" placeholder="address line 2">
-  <a>(optinal)</a> <br>
-  City：<br>
-  <input type="text" name="city" size="20" class="c3a" placeholder="city">
+  <input type="text" class="addr2" name="UserAddress2" size="20" class="c3a" placeholder="address line 2">
+  (optional) <br>
+  <a>City：</a>
+  <input type="text" name="UserCity" size="20" class="c3a" placeholder="city">
   <br>
-  Zipcode：<br>
-  <input type="text" name="zipcode" size="20" class="c3a" placeholder="00000">
+  <a>Zipcode：</a>
+  <input type="text" name="UserZip" size="20" class="c3a" placeholder="00000">
   <br>
-  States: <br>
-  <select name="state" >
+  <a>States:</a>
+  <select name="UserState" id="UserState">
     <option value="">Please select</option>
     <option value="Alabama">Alabama</option>
     <option value="Alaska">Alaska</option>
@@ -109,155 +231,99 @@
     <option value="Wyoming">Wyoming</option>
   </select> 
   <br>
-  Fax: <br>
+  <a>Fax: </a>
   <input type="tel" name="fax" size="20" class="c3a" placeholder="(xxx)xxx-xxxx">
-  <a>(optinal)</a> <br>
-  HomePage: <br>
+  (optional) <br>
+  <a>Home Page: </a>
   <input type="tel" name="homepage" size="20" class="c3a">
-  <a>(optinal)</a> <br>
+  (optional) <br>
   <br>
-  <input type="submit" value="submit" >
-  <input type="reset" value="redo">
+  <input class="button" type="submit" value="Submit" name="submit" id="button">
+  <input class="button" type="reset" value="redo">
 </form>
+</div>
+<!-- frame -->
+
+
 <script language="javascript">
 
 var exists = false;
 
 
-
-
-function checkUserName(){
-var exists = "";
-	var a = $.ajax({
-	  type: 'GET',
-	  url: '/dbScripts/UNameCheck.php',
-	  data: {'param1': document.send.username.value},
-	  async:false,
-	  dataType:"json",
-	  success: function(data){
-			exists=data; 
-	  }
-	});
-	
-    if(exists=="1"){
-         window.alert('UserID exists, please choose another');
-		 return false;
-    }
-	return true;
-}
-
-
-function checkEmail(){
-var exists = "";
-	var a = $.ajax({
-	  type: 'GET',
-	  url: '/dbScripts/emailCheck.php',
-	  data: {'param1': document.send.email.value},
-	  async:false,
-	  dataType:"json",
-	  success: function(data){
-			exists=data; 
-	  }
-	});
-	
-    if(exists=="1"){
-         window.alert('email address already registered, please choose another');
-		 return false;
-    }
-	return true;
-}
-
-
 function Check()
 {
-		if (document.send.username.value=="") 
+		if (document.send.UserName.value=="") 
 	{
 	        window.alert('Please enter your userID'); 
         
         return false;
-    }
-
-	
-	var exists = "";
-	var a = $.ajax({
-	  type: 'GET',
-	  url: '/dbScripts/UNameCheck.php',
-	  data: {'param1': document.send.username.value},
-	  async:false,
-	  dataType:"json",
-	  success: function(data){
-			exists=data; 
-	  }
-	});
-	
-    if(!checkUserName()){
-	return false;
-	}
-	if (document.send.email.value=="")
+    }    
+	  if (document.send.UserEmail.value=="")
     {
         alert('Please enter your email address');
          
         return false;
     }
-	
-	if(!checkEmail()){
-	return false;
-	}
-	
-    	if (document.send.firstname.value=="") 
+	   	if(document.send.UserEmail.value.indexOf("@")==-1)
     {
-        window.alert('Please enter your first name'); 
-        
-        return false;
+        alert('Please enter a vaild email address'); 
+		return false;
     }
-	    if (document.send.lastname.value=="") 
-    {
-        window.alert('Please enter your last name'); 
-        
-        return false;
+    if(exists){
+         window.alert('UserID exists, please choose another');
+         return false;
     }
-	   
+    
+	  
     	if (document.send.password.value=="") 
     {
         alert('Please enter your password'); 
         
         return false;
     }
-	    if (document.send.cpassword.value=="") 
+	    if (document.send.UserPassword.value=="") 
     {
         alert('Please confirm your password'); 
         
         return false;
     }
-	    if (document.send.password.value!= document.send.cpassword.value) 
+	    if (document.send.password.value!= document.send.UserPassword.value) 
     {
         alert('Your passwords do not match'); 
         return false;
     }
-    	if(document.send.email.value.indexOf("@")==-1)
+		if (document.send.UserFirstName.value=="") 
     {
-        alert('Please enter a vaild email address'); 
-		return false;
+        window.alert('Please enter your first name'); 
+        
+        return false;
     }
-		if (document.send.addr1.value=="") 
+	    if (document.send.UserLastName.value=="") 
+    {
+        window.alert('Please enter your last name'); 
+        
+        return false;
+    }
+ 
+		if (document.send.UserAddress1.value=="") 
 	{
 	        window.alert('Please enter your street address'); 
         
         return false;
     }
-		if (document.send.city.value=="") 
+		if (document.send.UserCity.value=="") 
 	{
 	        window.alert('Please enter your city'); 
         
         return false;
 	}
-		if (document.send.zipcode.value=="") 
+		if (document.send.UserZip.value=="") 
 	{
 	        window.alert('Please enter your zipcode'); 
         
      return false;
     }
-		  if (document.send.state.value=="") 
+		  if (document.send.UserState.value=="") 
 	   {
 	        window.alert('Please select your state'); 
         
@@ -265,8 +331,9 @@ function Check()
     } 
 	return true;
 	}
-
-	
 </script>
+ <?php
+}
+?>
 </body>
 </html>
