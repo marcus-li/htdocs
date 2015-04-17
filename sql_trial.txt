@@ -1,0 +1,29 @@
+select 	t1.EmployeeId,
+		
+t1.LastName, 
+		
+t1.Address,
+        
+t1.City,
+        
+t1.State,
+        
+t2.CustomerId,
+        
+t2.LastName,
+		
+t2.Address,
+        
+t2.City,
+        
+t2.State
+        
+from chinook.employee as t1, chinook.customer as t2;
+		
+where t1.LastName = t2.lastName and t1.EmployeeId <> t1.CustomerId;
+
+
+
+
+
+generated password:c32QMwzz7SnnjUCe
