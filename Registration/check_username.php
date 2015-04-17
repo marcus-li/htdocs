@@ -1,12 +1,12 @@
 <?php
-include '../dbscripts/credentials.php';
 
 if(isSet($_POST['UserName']))
 {
 $UserName = $_POST['UserName'];
-$dbHost = $address;
-$dbUsername = $username;
-$dbPassword = $password;
+
+$dbHost = 'localhost';
+$dbUsername = 'root';
+$dbPassword = 'TiamenT12#';
 $dbDatabase = 'uconnjobsearch';
 
 $db = mysql_connect($dbHost, $dbUsername, $dbPassword) or die ("Unable to connect to Database Server.");
@@ -16,7 +16,7 @@ $sql_check = mysql_query("select UserName from user where UserName='".$UserName.
 
 if(mysql_num_rows($sql_check))
 {
-echo '<font color="red">The user-name <STRONG>'.$UserName.'</STRONG> is already in use.</font>';
+echo '<center><font color="red">The user-name <STRONG>'.$UserName.'</STRONG> is already in use.</font></center>';
 }
 else
 {

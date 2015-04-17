@@ -8,6 +8,6 @@
 <body>
 	<h1><span style="color:#F80409"> Registration Successful!</span>
     </h1>
-    <a href="http://localhost/Login/index.php">Login</a>
+    <a href="http://localhost/Login/login_main.php">Login</a>
 </body>
 </html>
