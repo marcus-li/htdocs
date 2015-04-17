@@ -12,7 +12,7 @@
 <div class="topbar">
   <div class="navbutton">
     <nav>
-         	<a class="HomePage" href="Setting.html">Setting</a>
+         	<a class="HomePage" href="Update_Resume.php">Portfolio</a>
             <a>Log out</a>
   
     </nav>
@@ -22,11 +22,12 @@
 <!-- topbar -->
 
 <div class="sidebar">
-  <h1>Search</h1>
+  <h1>Job Search</h1>
   <div class="navbutton">
     <nav>
-      <a class="HomePage" href="Search.html">Search</a>
-      <a class="HomePage" href="Manage.html">Manage Applications</a>
+      <a class="HomePage" href="Main_Page.php">Main Page</a>
+      <a class="HomePage">Search</a>
+      <a class="HomePage" href="Manage_Application.php">Manage Applications</a>
 
   
     </nav>
