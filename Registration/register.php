@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Register</title>
 
-<script type="text/javascript" src="jquery-1.2.6.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 <meta name="keywords" content="register">
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 
@@ -116,12 +116,26 @@ $retval = mysql_query( $sql, $conn);
 
 if(!$retval or mysql_errno() == 1062)
 {
-	header('Location: http://localhost/Registration/wrong_username.php');
+	if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
+			$uri = 'https://';
+		} else {
+			$uri = 'http://';
+		}
+		$uri .= $_SERVER['HTTP_HOST'];
+		header('Location: '.$uri.'/Registration/wrong_username.php');
+		exit;
+	
 	
 }else{
-	//echo "Entered data successfully.\n";
-	header('Location: http://localhost/Registration/registration_success.php');
-	mysql_close($conn);
+	if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
+			$uri = 'https://';
+		} else {
+			$uri = 'http://';
+		}
+		$uri .= $_SERVER['HTTP_HOST'];
+		header('Location: '.$uri.'/Registration/registration_success.php');
+		mysql_close($conn);
+		exit;
 }
 }
 else
@@ -237,7 +251,7 @@ else
   <input class="button" type="submit" value="Submit" name="submit" id="button">
   <input class="button" type="reset" value="Redo">
   <div>
-  <b class="login" id="Login"><a href="http://localhost/Login/login_main.php">Already registered? Login</a></b>
+  <b class="login" id="Login"><a href="../Login/login_main.php">Already registered? Login</a></b>
   </div>
 </form>
 </div>
