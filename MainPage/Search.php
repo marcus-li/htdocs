@@ -1,3 +1,27 @@
+
+
+<?php
+if(isset($_POST['submitsdfBtn'])){
+session_start();
+if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
+				$uri = 'https://';
+			} else {
+				$uri = 'http://';
+			}
+			$uri .= $_SERVER['HTTP_HOST'];
+		
+			$_SESSION['company']= $_POST['company'];
+            $_SESSION['salary']=$_POST['salary'];
+            $_SESSION['jobname']=$_POST['jobname'];
+			$_SESSION['state']= $_POST['state'];
+
+			header('Location: '.$uri.'/MainPage/search_results.php');
+			exit;
+ 
+ };
+?> 
+ 
+
  <!doctype html>
 <html>
 <head>
@@ -38,121 +62,108 @@
 </header>
 
 <!--mli modifications-->
-<div class="frame" align="center">
-<form method="post" action="<?php $_PHP_SELF ?>" name="send" onSubmit="return Check()">
-  <h2>Account Information:</h2><br>
-   <label><a>UserID:</a>
-  <input type="text" name="UserName" size="20" id="UserName" class="c3a">
-  <a id="status"></a></label>
+<div class="content" id = "centered_inputs" align="center">
+<form method="post" action="search_results.php" name="send">
+  <h2>Search Criteria:</h2><br>
+  
+  <label>
+  <a>Company Name:</a>
+  <input type="text" name="company" size="20" id="company">
+  </label>
   <br>
  
   <label>
-   <a>Email:</a>
-    <input name="UserEmail" type="email" id="UserEmail" placeholder="example@abc.com">
+   <a>Minimum Salary:</a>
+   <select name="salary" id="salary">
+   <!-- loop to create salary list -->
+    <?php 
+	for ($i = 1; $i <= 25; $i++) : 
+		$j = $i*10000;
+       echo "<option value=".$j.">$".$j."</option>";
+    endfor; 
+	?>
+   </select>
   </label> <br>
   
   <label>
-  <a>Password：</a>
-  <input name="password" type="password" id="password">
-  </label><br>
+  <a>Job Title：</a>
+  <input name="jobname" type="text" id="jobname">
+  </label>
+  <br>
   
   <label>
-  <a>Password Confirm：</a>
-  <input name="UserPassword" type="password" id="UserPassword">
-  </label><br>
-  <br>
+  <a>State：</a>
   
-  
-  <h2>Personal Information:</h2><br>
-  <a>First Name：</a>
-  <input type="text" name="UserFirstName" size="20" id="UserFirstName" class="c3a" placeholder="firstname">
+		<?php
+		function statesList() {
+			$states = array('AL'=>"Alabama",
+							'AK'=>"Alaska",
+							'AZ'=>"Arizona",
+							'AR'=>"Arkansas",
+							'CA'=>"California",
+							'CO'=>"Colorado",
+							'CT'=>"Connecticut",
+							'DE'=>"Delaware",
+							'DC'=>"District Of Columbia",
+							'FL'=>"Florida",
+							'GA'=>"Georgia",
+							'HI'=>"Hawaii",
+							'ID'=>"Idaho",
+							'IL'=>"Illinois",
+							'IN'=>"Indiana",
+							'IA'=>"Iowa",
+							'KS'=>"Kansas",
+							'KY'=>"Kentucky",
+							'LA'=>"Louisiana",
+							'ME'=>"Maine",
+							'MD'=>"Maryland",
+							'MA'=>"Massachusetts",
+							'MI'=>"Michigan",
+							'MN'=>"Minnesota",
+							'MS'=>"Mississippi",
+							'MO'=>"Missouri",
+							'MT'=>"Montana",
+							'NE'=>"Nebraska",
+							'NV'=>"Nevada",
+							'NH'=>"New Hampshire",
+							'NJ'=>"New Jersey",
+							'NM'=>"New Mexico",
+							'NY'=>"New York",
+							'NC'=>"North Carolina",
+							'ND'=>"North Dakota",
+							'OH'=>"Ohio",
+							'OK'=>"Oklahoma",
+							'OR'=>"Oregon",
+							'PA'=>"Pennsylvania",
+							'RI'=>"Rhode Island",
+							'SC'=>"South Carolina",
+							'SD'=>"South Dakota",
+							'TN'=>"Tennessee",
+							'TX'=>"Texas",
+							'UT'=>"Utah",
+							'VT'=>"Vermont",
+							'VA'=>"Virginia",
+							'WA'=>"Washington",
+							'WV'=>"West Virginia",
+							'WI'=>"Wisconsin",
+							'WY'=>"Wyoming");
+			return $states;
+		}
+
+		$states = statesList();
+		?>
+ <select name="state" >
+        <option selected="selected">Any</option>
+        <?php foreach($states as $key=>$value) { ?>
+            <option value="<?php echo $value; ?>"><?php echo $value; ?></option>
+        <?php } ?>
+    </select>
+</label>
   <br>
-  <a>Last Name：</a>
-  <input type="text" name="UserLastName" size="20" id="UserLastName" class="c3a" placeholder="lastname">
+ <label>
   <br>
-  <a>Phone Number：</a>
-  <input type="tel" name="UserPhone" size="20" id="UserPhone" class="c3a" placeholder="(xxx)xxx-xxxx">
-  <br>
-  <input type="tel" class="cell" name="UserCell" size="20" class="c3a" placeholder="(xxx)xxx-xxxx">
-  (optional) <br>
-  <a>Address：</a>
-  <input type="text" name="UserAddress1" size="20" class="c3a" placeholder="address line 1">
-  <br>
-  <input type="text" class="addr2" name="UserAddress2" size="20" class="c3a" placeholder="address line 2">
-  (optional) <br>
-  <a>City：</a>
-  <input type="text" name="UserCity" size="20" class="c3a" placeholder="city">
-  <br>
-  <a>Zipcode：</a>
-  <input type="text" name="UserZip" size="20" class="c3a" placeholder="00000">
-  <br>
-  <a>States:</a>
-  <select name="UserState" id="UserState">
-    <option value="">Please select</option>
-    <option value="Alabama">Alabama</option>
-    <option value="Alaska">Alaska</option>
-    <option value="Arizaona">Arizaona</option>
-    <option value="Arkansas">Arkansas</option>
-    <option value="California">California</option>
-    <option value="Colorado">Colorado</option>
-    <option value="Connecticut">Connecticut</option>
-    <option value="Delaware">Delaware</option>
-    <option value="District of Columbia">District of Columbia</option>
-    <option value="Florida">Florida</option>
-    <option value="Georgia">Georgia</option>
-    <option value="Hawaii">Hawaii</option>
-    <option value="Idaho">Idaho</option>
-    <option value="Illinois">Illinois</option>
-    <option value="Indiana">Indiana</option>
-    <option value="Iowa">Iowa</option>
-    <option value="Kansas">Kansas</option>
-    <option value="Kentucky">Kentucky</option>
-    <option value="Louisiana">Louisiana</option>
-    <option value="Maine">Maine</option>
-    <option value="Maryland">Maryland</option>
-    <option value="Massachusetts">Massachusetts</option>
-    <option value="Michigan">Michigan</option>
-    <option value="Minnesota">Minnesota</option>
-    <option value="Mississippi">Mississippi</option>
-    <option value="Missouri">Missouri</option>
-    <option value="Montana">Montana</option>
-    <option value="Nebraska">Nebraska</option>
-    <option value="Nevada">Nevada</option>
-    <option value="ew Hampshire">New Hampshire</option>
-    <option value="New Jersey">New Jersey</option>
-    <option value="New Mexico">New Mexico</option>
-    <option value="New York">New York</option>
-    <option value="North Carolina">North Carolina</option>
-    <option value="North Dakota">North Dakota</option>
-    <option value="Ohio">Ohio</option>
-    <option value="Oklahoma">Oklahoma</option>
-    <option value="Oregon">Oregon</option>
-    <option value="Pennsylvania">Pennsylvania</option>
-    <option value="Puerto Rico">Puerto Rico</option>
-    <option value="Rhode Island">Rhode Island</option>
-    <option value="South Carolina">South Carolina</option>
-    <option value="South Dakota">South Dakota</option>
-    <option value="Tennessee">Tennessee</option>
-    <option value="Texas">Texas</option>
-    <option value="Utah">Utah</option>
-    <option value="Vermont">Vermont</option>
-    <option value="Virgin Islands">Virgin Islands</option>
-    <option value="Virginia">Virginia</option>
-    <option value="Washington">Washington</option>
-    <option value="West Virginia">West Virginia</option>
-    <option value="Wisconsin">Wisconsin</option>
-    <option value="Wyoming">Wyoming</option>
-  </select> 
-  <br>
-  <a>Fax: </a>
-  <input type="tel" name="fax" size="20" class="c3a" placeholder="(xxx)xxx-xxxx">
-  (optional) <br>
-  <a>Home Page: </a>
-  <input type="tel" name="homepage" size="20" class="c3a">
-  (optional) <br>
-  <br>
-  <input class="button" type="submit" value="Submit" name="submit" id="button">
-  <input class="button" type="reset" value="redo">
+  <input class="button" type="submit" value="search" name="submitBtn" id="button">
+  </label>
 </form>
 </div>
 <!-- end mli mods-->

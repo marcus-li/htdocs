@@ -9,7 +9,7 @@
 body {
 	overflow-x: hidden;
 	margin: 0;
-	padding-left:260px;
+	
 	-moz-transition: opacity .25s ease-in-out, background .25s ease-in-out;
 	-webkit-transition: opacity .25s ease-in-out, background .25s ease-in-out;
 }
@@ -79,10 +79,35 @@ body {
 }
 /*mli additions*/
 
-label{
+.aligned-label{
     display: inline-block;
     float: left;
     clear: left;
     width: 350px;
     text-align: right;
+}
+
+.content{
+
+padding-left: 250px;
+}
+
+#centered_inputs label {
+	 display: inline-block;
+    float: left;
+    clear: left;
+    width: 350px;
+    text-align: right;
+}
+
+#centered_inputs select,input {
+	 
+				width: 200px;
+                border: 1px solid #000;
+                padding: 2px;
+                margin: 2px;
+                height: 22px;
+                -moz-box-sizing: border-box;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
 }
