@@ -26,7 +26,16 @@ $rows = mysql_num_rows($query);
 if ($rows == 1) {
 $_SESSION['login_user']=$UserName; // Initializing Session
 
-header('Location: '.$uri.'/mainpage/main_page.php');
+
+if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
+		$uri = 'https://';
+	} else {
+		$uri = 'http://';
+	}
+	$uri .= $_SERVER['HTTP_HOST'];
+	header('Location: '.$uri.'/mainpage/main_page.php');
+	exit;
+
 
 } else {
 $error = "Username or Password is invalid";
