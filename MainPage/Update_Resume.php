@@ -13,7 +13,7 @@
   <div class="navbutton">
     <nav>
          	<a class="HomePage" href="Main_Page.php">Main Page</a>
-            <a>Log out</a>
+            <a href = "../login/logout.php">Log out</a>
   
     </nav>
   </div>
