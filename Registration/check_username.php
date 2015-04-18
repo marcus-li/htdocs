@@ -1,13 +1,12 @@
 <?php
-
+include '../dbscripts/credentials.php';
 if(isSet($_POST['UserName']))
 {
 $UserName = $_POST['UserName'];
-
-$dbHost = 'localhost';
-$dbUsername = 'root';
-$dbPassword = 'TiamenT12#';
-$dbDatabase = 'uconnjobsearch';
+$dbHost = $address ;
+$dbUsername = $username;
+$dbPassword = $password;
+$dbDatabase = $database;
 
 $db = mysql_connect($dbHost, $dbUsername, $dbPassword) or die ("Unable to connect to Database Server.");
 mysql_select_db ($dbDatabase, $db) or die ("Could not select database.");
