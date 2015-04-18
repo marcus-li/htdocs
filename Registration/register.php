@@ -67,11 +67,14 @@ elseif(usr.length <= 4)
 </head>
 <body>
 <?php
+include '../dbscripts/credentials.php';
 if(isset($_POST['submit']))
 {
-$dbhost = 'localhost';
-$dbuser = 'root';
-$dbpass = 'TiamenT12#';
+
+$dbhost = $address ;
+$dbuser = $username;
+$dbpass = $password;
+
 $conn = mysql_connect($dbhost, $dbuser, $dbpass);
 if(! $conn )
 {
@@ -111,19 +114,20 @@ $sql = "INSERT INTO user ".
        "(UserName, UserPassword, UserFirstName, UserLastName, UserStreet1, UserStreet2, UserCity, UserState, UserZip, UserEmail, UserPhone) ".
        "VALUES('$UserName','$UserPassword', '$UserFirstName', '$UserLastName', '$UserStreet1', '$UserStreet2', '$UserCity', '$UserState', '$UserZip', '$UserEmail', '$UserPhone')";
 	   
-mysql_select_db('uconnjobsearch');
+mysql_select_db($database);
 $retval = mysql_query( $sql, $conn);
 
 if(!$retval or mysql_errno() == 1062)
 {
-	if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
+		/*if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
 			$uri = 'https://';
 		} else {
 			$uri = 'http://';
 		}
 		$uri .= $_SERVER['HTTP_HOST'];
 		header('Location: '.$uri.'/Registration/wrong_username.php');
-		exit;
+		exit;*/
+		echo "dberror";
 	
 	
 }else{
