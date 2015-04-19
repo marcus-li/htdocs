@@ -1,6 +1,6 @@
 <?php
 	$username = "root";
-	$password = "";
+	$password = "TiamenT12#";
 	$database = "uconnjobsearch";
 	$address = "localhost";
 ?>

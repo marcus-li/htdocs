@@ -53,9 +53,9 @@ $("#status").html('<img src="loader.gif" align="absmiddle">&nbsp;Checking availa
 }
 elseif(usr.length <= 4)
 	{
-	$("#status").html('<center><font color="red">The username should have at least <strong>4</strong> characters.</font></center>');
 	$("#UserName").removeClass('object_ok'); // if necessary
 	$("#UserName").addClass("object_error");
+	$("#status").html('<center><font color="red">The username should have at least <strong>4</strong> characters.</font></center>');
 	}
 
 });
