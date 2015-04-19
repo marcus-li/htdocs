@@ -1,24 +1,9 @@
 
 
 <?php
-if(isset($_POST['submitsdfBtn'])){
-session_start();
-if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
-				$uri = 'https://';
-			} else {
-				$uri = 'http://';
-			}
-			$uri .= $_SERVER['HTTP_HOST'];
-		
-			$_SESSION['company']= $_POST['company'];
-            $_SESSION['salary']=$_POST['salary'];
-            $_SESSION['jobname']=$_POST['jobname'];
-			$_SESSION['state']= $_POST['state'];
-
-			header('Location: '.$uri.'/MainPage/search_results.php');
-			exit;
  
- };
+session_start();
+ 
 ?> 
  
 
@@ -35,7 +20,7 @@ if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
   <div class="navbutton">
     <nav>
          	<a class="HomePage" href="Update_Resume.php">Portfolio</a>
-            <a href = "../login/logout.php">Log out</a>
+            <a href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</a>
     </nav>
   </div>
   <!-- navbutton --> 

@@ -5,6 +5,7 @@
  <!doctype html>
 <html>
 <head>
+<?php session_start();?>
 <meta charset="utf-8">
 <title>Search</title>
 <meta name="keywords" content="search">
@@ -15,7 +16,7 @@
   <div class="navbutton">
     <nav>
          	<a class="HomePage" href="Update_Resume.php">Portfolio</a>
-            <a href = "../login/logout.php">Log out</a>
+            <a href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b</a>
     </nav>
   </div>
   <!-- navbutton --> 
