@@ -71,76 +71,78 @@ include '../dbscripts/credentials.php';
 if(isset($_POST['submit']))
 {
 
-$dbhost = $address ;
-$dbuser = $username;
-$dbpass = $password;
+	$dbhost = $address ;
+	$dbuser = $username;
+	$dbpass = $password;
 
-$conn = mysql_connect($dbhost, $dbuser, $dbpass);
-if(! $conn )
-{
-  die('Could not connect: ' . mysql_error());
-}
+	$conn = mysql_connect($dbhost, $dbuser, $dbpass);
+	if(! $conn )
+	{
+	  die('Could not connect: ' . mysql_error());
+	}
 
-if(! get_magic_quotes_gpc() )
-{
-   $UserName = addslashes ($_POST['UserName']);
-   $UserPassword = addslashes ($_POST['UserPassword']);
-   $UserFirstName = addslashes ($_POST['UserFirstName']);
-   $UserLastName = addslashes ($_POST['UserLastName']);
-   $UserStreet1 = addslashes ($_POST['UserStreet1']);
-   $UserStreet2 = addslashes ($_POST['UserStreet2']);
-   $UserCity = addslashes ($_POST['UserCity']);
-   $UserState = addslashes ($_POST['UserState']);
-   $UserZip = addslashes ($_POST['UserZip']);
-   $UserEmail = addslashes ($_POST['UserEmail']);
-   $UserPhone = addslashes ($_POST['UserPhone']);
-}
-else
-{
-   $UserName = $_POST['UserName'];
-   $UserPassword = $_POST['UserPassword'];
-   $UserFirstName = $_POST['UserFirstName'];
-   $UserLastName = $_POST['UserLastName'];
-   $UserStreet1 = $_POST['UserStreet1'];
-   $UserStreet2 = $_POST['UserStreet2'];
-   $UserCity = $_POST['UserCity'];
-   $UserState = $_POST['UserState'];
-   $UserZip = $_POST['UserZip'];
-   $UserEmail = $_POST['UserEmail'];
-   $UserPhone = $_POST['UserPhone'];
-}
+	if(! get_magic_quotes_gpc() )
+	{
+	   $UserName = addslashes ($_POST['UserName']);
+	   $UserPassword = addslashes ($_POST['UserPassword']);
+	   $UserFirstName = addslashes ($_POST['UserFirstName']);
+	   $UserLastName = addslashes ($_POST['UserLastName']);
+	   $UserStreet1 = addslashes ($_POST['UserStreet1']);
+	   $UserStreet2 = addslashes ($_POST['UserStreet2']);
+	   $UserCity = addslashes ($_POST['UserCity']);
+	   $UserState = addslashes ($_POST['UserState']);
+	   $UserZip = addslashes ($_POST['UserZip']);
+	   $UserEmail = addslashes ($_POST['UserEmail']);
+	   $UserPhone = addslashes ($_POST['UserPhone']);
+	}
+	else
+	{
+	   $UserName = $_POST['UserName'];
+	   $UserPassword = $_POST['UserPassword'];
+	   $UserFirstName = $_POST['UserFirstName'];
+	   $UserLastName = $_POST['UserLastName'];
+	   $UserStreet1 = $_POST['UserStreet1'];
+	   $UserStreet2 = $_POST['UserStreet2'];
+	   $UserCity = $_POST['UserCity'];
+	   $UserState = $_POST['UserState'];
+	   $UserZip = $_POST['UserZip'];
+	   $UserEmail = $_POST['UserEmail'];
+	   $UserPhone = $_POST['UserPhone'];
+	}
 
-$sql = "INSERT INTO user ".
-       "(UserName, UserPassword, UserFirstName, UserLastName, UserStreet1, UserStreet2, UserCity, UserState, UserZip, UserEmail, UserPhone) ".
-       "VALUES('$UserName','$UserPassword', '$UserFirstName', '$UserLastName', '$UserStreet1', '$UserStreet2', '$UserCity', '$UserState', '$UserZip', '$UserEmail', '$UserPhone')";
-	   
-mysql_select_db($database);
-$retval = mysql_query( $sql, $conn);
+	$sql = "INSERT INTO user ".
+		   "(UserName, UserPassword, UserFirstName, UserLastName, UserStreet1, UserStreet2, UserCity, UserState, UserZip, UserEmail, UserPhone) ".
+		   "VALUES('$UserName','$UserPassword', '$UserFirstName', '$UserLastName', '$UserStreet1', '$UserStreet2', '$UserCity', '$UserState', '$UserZip', '$UserEmail', '$UserPhone')";
+		   
+	mysql_select_db($database);
+	$retval = mysql_query( $sql, $conn);
 
-if(!$retval or mysql_errno() == 1062)
-{
-		/*if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
-			$uri = 'https://';
-		} else {
-			$uri = 'http://';
-		}
-		$uri .= $_SERVER['HTTP_HOST'];
-		header('Location: '.$uri.'/Registration/wrong_username.php');
-		exit;*/
-		echo "dberror";
-	
-	
-}else{
-	if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
-			$uri = 'https://';
-		} else {
-			$uri = 'http://';
-		}
-		$uri .= $_SERVER['HTTP_HOST'];
-		header('Location: '.$uri.'/Registration/registration_success.php');
-		mysql_close($conn);
-		exit;
-}
+	if(!$retval or mysql_errno() == 1062)
+	{
+			/*if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
+				$uri = 'https://';
+			} else {
+				$uri = 'http://';
+			}
+			$uri .= $_SERVER['HTTP_HOST'];
+			header('Location: '.$uri.'/Registration/wrong_username.php');
+			exit;*/
+			echo "dberror";
+		
+		
+	}else{
+		if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
+				$uri = 'https://';
+			} else {
+				$uri = 'http://';
+			}
+			$uri .= $_SERVER['HTTP_HOST'];
+			session_start();
+			$_SESSION['login_user'] = $UserName;
+			header('Location: '.$uri.'/Registration/registration_success.php');
+			mysql_close($conn);
+			exit;
+	}
 }
 else
 {
