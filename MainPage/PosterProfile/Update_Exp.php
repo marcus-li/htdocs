@@ -1,6 +1,11 @@
  <!doctype html>
 <html>
 <head>
+<meta charset="utf-8">
+<title>Update Profile</title>
+<meta name="keywords" content="Update resume">
+<link href="../stylesheet_main.css" rel="stylesheet" type="text/css" >
+</head>
 <?php session_start();
 if(!isset($_SESSION['login_user'])){
 	
@@ -14,19 +19,13 @@ if(!isset($_SESSION['login_user'])){
 			header('Location: '.$uri.'/login/login_main.php');
 			exit;
 	};?>
-<meta charset="utf-8">
-<title>MainPage</title>
-<meta name="keywords" content="main page, basic">
-<link href="stylesheet_main.css" rel="stylesheet" type="text/css" >
-</head>
-
 <body>
 <header>
 <div class="topbar">
   <div class="navbutton">
     <nav>
-         	<a class="HomePage" href="PosterProfile/Update_Resume.php">Portfolio</a>
-            <a href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
+         	<a class="HomePage" href="../Main_Page.php">Main Page</a>
+            <a href = "../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
   
     </nav>
   </div>
@@ -35,12 +34,12 @@ if(!isset($_SESSION['login_user'])){
 <!-- topbar -->
 
 <div class="sidebar">
-  <h1>Uconn's Job Search</h1>
+  <h1>Update Profile</h1>
   <div class="navbutton">
     <nav>
-      <a class="HomePage" >Main Page</a>
-      <a class="HomePage" href="Search.php">Search</a>
-      <a class="HomePage" href="Manage_Application.php">Manage Applications</a>
+      <a class="HomePage" href="Update_Resume.php">Resume</a>
+      <a class="HomePage" href="Update_Edu.php">Education background</a>
+      <a class="HomePage">Work Experience</a>
 
   
     </nav>

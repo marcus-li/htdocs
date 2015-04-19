@@ -5,7 +5,19 @@
  <!doctype html>
 <html>
 <head>
-<?php session_start();?>
+<?php session_start();
+if(!isset($_SESSION['login_user'])){
+	
+	//in case of using back in browser after logging out
+	if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
+				$uri = 'https://';
+			} else {
+				$uri = 'http://';
+			}
+			$uri .= $_SERVER['HTTP_HOST'];
+			header('Location: '.$uri.'/login/login_main.php');
+			exit;
+	};?>
 <meta charset="utf-8">
 <title>Search</title>
 <meta name="keywords" content="search">
@@ -148,12 +160,10 @@
 		
 ?> 
 
+<div>
 
 
-
-
-
-
+</div id = "centered_inputs" align="center">
 
 </div>
 
