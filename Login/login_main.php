@@ -2,7 +2,7 @@
 include('login.php'); // Includes Login Script
 
 if(isset($_SESSION['login_user'])){
-header("location: profile.php");
+header("Location: ../MainPage/main_page.php");
 }
 ?>
 <!DOCTYPE html>
