@@ -1,4 +1,8 @@
 <!doctype html>
+<?php
+session_start();
+header('Refresh: 3;url=../mainpage/main_page.php');
+?>
 <html>
 <head>
 <meta charset="utf-8">
