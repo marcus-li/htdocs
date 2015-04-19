@@ -51,16 +51,16 @@
 	$whereClause = "WHERE ";
 	$hasWhere =false;
 	if(($_POST["company"])!=''){
-	$whereClause = $whereClause. " CompanyName  LIKE '%". $_POST["company"]."%'";
+	$whereClause .= " CompanyName  LIKE '%". $_POST["company"]."%'";
 	$hasWhere=true;
 	}
 	if(isset($_POST["salary"]))
 	{
 		if($hasWhere==true)
 			{
-				$whereClause = $whereClause. " AND ";
+				$whereClause .= " AND ";
 			}
-		$whereClause = $whereClause . "JobHighRange >= " .$_POST["salary"];
+		$whereClause .= "JobHighRange >= " .$_POST["salary"];
 			$hasWhere=true;
 	}
 	
@@ -68,9 +68,9 @@
 	{
 		if($hasWhere==true)
 			{
-				$whereClause = $whereClause. " AND ";
+				$whereClause .= " AND ";
 			}
-		$whereClause = $whereClause . "JobTitle LIKE '%".$_POST["jobname"] ."%'";
+		$whereClause .= "JobTitle LIKE '%".$_POST["jobname"] ."%'";
 			$hasWhere=true;
 	}
 	
@@ -78,9 +78,9 @@
 	{
 		if($hasWhere==true)
 			{
-				$whereClause = $whereClause. " AND ";
+				$whereClause .= " AND ";
 			}
-		$whereClause = $whereClause . "JobState = '".$_POST["state"] ."'";
+		$whereClause .= "JobState = '".$_POST["state"] ."'";
 			$hasWhere=true;
 	}
 	
