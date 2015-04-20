@@ -15,7 +15,7 @@ $sql_check = mysql_query("select UserName from user where UserName='".$UserName.
 
 if(mysql_num_rows($sql_check))
 {
-echo '<center><font color="red">The user-name <STRONG>'.$UserName.'</STRONG> is already in use.</font></center>';
+echo '<center><font color="red">The username <STRONG>'.$UserName.'</STRONG> is already in use.</font></center>';
 }
 else
 {
