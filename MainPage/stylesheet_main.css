@@ -101,7 +101,7 @@ padding-left: 250px;
 }
 
 #centered_inputs select,input {
-	 
+				
 				width: 200px;
                 border: 1px solid #000;
                 padding: 2px;
@@ -110,4 +110,13 @@ padding-left: 250px;
                 -moz-box-sizing: border-box;
                 -webkit-box-sizing: border-box;
                 box-sizing: border-box;
+}
+
+#objective{
+display:inline-block;
+
+
+width:400px;
+height: 100px;
+
 }
