@@ -151,7 +151,7 @@ function displaySelectedResume($conn){
 
 						echo "<div ><h3 align = 'center'> Resume Details</h3>";
 						echo "<label style=\"vertical-align:top; text-align:right; padding-left:76px;\">Objective: </label><textarea id='objective' onchange=\"setChanged('objective')\">" . $row["ResumeObjective"] . "</textarea><br>";
-						echo "<label style='padding-left:30px;'> Minimum salary: <input value = \"$" . $row["ResumeSalaryMin"] ."\"></label> <br>";
+						echo "<label style='padding-left:30px;'> Minimum salary (USD): <input type = 'text' id='salary' onChange=\"setChanged('salary')\"  onKeyUp=\"setChanged('salary')\" value = \"" . $row["ResumeSalaryMin"] ."\"></input></label> <br>";
 						echo "<td>" . $row["ResumeFileName"] . "</td>";
 						echo "<td>" . $row["ResumeLastName"] . "</td>";
 					
@@ -316,7 +316,21 @@ function setChanged(element){
 			}		
 			
 			
-			
+				
+
+function sendUpdateColumn(updatedValueElement, columnName){
+var values = document.getElementById(updatedValueElement).value;
+var resumeID = document.getElementsByName("hiddenResumeID")[0].value; 
+
+var sql = "UPDATE resume SET "+columnName+"='"+values+"' WHERE resumeID = '"+resumeID+"';";
+ 
+ $.ajax({
+    type : "POST",
+    url : "updateSkills.php",
+	data: {s :sql},
+		});
+
+}
 			//currently not used, send a multi query
 
 function sendMultiQuery(queryPlaceholderID){
@@ -335,7 +349,16 @@ var sql = document.getElementsByName(queryPlaceholderID)[0].value;
 
 //sent when skills have been updated
 function sendOptions() {
-			
+		if(objectiveChanged){
+	sendUpdateColumn('objective','ResumeObjective');
+	
+	}
+  
+  if(salaryChanged){
+	sendUpdateColumn('salary','ResumeSalaryMin');
+  }	
+  
+  
 			var m2 = document.theForm.menu2;
 			var resumeID = document.getElementsByName("hiddenResumeID")[0].value;
 			var sql = " DELETE from resumelistedskills where resumeID = " + resumeID + ";";
@@ -347,21 +370,18 @@ function sendOptions() {
 					sql += "INSERT IGNORE INTO resumelistedskills (ResumeID, SkillID) VALUES ("+resumeID+", "+skillId+");";
 					}
 				 
-				
+	
   
   if(changed){
   $.ajax({
     type : "POST",
     url : "updateSkills.php",
 	data: {s :sql},		
-	success:function(){
-		alert("Resume Skills have been updated");
-	}
 		});
 
-	}else{
-		alert('skills weren\'t modified');
 	}
+	
+	alert('Updated');
 }
 </script>			
 			
