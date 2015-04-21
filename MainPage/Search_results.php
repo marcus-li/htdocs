@@ -27,15 +27,15 @@ if(!isset($_SESSION['login_user'])){
 <div class="topbar">
   <div class="navbutton">
     <nav>
-         	<a class="HomePage" href="Update_Resume.php">Portfolio</a>
-            <a href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b</a>
+         	<a class="HomePage" href="posterprofile/Update_Resume.php">Portfolio</a>
+            <a href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
     </nav>
   </div>
   <!-- navbutton --> 
 </div>
 <!-- topbar -->
 
-<body>
+
 
 
 
@@ -53,6 +53,9 @@ if(!isset($_SESSION['login_user'])){
 <!-- sidebar -->
 
 </header>
+
+<body>
+
 <div class = "content"> 
 
 
@@ -159,12 +162,6 @@ if(!isset($_SESSION['login_user'])){
 		
 		
 ?> 
-
-<div>
-
-
-</div id = "centered_inputs" align="center">
-
 </div>
 
 </body>
