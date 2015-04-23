@@ -63,7 +63,7 @@ if(!isset($_SESSION['login_user'])){
 
 
 
-<h3 class = "contentHeader">Current Education:</h3><br><br>
+<h3 class = "contentHeader">Listed Education:</h3><br><br>
 
 <?php
 //iterate through the current education in the user's profile and display it separated by horizontal rules
@@ -136,7 +136,7 @@ if(!isset($_SESSION['login_user'])){
 		  while($row = $result->fetch_assoc()) 
 			{
 			//create a div with the ID of the data set to retrieve modified row
-			echo "<div style='padding-left:50px; padding-right:100px;'><form method ='post' action='submitEduUpdate.php'>";
+			echo "<div style='padding-left:50px; padding-right:100px;'><form method ='post' action='submitExpUpdate.php'>";
 			echo "<table border='0'><tr>";
 			//University
 			echo "<td>School/University: </td>";
