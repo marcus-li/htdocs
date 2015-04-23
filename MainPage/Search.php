@@ -27,6 +27,9 @@ if(!isset($_SESSION['login_user'])){
 <meta name="keywords" content="search">
 <link href="stylesheet_main.css" rel="stylesheet" type="text/css" >
 </head>
+
+
+<body>
 <header>
 <div class="topbar">
   <div class="navbutton">
@@ -38,9 +41,6 @@ if(!isset($_SESSION['login_user'])){
   <!-- navbutton --> 
 </div>
 <!-- topbar -->
-
-<body>
-
 
 
 <div class="sidebar">
@@ -57,6 +57,9 @@ if(!isset($_SESSION['login_user'])){
 <!-- sidebar -->
 
 </header>
+
+
+
 
 <!--mli modifications-->
 <div class="content" id = "centered_inputs" align="center">
