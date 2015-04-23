@@ -34,7 +34,7 @@ if(!isset($_SESSION['login_user'])){
 <div class="topbar">
   <div class="navbutton">
     <nav>
-         	<a class="HomePage" href="/posterprofile/Update_Resume.php">Portfolio</a>
+         	<a class="HomePage" href="posterprofile/Update_Resume.php">Portfolio</a>
             <a href = "../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</a>
     </nav>
   </div>
@@ -162,6 +162,7 @@ if(!isset($_SESSION['login_user'])){
   <br>
  <label>
   <br>
+  
   <input class="button" type="submit" value="search" name="submitBtn" id="button">
   </label>
 </form>

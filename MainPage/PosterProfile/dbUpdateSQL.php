@@ -1,13 +1,13 @@
 <?php
 	include '../../dbscripts/credentials.php';
 	
-	if(!isset($_POST['s'])){
+	if(!isset($_POST['sql'])){
 	echo var_dump($_POST);
 	echo "no data";
 	exit;
 	
 	}
-	$sql = $_POST['s'];
+	$sql = $_POST['sql'];
 	$result = NULL;
   
 	// Create connection

@@ -326,8 +326,8 @@ var sql = "UPDATE resume SET "+columnName+"='"+values+"' WHERE resumeID = '"+res
  
  $.ajax({
     type : "POST",
-    url : "updateSkills.php",
-	data: {s :sql},
+    url : "dbUpdateSql.php",
+	data: {sql :sql},
 		});
 
 }
@@ -338,8 +338,8 @@ var resumeID = document.getElementsByName("hiddenResumeID")[0].value;
 var sql = document.getElementsByName(queryPlaceholderID)[0].value;
  $.ajax({
     type : "POST",
-    url : "updateSkills.php",
-	data: {s :sql},		
+    url : "dbUpdateSQL.php",
+	data: {sql :sql},		
 	success:function(){
 		alert("submitted changes");
 	}
@@ -375,8 +375,8 @@ function sendOptions() {
   if(changed){
   $.ajax({
     type : "POST",
-    url : "updateSkills.php",
-	data: {s :sql},		
+    url : "dbUpdateSql.php",
+	data: {sql :sql},		
 		});
 
 	}
