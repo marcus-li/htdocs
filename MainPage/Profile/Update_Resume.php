@@ -42,6 +42,7 @@ if(!isset($_SESSION['login_user'])){
       <a class="HomePage">Resume</a>
       <a class="HomePage" href="Update_Edu.php">Education background</a>
       <a class="HomePage" href="Update_Exp.php">Work Experience</a>
+	  <a class="HomePage" href="User_Settings.php">Profile Settings</a>
 
   
     </nav>
