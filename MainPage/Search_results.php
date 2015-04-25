@@ -40,7 +40,7 @@ if(!isset($_SESSION['login_user'])){
 
 
 <div class="sidebar">
-  <h1>Job Search</h1>
+  <h1><img src="../MainPage_img/search.png"></h1>
   <div class="navbutton">
     <nav>
       <a class="side_button" href="Main_Page.php">Main Page</a>
