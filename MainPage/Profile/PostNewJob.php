@@ -27,8 +27,8 @@ if(!isset($_SESSION['login_user'])){
 <div class="topbar">
   <div class="navbutton">
     <nav>
-         	<a class="HomePage" href="../Main_Page.php">Seeker</a>
-             <a href = "../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
+         	<a class="topbutton" href="../Main_Page.php">Seeker</a>
+             <a class="topbutton" href = "../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
   
     </nav>
   </div>
@@ -37,11 +37,11 @@ if(!isset($_SESSION['login_user'])){
 <!-- topbar -->
 
 <div class="sidebar">
-  <h1>UConn's Job Search (Poster)</h1>
+  <h1><img src="../../MainPage_img/PostNewJob.png"></h1>
   <div class="navbutton">
     <nav>
-      <a class="HomePage">Post New Job</a>
-      <a class="HomePage" href="ReviewJobs.php">Review Jobs Previously Posted</a>
+      <a class="side_button_select">Post New Job</a>
+      <a class="side_button" href="ReviewJobs.php">Review Previous Jobs</a>
   
     </nav>
   </div>
