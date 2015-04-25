@@ -63,7 +63,7 @@ if(!isset($_SESSION['login_user'])){
 
 
 
-<h3 class = "contentHeader">Current Education:</h3><br><br>
+<h3 class = "contentHeader">Listed Education:</h3><br><br>
 
 <?php
 //iterate through the current education in the user's profile and display it separated by horizontal rules

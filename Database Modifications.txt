@@ -1,0 +1,24 @@
+Alter table education
+add column EduID, make it auto increment & not null & primary key
+***to auto increment must be first column in the set of columns
+
+Change dates to varchar
+
+
+Prior jobs needs to be modified- same issue as with education, primary key is resumeID.
+drop resumeID column
+add userid column
+link foreign key
+
+
+also need to add auto increment unique key JobID 
+
+
+
+change ResumeFileName to default to 'None'
+
+make resumeid auto increment
+will need to remove resumelisted skills foreign key and add back after
+
+
+my.ini needs to increase packet size

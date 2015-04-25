@@ -25,7 +25,7 @@ if(!isset($_SESSION['login_user'])){
 <div class="topbar">
   <div class="navbutton">
     <nav>
-         	<a class="HomePage" href="PosterProfile/Update_Resume.php">Portfolio</a>
+         	<a class="HomePage" href="Profile/Update_Resume.php">Portfolio</a>
             <a href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
   
     </nav>

@@ -53,14 +53,15 @@ if(!isset($_SESSION['login_user'])){
 <!----page content -->
 
 <div class="content" ><br><br>
-TODO: expected behavior for this page:<br><br>
+<br><br>
+<div style = "padding-left: 80px">
 Display user's resumes and resume files, giving them the option of modifying their files if needed.
 <form method="post" action="<?php $_PHP_SELF ?>" name="send">
 	<?php
 	include '../../dbscripts/credentials.php';
 
-	$sql = "SELECT * FROM resume,seeker WHERE seeker.username = '".  $_SESSION['login_user'].
-		"' AND resume.resumeID=seeker.resumeID";
+	$sql = "SELECT * FROM resume WHERE SeekerId = '".  $_SESSION['login_user'].
+		"'";
 	
 	$result = NULL;
   
@@ -80,12 +81,13 @@ Display user's resumes and resume files, giving them the option of modifying the
 		  //build a dropdown menu of resumes for the user to use
 		  ?>
 		  <select name="ResumeList" >
-			<option selected="selected">Choose Resume</option>
+			<option selected="selected" value = -1>New Resume</option>
 		  
 		  <?php
 		  while($row = $result->fetch_assoc()) 
 			{
-			 echo '<option title = "caption" value="'. $row["ResumeID"] . '">['. $row["ResumeID"].'] '.$row["Added"].'  </option>';
+			//add row to select box
+			 echo '<option title = "caption" value="'. $row["ResumeID"] . '">['. $row["ResumeFileName"].'] '.$row["Added"].'  </option>';
 			   
 			}
 		  ?></select>
@@ -94,40 +96,30 @@ Display user's resumes and resume files, giving them the option of modifying the
 		$conn->close();
     }?>
 	
-	
-	<input class="button" type="submit" value="Show" name="submitBtn" id="button" ><br><br><hr>
+	<!--button to select new resume-->
+	<input class="button" type="submit" value="Go" name="submitBtn" id="button" ><br><br></div><hr>
 	
 	</form>
 	
 	
 	<?php
-	//executes if there is a resume selected
+	//After resume selected and confirmed:
 	if(isset($_POST["ResumeList"]))
 	{
-		if($_POST["ResumeList"]=="Choose Resume") exit;
-
 		include '../../dbscripts/credentials.php';
-		
-		// Create connection
+		//Retrieve all the resume details and populate already selected fields
 		$conn = new mysqli($address, $username, $password, $database);
 			displaySelectedResume($conn);
-			
-	
-			displayAddedSkills2($conn);
+			displayRelevantSkills($conn);
 			$conn->close();
 	}
 	?>
-	
-	
-	
+		
 </div>
-
-
 </body>
 </html>
 
 <input type="hidden" name="hiddenSQL" value="select* from resume">
-
 
 <?php
 //build a table for the selected resume at the calling location
@@ -149,14 +141,30 @@ function displaySelectedResume($conn){
 				
 				   $row = $result->fetch_assoc();
 
-						echo "<div ><h3 align = 'center'> Resume Details</h3>";
-						echo "<label style=\"vertical-align:top; text-align:right; padding-left:76px;\">Objective: </label><textarea id='objective' onchange=\"setChanged('objective')\">" . $row["ResumeObjective"] . "</textarea><br>";
-						echo "<label style='padding-left:30px;'> Minimum salary (USD): <input type = 'text' id='salary' onChange=\"setChanged('salary')\"  onKeyUp=\"setChanged('salary')\" value = \"" . $row["ResumeSalaryMin"] ."\"></input></label> <br>";
-						echo "<td>" . $row["ResumeFileName"] . "</td>";
-						echo "<td>" . $row["ResumeLastName"] . "</td>";
+					echo "<h3> <u>Resume Details</u></h3><div style = 'padding-left:80px'>";
+					
+					echo "<table>";
+					echo "<tr>";
+					//row - objective
+					echo "<td>Objective: </td><td><textarea id='objective' onchange=\"setChanged('objective')\">" . $row["ResumeObjective"] ."</textarea></td>";
+					echo "</tr><tr>";
+					// row - salary requirements
+					echo "<td> Minimum salary (USD):</td><td> <input type = 'text' id='salary' onChange=\"setChanged('salary')\"  onKeyUp=\"setChanged('salary')\" value = \"" . $row["ResumeSalaryMin"] ."\"></input></td>";
+					echo "</tr><tr>";
+					//row - resume file name
+					echo "<td>" . $row["ResumeFileName"] . "</td>";
+					echo "<td><form method='post' action = 'uploadResume.php' style = 'margin:15px; padding 10px;' enctype='multipart/form-data' target='_blank'>
+					<input type='file' name='file1' id='file1' style='border:none;'/> ";
+					//if there is already a file make submit say replace otherwise add
+					if($row["ResumeFileName"]=="No File" ||$row["ResumeFileName"]==""){
+					echo " Upload Resume (PDF format)</form></td>";
+					}else{
+					echo "<input type='submit' name='submitFile' value='Replace Old File' />
+					</form></td>";
+					}
 					
 				   
-				   echo "</div><br><hr>";
+				   echo "</tr></table></div><br><hr>";
 				 //save resumeID  
 				   echo '<input type="hidden" name="hiddenResumeID" value="'.$row["ResumeID"].'">';
 				    
@@ -178,8 +186,10 @@ function displaySelectedResume($conn){
 
 
 
-//Show skills with checkboxes
-function displayAddedSkills2($conn){
+//Show skills
+function displayRelevantSkills($conn){
+	//use a left join query to show all skills 
+	//we can determine if skill is used if the skillid is set or not
 	$sql = 
 "select A.skillid AS listedskillid, Skills.skillName ,Skills.skillID as skillid from skills LEFT JOIN 
 ( SELECT SkillID FROM
@@ -199,45 +209,40 @@ ON A.SkillID=skills.skillid";
 				echo "<b>database result error</b>";
 				exit;
 			} else {
-			
-			  $selected = array();	
+			//arrays used to build lists see below
+			  $selected   = array();	
 			  $unselected = array();
-				
 				   while($row = $result->fetch_assoc()) 
 				   {
 				   if(isset($row["listedskillid"])){
+				   //this resume has this skill listed already
 				   $selected[$row["skillid"]] = $row["skillName"] ;
 						}else{
-				$unselected[$row["skillid"]] = $row["skillName"] ;
+						//this resume doesnt have this skill listed
+					$unselected[$row["skillid"]] = $row["skillName"] ;
 						}
 				   }
 				}
-			
 			}
 
 			
 		
 			
-//formatting
+//Relevant Skills
 	
-	echo ' <h3 align = "center">Relevant Skills </h3><form  method="POST" name="theForm">
-<table bgcolor="white" border="0" cellpadding="5" cellspacing="2" align="center">
-<tr> <td align="center"> <b>Available Skills</b><br>
+	echo ' <h3><u>Relevant Skills </u></h3><div style = "padding-left:80px"><form  method="POST" name="theForm">
+	<table bgcolor="white" border="0" cellpadding="5" cellspacing="2">
+	<tr> <td align="center"> <b>Available Skills</b><br>
     <select style="width:180px;" name=menu1 size=10 multiple>';
-	
+	//add each option
 	foreach ($unselected as $key => $value) {
-			 echo '<<option value = "'.$key.'">'.$value.'</option>';
-			}
-
-	//add options here
-       
- 
-	   
+			 echo '<option value = "'.$key.'">'.$value.'</option>';
+			}  
 	   
     echo '</select><br />
     <p align="center"><input type="button" onClick="one2two()" value=" Add Skills "></p>
 
-</td><td align="center">
+	</td><td align="center">
 	<b> My Skills </b> <br>
     <select style="width:180px;" name=menu2 size=10 multiple >';
 	foreach ($selected as $key => $value) {
@@ -247,10 +252,20 @@ ON A.SkillID=skills.skillid";
 	
 	echo' </select><br />
     <p align="center"><input type="button" onClick="two2one()" value=" Remove Skills " ></p>
-	</td></tr></table>
-	<input type="button" align="center" onClick="sendOptions()" value=" Submit Updates " >
+	</td></tr></table></div>';
+	
+	//Relevant work experience
+	
+	echo "<hr><h3>Relevant Work Experience</h3><br><br>";
+	
+	if( $_POST["ResumeList"] ==-1){
+	echo '<input type="button" align="center" onClick="sendNewResume()" value=" Confirm Resume Addition " >
+	</form>';
+	}
+	else{
+	echo '<div align="center"><input type="button" onClick="sendOptions()" value=" Submit Updates " ></div><br><br><br><br><br><br><br>
 	</form>';			
-			
+			}
 	
 			
 			
@@ -347,7 +362,7 @@ var sql = document.getElementsByName(queryPlaceholderID)[0].value;
 
 }
 
-//sent when skills have been updated
+//sent when resume is updated
 function sendOptions() {
 		if(objectiveChanged){
 	sendUpdateColumn('objective','ResumeObjective');
@@ -358,6 +373,7 @@ function sendOptions() {
 	sendUpdateColumn('salary','ResumeSalaryMin');
   }	
   
+  sendUpdateResumeFile();
   
 			var m2 = document.theForm.menu2;
 			var resumeID = document.getElementsByName("hiddenResumeID")[0].value;
@@ -383,6 +399,96 @@ function sendOptions() {
 	
 	alert('Updated');
 }
+
+
+
+
+
+
+//sent when new resume added
+function sendNewResume() {	
+	var sql = "Insert into resume (resumeid) values (null); ";
+	//create a new resume entry go to updateNewResume to fill in
+	  $.ajax({
+			type : "POST",
+			url : "dbAddResumeGetID.php",
+			data: {sql :sql},	
+			success: updateNewResume
+		});  
+}
+
+
+//update resume file
+//resume id has been created and is store in hidden form variable 
+function sendUpdateResumeFile(){
+ var resumeID = document.getElementsByName("hiddenResumeID")[0].value;
+ var formData = new FormData(); 
+ 
+ var file = document.getElementById("file1").files[0];
+ 
+ formData.append("file", file);
+ formData.append("resumeID", resumeID);
+
+	$.ajax({
+			type : "POST",
+			url : "uploadResume.php",
+			data: formData,	
+			contentType: false,
+			processData: false,
+			success: function(data){
+			alert(data);
+			}
+		});  
+
+
+}
+
+
+
+function updateNewResume(data){
+//set the resume id and reuse regular update functions
+document.getElementsByName("hiddenResumeID")[0].value = data;
+	var resumeID = data; 
+	
+
+	sendUpdateColumn('objective','ResumeObjective');
+	sendUpdateColumn('salary','ResumeSalaryMin');
+	sendUpdateResumeFile();
+ 
+ 
+ 
+  
+			var m2 = document.theForm.menu2;
+			
+			var resumeID = document.getElementsByName("hiddenResumeID")[0].value;
+			var sql = " DELETE from resumelistedskills where resumeID = " + resumeID + ";";
+			
+				m2len = m2.length ;
+					for ( i=0; i<m2len ; i++){
+					var skillId = m2.options[i].value;
+
+					sql += "INSERT IGNORE INTO resumelistedskills (ResumeID, SkillID) VALUES ("+resumeID+", "+skillId+");";
+					}
+				 
+	
+  
+  if(changed){
+  $.ajax({
+    type : "POST",
+    url : "dbUpdateSql.php",
+	data: {sql :sql},		
+		});
+
+	}
+	
+	alert('Resume Added');
+	location = "Update_exp.php";
+	location= "Update_Resume.php"; 
+	
+
+}
+
+
 </script>			
 			
 			
