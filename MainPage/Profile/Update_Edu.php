@@ -41,7 +41,7 @@ if(!isset($_SESSION['login_user'])){
 <!-- topbar -->
 
 <div class="sidebar">
-  <h1>Update Profile</h1>
+  <h1><img src="../../MainPage_img/Update Profile.png"></h1>
   <div class="navbutton">
     <nav>
       <a class="side_button" href="Update_Resume.php">Resume</a>
