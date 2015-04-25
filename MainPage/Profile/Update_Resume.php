@@ -55,7 +55,7 @@ if(!isset($_SESSION['login_user'])){
 <div class="content" ><br><br>
 <br><br>
 <div style = "padding-left: 80px">
-Display user's resumes and resume files, giving them the option of modifying their files if needed.
+Upload or modify a resume submission:<br>
 <form method="post" action="<?php $_PHP_SELF ?>" name="send">
 	<?php
 	include '../../dbscripts/credentials.php';
@@ -253,11 +253,7 @@ ON A.SkillID=skills.skillid";
 	echo' </select><br />
     <p align="center"><input type="button" onClick="two2one()" value=" Remove Skills " ></p>
 	</td></tr></table></div>';
-	
-	//Relevant work experience
-	
-	echo "<hr><h3>Relevant Work Experience</h3><br><br>";
-	
+
 	if( $_POST["ResumeList"] ==-1){
 	echo '<div align="center"><input type="button" align="center" onClick="sendNewResume()" value=" Confirm Resume Addition " ></div><br><br><br><br><br><br><br>
 	</form>';
