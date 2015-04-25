@@ -61,31 +61,47 @@ if(!isset($_SESSION['login_user'])){
 
 <!-- post a new job-->
 
+<div style='padding-left:50px; padding-right:100px;'>
+<form method ='post' action='submitPaymentMethod.php'>
+            
+    <?php
+	include '../../dbscripts/credentials.php';
 
-			<div style='padding-left:50px; padding-right:100px;'><form method ='post' action='submitEduUpdate.php'>
+	$sql = "SELECT * FROM company WHERE CompanyId = '12'";
+	
+	$result = NULL;
+	// Create connection
+    $conn = new mysqli($address, $username, $password, $database);
+	// Check connection	
+	 if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } else {
+	    $result = $conn->query($sql);
+		$info = $result->fetch_assoc();
+		if (!$result) {
+		    echo "<b>database result error</b>";
+			exit;
+		} 
+    }?>
+            
 			<table border='0'><tr>
-			<td>CompanyID: </td><td><input name="CompanyId"><?php 
-			
-			$conn = new mysqli('localhost', 'root', 'TiamenT12#', 'uconnjobsearch') 
-or die ('Cannot connect to db');
-
-			$result = $conn->query("SELECT CompanyId FROM company");
-			
-			while ($row = $result->fetch_assoc()){
-				echo "<option value=\"CompanyId\">" . $row['CompanyId'] . "</option>";
-			}
-			echo "</select></td></tr>";
-			?>
-			<td>CompanyName:</td> <td><select name = 'CompanyName'></select></td></tr>		
-			<tr><td>Company Street: </td><td> <select  name = "CompanyStreet" > </select></td></tr>
-			<tr><td>Company City: </td><td> <select  name = "CompanyCity" > </select></td></tr>
-			<tr><td>Company Email: </td><td> <select  name = "CompanyEmail" > </select></td></tr>
-            <tr><td>Company Phone: </td><td> <select  name = "CompanyPhone" > </select></td></tr>
-            <tr><td>Company Fax: </td><td> <select  name = "CompanyFax" > </select></td></tr>
-            <tr><td>Company Home Page: </td><td> <select  name = "CompanyHomePage" > </select></td></tr>
+            
+			<td>CompanyID: </td><td><input name="CompanyId" id="CompanyId" value="<?php echo $info["CompanyId"];?>" readonly="readonly"/></td></tr>
+			<td>CompanyName:</td> <td><input name = 'CompanyName' id="CompanyName" value="<?php echo $info["CompanyName"];?>" readonly="readonly"/></td></tr>		
+			<tr><td>Company Street: </td><td> <input  name = "CompanyStreet" id="CompanyStreet1" value="<?php echo $info["CompanyStreet1"];?>" readonly="readonly"/></td></tr>
+			<tr><td>Company City: </td><td> <input  name = "CompanyCity" id="CompanyCity" value="<?php echo $info["CompanyCity"];?>" readonly="readonly"/></td></tr>
+			<tr><td>Company Email: </td><td> <input  name = "CompanyEmail" id="CompanyEmail" value="<?php echo $info["CompanyEmail"];?>" readonly="readonly"/></td></tr>
+            <tr><td>Company Phone: </td><td> <input  name = "CompanyPhone" id="CompanyPhone" value="<?php echo $info["CompanyPhone"];?>" readonly="readonly"/></td></tr>
+            <tr><td>Company Fax: </td><td> <input  name = "CompanyFax" id="CompanyFax" value="<?php echo $info["CompanyFax"];?>" readonly="readonly"/></td></tr>
+            <tr><td>Company Home Page: </td><td> <input  name = "CompanyHomePage" id="CompanyHomePage" value="<?php echo $info["CompanyHomePage"];?>" readonly="readonly"/></td></tr>
             
 			<tr><td colspan='2' align='center'><br><input  type='submit' name = 'add' value = 'Add'></td></tr>
 			</table></form></div><br><hr><br>	
+ 
+ <?php
+	$conn->close();
+?>
+ 
 </div>
 </body>
 </html>
