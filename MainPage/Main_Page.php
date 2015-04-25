@@ -26,6 +26,7 @@ if(!isset($_SESSION['login_user'])){
 <div class="topbar">
   <div class="navbutton">
     <nav>
+    		<a>Welcome!</a>
     		<a class="PosterPage" href="Profile/PostNewJob.php">Poster</a>
          	<a class="HomePage" href="Profile/Update_Resume.php">Portfolio</a>
             <a href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
@@ -37,12 +38,12 @@ if(!isset($_SESSION['login_user'])){
 <!-- topbar -->
 
 <div class="sidebar">
-  <h1>Uconn's Job Search</h1>
+  <h1><img src="../MainPage_img/Uconn's Job Search.png"></h1>
   <div class="navbutton">
     <nav>
-      <a class="HomePage" >Main Page</a>
-      <a class="HomePage" href="Search.php">Search</a>
-      <a class="HomePage" href="Manage_Application.php">Manage Applications</a>
+      <a class="side_button_select" >Main Page</a>
+      <a class="side_button" href="Search.php">Search</a>
+      <a class="side_button" href="Manage_Application.php">Manage Applications</a>
 
   
     </nav>
