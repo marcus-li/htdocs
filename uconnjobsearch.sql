@@ -50,16 +50,19 @@ DROP TABLE IF EXISTS `applies`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `applies` (
-  `ApplicationID` int(11) NOT NULL,
-  `ApplicationDate` date DEFAULT NULL,
+  `ApplicationID` int(11) NOT NULL AUTO_INCREMENT,
+  `ApplicationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Job_JobID` int(11) NOT NULL COMMENT 'FK',
   `SeekerUserName` varchar(45) NOT NULL COMMENT 'FK',
-  `Status` enum('Pending','Accepted','Rejected') NOT NULL,
+  `Status` enum('Pending','Accepted','Rejected') NOT NULL DEFAULT 'Pending',
+  `ResumeId` int(11) NOT NULL,
   PRIMARY KEY (`ApplicationID`),
   KEY `fk_Job_has_Seeker_Seeker1_idx` (`SeekerUserName`),
   KEY `fk_Job_has_Seeker_Job1_idx` (`Job_JobID`),
+  KEY `resumeid_idx` (`ResumeId`),
   CONSTRAINT `fk_Job_has_Seeker_Job1` FOREIGN KEY (`Job_JobID`) REFERENCES `job` (`JobID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Job_has_Seeker_Seeker1` FOREIGN KEY (`SeekerUserName`) REFERENCES `seeker` (`UserName`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_Job_has_Seeker_Seeker1` FOREIGN KEY (`SeekerUserName`) REFERENCES `seeker` (`UserName`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fkresumeselected` FOREIGN KEY (`ResumeId`) REFERENCES `resume` (`ResumeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -188,33 +191,8 @@ CREATE TABLE `education` (
 
 LOCK TABLES `education` WRITE;
 /*!40000 ALTER TABLE `education` DISABLE KEYS */;
-INSERT INTO `education` VALUES (1,'UConn','High School or Equivalent','Biology',1.2,'04/15/2015','04/13/2015','s'),(2,'UC Berkeley','Masters Degree','Art',3.92,'04/01/2015','04/15/2010','s'),(6,'school','High School or Equivalent','Earth and Atmospheric Sciences',4,'05/14/2014','04/08/2015','s'),(7,'University of Connecticut','Masters Degree','Computer Science',4,'01/11/2010','05/06/2015','admin'),(8,'UCONN','High School or Equivalent','Aerospace Engineering',4.5,'04/20/2015','04/20/2015','admin'),(9,'a','Bachelors Degree','Earth and Atmospheric Sciences',4,'04/08/2009','04/20/2017','s');
+INSERT INTO `education` VALUES (1,'UConn','High School or Equivalent','Biology',1.2,'04/15/2015','04/13/2015','s'),(2,'UC Berkeley','Masters Degree','Art',3.92,'04/01/2015','04/15/2010','s'),(6,'school','High School or Equivalent','Earth and Atmospheric Sciences',4,'05/14/2014','04/08/2015','s'),(7,'University of Connecticut','Masters Degree','Computer Science',4,'01/11/2010','05/06/2015','admin'),(8,'UCONN','High School or Equivalent','Aerospace Engineering',4.5,'04/20/2015','04/20/2015','admin');
 /*!40000 ALTER TABLE `education` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `invoice`
---
-
-DROP TABLE IF EXISTS `invoice`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `invoice` (
-  `InvoiceNumber` int(11) NOT NULL,
-  `InvoiceDate` date NOT NULL,
-  `PaymentID` int(11) NOT NULL,
-  PRIMARY KEY (`PaymentID`),
-  CONSTRAINT `fk_Invoice_Payment1` FOREIGN KEY (`PaymentID`) REFERENCES `payment` (`PaymentID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `invoice`
---
-
-LOCK TABLES `invoice` WRITE;
-/*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -277,13 +255,13 @@ DROP TABLE IF EXISTS `job`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `job` (
-  `JobID` int(11) NOT NULL COMMENT 'CompanyName FK',
-  `JobListDate` varchar(11) NOT NULL,
+  `JobID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'CompanyName FK',
+  `JobListDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `JobTitle` varchar(45) NOT NULL,
   `JobCity` varchar(45) NOT NULL,
   `JobState` varchar(45) DEFAULT NULL,
   `JobZip` int(11) NOT NULL,
-  `JobDuties` varchar(45) DEFAULT NULL,
+  `JobDuties` varchar(1000) DEFAULT NULL,
   `JobYRSExperience` int(11) DEFAULT NULL,
   `JobDegreeTypes` varchar(45) DEFAULT NULL,
   `JobDegreeAreas` varchar(45) DEFAULT NULL,
@@ -292,12 +270,13 @@ CREATE TABLE `job` (
   `JobFillStatus` varchar(45) DEFAULT NULL,
   `PosterUserName` varchar(45) NOT NULL COMMENT 'FK',
   `CompanyName` varchar(45) NOT NULL COMMENT 'FK',
+  `jobDescription` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`JobID`),
   KEY `fk_Job_Company1_idx` (`CompanyName`),
   KEY `fk_Job_Poster1_idx` (`PosterUserName`),
   CONSTRAINT `fk_Job_Company1` FOREIGN KEY (`CompanyName`) REFERENCES `company` (`CompanyName`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Job_Poster1` FOREIGN KEY (`PosterUserName`) REFERENCES `poster` (`UserName`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,7 +285,7 @@ CREATE TABLE `job` (
 
 LOCK TABLES `job` WRITE;
 /*!40000 ALTER TABLE `job` DISABLE KEYS */;
-INSERT INTO `job` VALUES (2,'1/2/2001','Accountant','storrs','CONNECTICUT',6279,'Do work',5,NULL,NULL,'25500','50500','No','p','AC Technologies, Inc.'),(20,'1/20/200','Manager','storrs','CONNECTICUT',6279,'Do work',5,NULL,NULL,'34500','59500','No','bob','DeVry University'),(21,'1/21/200','Marketing Research Analysis','storrs','CONNECTICUT',6279,'Do work',5,NULL,NULL,'35000','60000','No','post','DSA Information Technology Solutions'),(26,'1/26/200','Occupational Theropist','storrs','CONNECTICUT',6279,'Do work',5,NULL,NULL,'37500','62500','Yes','dlewis','Ernst & Young'),(30,'1/30/200','Physician','storrs','CONNECTICUT',6279,'Do work',5,NULL,NULL,'39500','64500','Yes','ncooper','Georgia Institute of Technology');
+INSERT INTO `job` VALUES (2,'0000-00-00 00:00:00','Accountant','storrs','CONNECTICUT',6279,'Do work',5,NULL,NULL,'25500','50500','No','p','AC Technologies, Inc.',NULL),(20,'0000-00-00 00:00:00','Manager','storrs','CONNECTICUT',6279,'Do work',5,NULL,NULL,'34500','59500','No','bob','DeVry University',NULL),(21,'0000-00-00 00:00:00','Marketing Research Analysis','storrs','CONNECTICUT',6279,'Do work',5,NULL,NULL,'35000','60000','No','post','DSA Information Technology Solutions',NULL),(26,'0000-00-00 00:00:00','Occupational Theropist','storrs','CONNECTICUT',6279,'Do work',5,NULL,NULL,'37500','62500','Yes','dlewis','Ernst & Young',NULL),(30,'0000-00-00 00:00:00','Physician','storrs','CONNECTICUT',6279,'Do work',5,NULL,NULL,'39500','64500','Yes','ncooper','Georgia Institute of Technology',NULL);
 /*!40000 ALTER TABLE `job` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -375,8 +354,8 @@ CREATE TABLE `payment` (
   `PaymentID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'JobID FK',
   `PaymentAmount` double NOT NULL,
   `PaymentStatus` varchar(45) NOT NULL,
-  `PaymentDate` date NOT NULL,
-  `Job_JobID` int(11) NOT NULL,
+  `PaymentDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Job_JobID` int(11) DEFAULT NULL,
   `PaymentMethod` enum('online','bank','credit') NOT NULL,
   PRIMARY KEY (`PaymentID`),
   KEY `fk_Payment_Job1_idx` (`Job_JobID`),
@@ -479,7 +458,7 @@ CREATE TABLE `resume` (
   UNIQUE KEY `ResumeID_UNIQUE` (`ResumeID`),
   KEY `SeekerId_idx` (`SeekerId`),
   CONSTRAINT `seekers` FOREIGN KEY (`SeekerId`) REFERENCES `seeker` (`UserName`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -539,7 +518,7 @@ CREATE TABLE `seeker` (
 
 LOCK TABLES `seeker` WRITE;
 /*!40000 ALTER TABLE `seeker` DISABLE KEYS */;
-INSERT INTO `seeker` VALUES ('admin'),('ebaily'),('s');
+INSERT INTO `seeker` VALUES ('admin'),('ebaily'),('qwer'),('s');
 /*!40000 ALTER TABLE `seeker` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -599,7 +578,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('a','a','admin','dude','','street','city','ALABAMA','6279','admin@google.com','phone','fax','cell','homepage'),('admin','password','admin','admin','','','a city','Connecticut','a zipcode','admin@gmail.com','admin',NULL,NULL,NULL),('anid','pass','fname','lname','addre','','city','Iowa','12345','asdasda@asda','123456789','','123456789',''),('another test user','abc','firstname','lastname','address','address','city','Connecticut','12345','abcdefg@hijklmnop.com','phonenumber','','phonenumber',''),('bfry','poster01','Barbara','Fry','P.O. Box 92957','','Los Angeles','CALIFORNIA','90009','bfry@sra.com','','','',''),('bob','bob','Bob','Bob','a','N/A','a','MASSACHUSETTS','12122','abc@abc','N/A','N/A','N/A','wwww.test.com'),('dlewis','poster02','Duane ','Lewis','123 Anywhere Street','','Atlanta','GEORGIA','30123','dlewis@ey.com','','','',''),('ebaily','seeker01','Eric','Bailey','2345 James Avenue','','Los Angeles','CALIFORNIA','90009','ebaily@needjob.com','','','',''),('han','dog','han','hu','','','some place','Connecticut','12345','hanhan@gmail.com','123456789',NULL,NULL,NULL),('maarcus','a','marcus','li','somwhere in ct','','storrs','Connecticut','06something','maarcus.li@uconn.edu','8603833756','non','8603833756','non'),('mar@gmail.com','a','mar','mar','an address','','c','Kentucky','111111','mar@gmail.com','123456789','','',''),('marcus','a password','marcus','li','somwhere in ct','','storrs','Connecticut','06something','marcus.li@uconn.edu','8603833756','non','8603833756','non'),('marcusli','another','Marcus','Li','','','West Hartford','Connecticut','06119','marcus.li@uconn.edu','8602325015',NULL,NULL,NULL),('marcuslis','admin','Marcus','Li','','','West Hartford','Connecticut','06119','marcus.li@uconn.edu','8602325015',NULL,NULL,NULL),('ncooper','poster03','Nathalie','Cooper','456 Nowhere Street','','Atlanta','GEORGIA','33219','ncooper@gatech.edu','8601','','',''),('p','p','the','poster','street','N/A','abc','FLORIDA','12','asds','N/A','N/A','N/A',''),('post','post','Mr','Poster','Addr','N/A','Cty','ARIZONA','01011','poster@poster.com','N/A','N/A','N/A','www.dsa.com'),('q','q','q','q','123456789','','storrs','Alabama','11111','q@q','123456789','','',''),('s','sdf','another','person','11 something',NULL,'Los Angeles','CALIFORNIA','01013','sdf@gmail.com','',NULL,NULL,NULL),('sallen','seeker03','Susan','Allen','231 Tech Lane','','Atlanta','GEORGIA','33219','sallen@needjob.com','','','',''),('ssdffdfsdf','q','asd','asd','sdfsdf','','sfsdf','Indiana','12312','w@uio','123',NULL,NULL,NULL),('tbrittan','seeker02','Tyrone','Brittan','3321 Old Peachtree Road','','Doraville','GEORGIA','30123','tbrittan@needjob.com','','','','');
+INSERT INTO `user` VALUES ('a','a','admin','dude','','street','city','ALABAMA','6279','admin@google.com','phone','fax','cell','homepage'),('admin','password','admin','admin','','','a city','Connecticut','a zipcode','admin@gmail.com','admin',NULL,NULL,NULL),('anid','pass','fname','lname','addre','','city','Iowa','12345','asdasda@asda','123456789','','123456789',''),('another test user','abc','firstname','lastname','address','address','city','Connecticut','12345','abcdefg@hijklmnop.com','phonenumber','','phonenumber',''),('bfry','poster01','Barbara','Fry','P.O. Box 92957','','Los Angeles','CALIFORNIA','90009','bfry@sra.com','','','',''),('bob','bob','Bob','Bob','a','N/A','a','MASSACHUSETTS','12122','abc@abc','N/A','N/A','N/A','wwww.test.com'),('dlewis','poster02','Duane ','Lewis','123 Anywhere Street','','Atlanta','GEORGIA','30123','dlewis@ey.com','','','',''),('ebaily','seeker01','Eric','Bailey','2345 James Avenue','','Los Angeles','CALIFORNIA','90009','ebaily@needjob.com','','','',''),('han','dog','han','hu','','','some place','Connecticut','12345','hanhan@gmail.com','123456789',NULL,NULL,NULL),('maarcus','a','marcus','li','somwhere in ct','','storrs','Connecticut','06something','maarcus.li@uconn.edu','8603833756','non','8603833756','non'),('mar@gmail.com','a','mar','mar','an address','','c','Kentucky','111111','mar@gmail.com','123456789','','',''),('marcus','a password','marcus','li','somwhere in ct','','storrs','Connecticut','06something','marcus.li@uconn.edu','8603833756','non','8603833756','non'),('marcusli','another','Marcus','Li','','','West Hartford','Connecticut','06119','marcus.li@uconn.edu','8602325015',NULL,NULL,NULL),('marcuslis','admin','Marcus','Li','','','West Hartford','Connecticut','06119','marcus.li@uconn.edu','8602325015',NULL,NULL,NULL),('ncooper','poster03','Nathalie','Cooper','456 Nowhere Street','','Atlanta','GEORGIA','33219','ncooper@gatech.edu','8601','','',''),('p','p','the','poster','street','N/A','abc','FLORIDA','12','asds','N/A','N/A','N/A',''),('post','post','Mr','Poster','Addr','N/A','Cty','ARIZONA','01011','poster@poster.com','N/A','N/A','N/A','www.dsa.com'),('q','q','q','q','123456789','','storrs','Alabama','11111','q@q','123456789','','',''),('qwer','a','marcus','li','te','','tes','Alabama','123','h@q','test',NULL,NULL,NULL),('s','sdf','Test','li','street','','sdf','Connecticut','06269','anemail@gmail.com','none','123','none','google.com'),('sallen','seeker03','Susan','Allen','231 Tech Lane','','Atlanta','GEORGIA','33219','sallen@needjob.com','','','',''),('sdf','123','m','l','q','','q','Louisiana','1','qwe@qwe','q',NULL,NULL,NULL),('ssdffdfsdf','asd','asd','123','sdfsdf','','sfsdf','Indiana','123','w@uio','123asd','','','asd'),('tbrittan','seeker02','Tyrone','Brittan','3321 Old Peachtree Road','','Doraville','GEORGIA','30123','tbrittan@needjob.com','','','','');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -612,4 +591,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-25 11:49:10
+-- Dump completed on 2015-04-25 18:23:39
