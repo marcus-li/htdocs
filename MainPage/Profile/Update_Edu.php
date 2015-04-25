@@ -44,10 +44,10 @@ if(!isset($_SESSION['login_user'])){
   <h1>Update Profile</h1>
   <div class="navbutton">
     <nav>
-      <a class="HomePage" href="Update_Resume.php">Resume</a>
-      <a class="HomePage">Education background</a>
-      <a class="HomePage" href="Update_Exp.php">Work Experience</a>
-	  <a class="HomePage" href="User_Settings.php">Profile Settings</a>
+      <a class="side_button" href="Update_Resume.php">Resume</a>
+      <a class="side_button_select">Education background</a>
+      <a class="side_button" href="Update_Exp.php">Work Experience</a>
+	  <a class="side_button" href="User_Settings.php">Profile Settings</a>
 
   
     </nav>
