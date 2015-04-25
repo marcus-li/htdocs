@@ -1,4 +1,4 @@
- <!doctype html>
+<!doctype html>
 <html>
 <head>
 <?php session_start();
@@ -14,6 +14,7 @@ if(!isset($_SESSION['login_user'])){
 			header('Location: '.$uri.'/login/login_main.php');
 			exit;
 	};?>
+
 <meta charset="utf-8">
 <title>MainPage</title>
 <meta name="keywords" content="main page, basic">
@@ -25,6 +26,7 @@ if(!isset($_SESSION['login_user'])){
 <div class="topbar">
   <div class="navbutton">
     <nav>
+    		<a class="PosterPage" href="Profile/PostNewJob.php">Poster</a>
          	<a class="HomePage" href="Profile/Update_Resume.php">Portfolio</a>
             <a href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
   
