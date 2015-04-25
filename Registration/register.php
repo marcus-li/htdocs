@@ -131,6 +131,8 @@ if(isset($_POST['submit']))
 		
 		
 	}else{
+		$sql = "insert into seeker (username) values ('".$UserName."')";
+		mysql_query( $sql, $conn);
 		if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
 				$uri = 'https://';
 			} else {
