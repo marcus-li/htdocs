@@ -27,8 +27,8 @@ if(!isset($_SESSION['login_user'])){
 <div class="topbar">
   <div class="navbutton">
     <nav>
-         	<a class="HomePage" href="profile/Update_Resume.php">Portfolio</a>
-            <a href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
+         	<a class="topbutton" href="profile/Update_Resume.php">Portfolio</a>
+            <a class="topbutton" href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
     </nav>
   </div>
   <!-- navbutton --> 
@@ -40,7 +40,7 @@ if(!isset($_SESSION['login_user'])){
 
 
 <div class="sidebar">
-  <h1>Job Search</h1>
+  <h1><img src="../MainPage_img/search.png"></h1>
   <div class="navbutton">
     <nav>
       <a class="side_button" href="Main_Page.php">Main Page</a>
