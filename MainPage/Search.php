@@ -64,17 +64,14 @@ if(!isset($_SESSION['login_user'])){
 <!--mli modifications-->
 <div class="content" id = "centered_inputs" align="center">
 <form method="post" action="search_results.php" name="send">
-  <h2>Search Criteria:</h2><br>
-  
-  <label>
-  <a>Company Name:</a>
-  <input type="text" name="company" size="20" id="company">
-  </label>
-  <br>
- 
-  <label>
-   <a>Minimum Salary:</a>
-   <select name="salary" id="salary">
+ <h2>Search Criteria:</h2><br>
+<table> 
+<tr>
+<td>Company Name: </td><td>  <input type="text" name="company" size="20" id="company"></td>
+ </tr>
+ <tr>
+ <td>Minimum Salary:</td>
+   <td><select name="salary" id="salary">
    <!-- loop to create salary list -->
     <?php 
 	for ($i = 1; $i <= 25; $i++) : 
@@ -83,16 +80,14 @@ if(!isset($_SESSION['login_user'])){
     endfor; 
 	?>
    </select>
-  </label> <br>
+  </td>
   
-  <label>
-  <a>Job Title：</a>
+  </tr>
+  <tr><td>Job Title：</td><td>
   <input name="jobname" type="text" id="jobname">
-  </label>
-  <br>
-  
-  <label>
-  <a>State：</a>
+</td></tr>
+  <tr>
+  <td>State：</td><td>
   
 		<?php
 		function statesList() {
@@ -158,13 +153,9 @@ if(!isset($_SESSION['login_user'])){
             <option value="<?php echo $value; ?>"><?php echo $value; ?></option>
         <?php } ?>
     </select>
-</label>
-  <br>
- <label>
-  <br>
+	</td></tr></table>
   
   <input class="button" type="submit" value="search" name="submitBtn" id="button">
-  </label>
 </form>
 </div>
 <!-- end mli mods-->
