@@ -83,7 +83,50 @@ Create and Post new jobs. Exclusive option for Posters.
 		if (!$result) {
 		    echo "<b>database result error</b>";
 			exit;
-		} 
+		}else{
+			$degreeAreas = array(
+		"Aerospace Engineering",
+		"Applied Physiology"
+		,"ArchitectureBuilding Construction",
+		"Art",
+		"ArtsEconomics History",
+		"Biology",
+		"Biomedical Engineering",
+		"Biomolecular Engineering",
+		"Business",
+		"Chemical Engineering",
+		"ChemistryBiochemistry",
+		"City and Regional Planning",
+		"Civil Engineering",
+		"Communication",
+		"Computer Engineering",
+		"Computer Science",
+		"Earth and Atmospheric Sciences",
+		"Electrical Engineering",
+		"Industrial and Systems Engineering",
+		"Industrial Design",
+		"International Affairs",
+		"Literature",
+		"Materials Science and Engineering",
+		"Mathematics",
+		"Mechanical Engineering",
+		"Modern Languages",
+		"Music",
+		"Physics",
+		"Psychology",
+		"Public Policy",
+		"Textile Engineering"
+		);
+		
+		$degreeTypes = array(
+		"High School or Equivalent",
+		"Associate Degree",
+		"Bachelors Degree",
+		"Masters Degree",
+		"Doctorate"
+		);
+			
+			}
     }?>
             
 			<table border='0'><tr>
@@ -105,6 +148,7 @@ Create and Post new jobs. Exclusive option for Posters.
 <!-- Post a new job-->
 
 <form method ='post' action='postNewJob.php'>
+
 			<table border='0'><tr>
             
 			<td>JobId: </td><td><input name="JobId" id="JobId"/></td></tr>
@@ -115,10 +159,25 @@ Create and Post new jobs. Exclusive option for Posters.
             <tr><td>Job Zip: </td><td> <input  name = "JobZip" id="JobZip"/></td></tr>
             <tr><td>Job Duties: </td><td> <textarea  name = "JobDuties" id="JobDuties"></textarea></td></tr>
             <tr><td>Years of Experience: </td><td> <input  name = "JobYRSExperience" id="JobYRSExperience"/></td></tr>
-            <tr><td>Job Degree Types: </td><td> <input  name = "JobDegreeType" id="JobDegreeType"/></td></tr>
-            
-            
-            <tr><td>Job Degree Areas: </td><td> <input  name = "JobDegreeAreas" id="JobDegreeAreas"/></td></tr>
+            <tr><td>Degree Type:</td> <td><select multiple class="select" name = "JobDegreeType">
+			<?php
+				foreach($degreeTypes as $type){
+				echo "<option value='".$type."' ";
+					//if($type == $row["JobDegreeType"]) echo " selected";
+				echo ">".$type."</option>";
+				}
+			echo "</select></td></tr>";
+			?>
+			
+            <tr><td>Degree Area:</td> <td><select multiple class="select" name = "JobDegreeArea">
+            <?php
+				foreach($degreeAreas as $type){
+				echo "<option value='".$type."' ";
+					//if($type == $row["JobDegreeArea"]) echo " selected";
+				echo ">".$type."</option>";
+				}
+			echo "</select></td></tr>";
+			?>
             
             
             <tr><td>Job Low Range: </td><td> <input  name = "JobJLowRange" id="JobJLowRange"/></td></tr>
@@ -139,6 +198,22 @@ Create and Post new jobs. Exclusive option for Posters.
 </div>
 </body>
 </html>
+
+<script>
+(function(){
+    var selected={};
+    $('select').click(function(e){
+        var $this=$(this),options=this.options,option,value,n;
+        value=$this.val();
+        for(n=0; n<options.length; ++n){
+            option=options[n];
+            if(option.value==value) selected[value]= !selected[value];
+            option.selected= !!selected[option.value];
+        }
+        return false;
+    });
+})();
+</script>
 
 
 
