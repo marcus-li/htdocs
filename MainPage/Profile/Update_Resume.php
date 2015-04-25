@@ -259,7 +259,7 @@ ON A.SkillID=skills.skillid";
 	echo "<hr><h3>Relevant Work Experience</h3><br><br>";
 	
 	if( $_POST["ResumeList"] ==-1){
-	echo '<input type="button" align="center" onClick="sendNewResume()" value=" Confirm Resume Addition " >
+	echo '<div align="center"><input type="button" align="center" onClick="sendNewResume()" value=" Confirm Resume Addition " ></div><br><br><br><br><br><br><br>
 	</form>';
 	}
 	else{
