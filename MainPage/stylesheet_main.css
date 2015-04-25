@@ -14,7 +14,7 @@ body {
 	-webkit-transition: opacity .25s ease-in-out, background .25s ease-in-out;
 	
 	
-	font-family:Palatino, "Century Schoolbook L", "Times New Roman", serif;
+	font-family:Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
 	
 }
 
@@ -38,6 +38,7 @@ h1{
 }
 
 .topbar {
+
 	text-align:right;
 	height: 30px;
 	z-index: 0;
@@ -153,7 +154,7 @@ h1{
 .topbutton:hover{
 	color:white;
 	background-color:#5a7285;
-		-webkit-transition: all .5s ease-out;
+	-webkit-transition: all .5s ease-out;
 	-moz-transition: all .5s ease-out;
 	-ms-transition: all .5s ease-out;
 	transition: all .5s ease-out;
