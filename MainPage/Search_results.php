@@ -56,8 +56,8 @@ if(!isset($_SESSION['login_user'])){
 
 <body>
 
-<div class = "content"> 
-
+<div class = "content" > 
+<div style ="padding-top:80px; padding-left:80px;">
 
 <?php
 	include '../dbscripts/credentials.php';
@@ -122,13 +122,14 @@ if(!isset($_SESSION['login_user'])){
 		  $array = array();	
 		  
 		  echo "<table border='2' cellpadding='2' cellspacing='2'";
-			echo "<tr><td>Job Title</td><td>Salary Range</td>
+			echo "<tr><td></td><td>Job Title</td><td>Salary Range</td>
 					<td>Company</td><td>State</td><td>City</td>";
 			
 			   while($row = $result->fetch_assoc()) 
 			   {
 			   
 			   echo "<tr>";
+					echo "<td><input type ='submit' value = 'view job' onClick='go(".$row["JobID"].")'/></td>";
 					echo "<td>" . $row["JobTitle"] . "</td>";
 					echo "<td>$" . $row["JobJLowRange"] ."-$".$row["JobHighRange"] . "</td>";
 					echo "<td>" . $row["CompanyName"] . "</td>";
@@ -163,7 +164,15 @@ if(!isset($_SESSION['login_user'])){
 		
 ?> 
 </div>
+</div>
 
 </body>
+
+<script language = "javascript">
+
+function go(jobID){
+	alert(jobID);
+}
+</script>
 
 </html>

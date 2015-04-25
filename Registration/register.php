@@ -87,8 +87,8 @@ if(isset($_POST['submit']))
 	   $UserPassword = addslashes ($_POST['UserPassword']);
 	   $UserFirstName = addslashes ($_POST['UserFirstName']);
 	   $UserLastName = addslashes ($_POST['UserLastName']);
-	   $UserStreet1 = addslashes ($_POST['UserStreet1']);
-	   $UserStreet2 = addslashes ($_POST['UserStreet2']);
+	   $UserStreet1 = addslashes ($_POST['UserAddress1']);
+	   $UserStreet2 = addslashes ($_POST['UserAddress2']);
 	   $UserCity = addslashes ($_POST['UserCity']);
 	   $UserState = addslashes ($_POST['UserState']);
 	   $UserZip = addslashes ($_POST['UserZip']);
@@ -101,8 +101,8 @@ if(isset($_POST['submit']))
 	   $UserPassword = $_POST['UserPassword'];
 	   $UserFirstName = $_POST['UserFirstName'];
 	   $UserLastName = $_POST['UserLastName'];
-	   $UserStreet1 = $_POST['UserStreet1'];
-	   $UserStreet2 = $_POST['UserStreet2'];
+	   $UserStreet1 = $_POST['UserAddress1'];
+	   $UserStreet2 = $_POST['UserAddress2'];
 	   $UserCity = $_POST['UserCity'];
 	   $UserState = $_POST['UserState'];
 	   $UserZip = $_POST['UserZip'];

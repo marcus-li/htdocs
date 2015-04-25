@@ -179,7 +179,7 @@ CREATE TABLE `education` (
   UNIQUE KEY `EduID_UNIQUE` (`EduID`),
   KEY `UserID_idx` (`UserId`),
   CONSTRAINT `seeker` FOREIGN KEY (`UserId`) REFERENCES `seeker` (`UserName`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +188,7 @@ CREATE TABLE `education` (
 
 LOCK TABLES `education` WRITE;
 /*!40000 ALTER TABLE `education` DISABLE KEYS */;
-INSERT INTO `education` VALUES (1,'UConn','High School or Equivalent','Biology',1.2,'04/15/2015','04/13/2015','s'),(2,'UC Berkeley','Masters Degree','Art',3.92,'04/01/2015','04/15/2010','s'),(5,'s','High School or Equivalent','Aerospace Engineering',0,'','','s'),(6,'school','High School or Equivalent','Earth and Atmospheric Sciences',4,'05/14/2014','04/08/2015','s'),(7,'University of Connecticut','Masters Degree','Computer Science',4,'01/11/2010','05/06/2015','admin'),(8,'UCONN','High School or Equivalent','Aerospace Engineering',4.5,'04/20/2015','04/20/2015','admin');
+INSERT INTO `education` VALUES (1,'UConn','High School or Equivalent','Biology',1.2,'04/15/2015','04/13/2015','s'),(2,'UC Berkeley','Masters Degree','Art',3.92,'04/01/2015','04/15/2010','s'),(6,'school','High School or Equivalent','Earth and Atmospheric Sciences',4,'05/14/2014','04/08/2015','s'),(7,'University of Connecticut','Masters Degree','Computer Science',4,'01/11/2010','05/06/2015','admin'),(8,'UCONN','High School or Equivalent','Aerospace Engineering',4.5,'04/20/2015','04/20/2015','admin'),(9,'a','Bachelors Degree','Earth and Atmospheric Sciences',4,'04/08/2009','04/20/2017','s');
 /*!40000 ALTER TABLE `education` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -444,7 +444,7 @@ CREATE TABLE `priorjobs` (
   UNIQUE KEY `JobID_UNIQUE` (`JobID`),
   KEY `UserId_idx` (`UserId`),
   CONSTRAINT `seekername` FOREIGN KEY (`UserId`) REFERENCES `seeker` (`UserName`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -453,7 +453,7 @@ CREATE TABLE `priorjobs` (
 
 LOCK TABLES `priorjobs` WRITE;
 /*!40000 ALTER TABLE `priorjobs` DISABLE KEYS */;
-INSERT INTO `priorjobs` VALUES (1,'Optum Technology Inc.','International Intern','work hard play harder','Hartford','Connecticut','04/01/2015','04/01/2015','s'),(5,'Vet Care','Dog Petter','pet cats and dogs that are so sad ','tokyo','japan','04/21/2015','04/21/2015','s');
+INSERT INTO `priorjobs` VALUES (1,'Optum Technology Inc.','International Intern','hello ','Hartford','Connecticut','04/01/2015','04/01/2015','s'),(5,'Vet Care','Dog Petter','pet cats and dogs that are so sad ','tokyo','japan','04/21/2015','04/21/2015','s'),(6,'johns hopkins','research assistant','lab experiments ','lima','peru','04/07/2010','04/16/2015','s');
 /*!40000 ALTER TABLE `priorjobs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -479,7 +479,7 @@ CREATE TABLE `resume` (
   UNIQUE KEY `ResumeID_UNIQUE` (`ResumeID`),
   KEY `SeekerId_idx` (`SeekerId`),
   CONSTRAINT `seekers` FOREIGN KEY (`SeekerId`) REFERENCES `seeker` (`UserName`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -488,7 +488,6 @@ CREATE TABLE `resume` (
 
 LOCK TABLES `resume` WRITE;
 /*!40000 ALTER TABLE `resume` DISABLE KEYS */;
-INSERT INTO `resume` VALUES (0,'','','sell food','123','hello',NULL,'sdfjsdflksjf','2015-04-22 16:18:34','s'),(1,'','','I want work','40000','No File',NULL,NULL,'2015-04-19 17:39:27','s'),(2,'Li','Marcus','another objective','$3800022345','No File',NULL,NULL,'2015-04-19 17:41:45','s'),(40,'','','test upload','1','No File',NULL,NULL,'2015-04-22 22:13:21','admin'),(41,'','','test large blob','','New Text Document.txt',NULL,'hello','2015-04-22 22:17:39','admin');
 /*!40000 ALTER TABLE `resume` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -613,4 +612,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-23 17:04:47
+-- Dump completed on 2015-04-25 11:49:10

@@ -42,6 +42,7 @@ if(!isset($_SESSION['login_user'])){
       <a class="HomePage">Resume</a>
       <a class="HomePage" href="Update_Edu.php">Education background</a>
       <a class="HomePage" href="Update_Exp.php">Work Experience</a>
+	  <a class="HomePage" href="User_Settings.php">Profile Settings</a>
 
   
     </nav>
@@ -55,7 +56,7 @@ if(!isset($_SESSION['login_user'])){
 <div class="content" ><br><br>
 <br><br>
 <div style = "padding-left: 80px">
-Display user's resumes and resume files, giving them the option of modifying their files if needed.
+Upload or modify a resume submission:<br>
 <form method="post" action="<?php $_PHP_SELF ?>" name="send">
 	<?php
 	include '../../dbscripts/credentials.php';
@@ -152,14 +153,14 @@ function displaySelectedResume($conn){
 					echo "<td> Minimum salary (USD):</td><td> <input type = 'text' id='salary' onChange=\"setChanged('salary')\"  onKeyUp=\"setChanged('salary')\" value = \"" . $row["ResumeSalaryMin"] ."\"></input></td>";
 					echo "</tr><tr>";
 					//row - resume file name
-					echo "<td>" . $row["ResumeFileName"] . "</td>";
+					echo "<td> Resume: " . $row["ResumeFileName"] . "</td>";
 					echo "<td><form method='post' action = 'uploadResume.php' style = 'margin:15px; padding 10px;' enctype='multipart/form-data' target='_blank'>
-					<input type='file' name='file1' id='file1' style='border:none;'/> ";
+					<input type='file' name='file1' id='file1' style='border:none;' accept='.pdf'/> ";
 					//if there is already a file make submit say replace otherwise add
 					if($row["ResumeFileName"]=="No File" ||$row["ResumeFileName"]==""){
 					echo " Upload Resume (PDF format)</form></td>";
 					}else{
-					echo "<input type='submit' name='submitFile' value='Replace Old File' />
+					echo "<label > *Selecting a file will replace your previously uploaded resume '".$row["ResumeFileName"]."'</label>
 					</form></td>";
 					}
 					
@@ -253,17 +254,13 @@ ON A.SkillID=skills.skillid";
 	echo' </select><br />
     <p align="center"><input type="button" onClick="two2one()" value=" Remove Skills " ></p>
 	</td></tr></table></div>';
-	
-	//Relevant work experience
-	
-	echo "<hr><h3>Relevant Work Experience</h3><br><br>";
-	
+
 	if( $_POST["ResumeList"] ==-1){
-	echo '<input type="button" align="center" onClick="sendNewResume()" value=" Confirm Resume Addition " >
+	echo '<div align="center"><input type="button" align="center" onClick="sendNewResume()" value=" Confirm Resume Addition " ></div><br><br><br><br><br><br><br>
 	</form>';
 	}
 	else{
-	echo '<div align="center"><input type="button" onClick="sendOptions()" value=" Submit Updates " ></div><br><br><br><br><br><br><br>
+	echo '<div align="center"><input type="button" onClick="sendOptions()" value=" Submit Updates " ><input type="button" onClick="deleteResume()" value=" Delete Resume " ></div><br><br><br><br><br><br><br>
 	</form>';			
 			}
 	
@@ -346,7 +343,7 @@ var sql = "UPDATE resume SET "+columnName+"='"+values+"' WHERE resumeID = '"+res
 		});
 
 }
-			//currently not used, send a multi query
+/*			//currently not used, send a multi query
 
 function sendMultiQuery(queryPlaceholderID){
 var resumeID = document.getElementsByName("hiddenResumeID")[0].value;
@@ -360,15 +357,13 @@ var sql = document.getElementsByName(queryPlaceholderID)[0].value;
 	}
 		});
 
-}
+}*/
 
 //sent when resume is updated
 function sendOptions() {
 		if(objectiveChanged){
 	sendUpdateColumn('objective','ResumeObjective');
-	
 	}
-  
   if(salaryChanged){
 	sendUpdateColumn('salary','ResumeSalaryMin');
   }	
@@ -396,23 +391,41 @@ function sendOptions() {
 		});
 
 	}
+		if (window.confirm('Resume Updated')) {
+        window.location.href='Update_resume.php';
+    }
 	
-	alert('Updated');
 }
 
 
 
+function deleteResume(){
+if (!window.confirm('Confirm Deletion of Resume')) {
+        return;
+    }
+	var resumeID = document.getElementsByName("hiddenResumeID")[0].value;
 
+	$.ajax({
+			type : "POST",
+			url : "deleteResume.php",
+			data: {resumeID :resumeID}	
+			}
+		).done(function(){
+			alert('deleted');
+			window.location.href='Update_resume.php';
+		}); 
+
+       
+}
 
 
 //sent when new resume added
 function sendNewResume() {	
-	var sql = "Insert into resume (resumeid) values (null); ";
+
 	//create a new resume entry go to updateNewResume to fill in
 	  $.ajax({
 			type : "POST",
-			url : "dbAddResumeGetID.php",
-			data: {sql :sql},	
+			url : "dbAddResumeGetID.php",	
 			success: updateNewResume
 		});  
 }
@@ -425,6 +438,11 @@ function sendUpdateResumeFile(){
  var formData = new FormData(); 
  
  var file = document.getElementById("file1").files[0];
+ if(!file) return;
+if(file.size>1048576){
+  alert("file too large " + file.size);
+  return;
+ }
  
  formData.append("file", file);
  formData.append("resumeID", resumeID);
@@ -435,9 +453,6 @@ function sendUpdateResumeFile(){
 			data: formData,	
 			contentType: false,
 			processData: false,
-			success: function(data){
-			alert(data);
-			}
 		});  
 
 
@@ -480,10 +495,9 @@ document.getElementsByName("hiddenResumeID")[0].value = data;
 		});
 
 	}
-	
-	alert('Resume Added');
-	location = "Update_exp.php";
-	location= "Update_Resume.php"; 
+	if (window.confirm('Resume Added')) {
+        window.location.href='Update_resume.php';
+    }
 	
 
 }
