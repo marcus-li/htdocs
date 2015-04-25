@@ -57,7 +57,7 @@ if(!isset($_SESSION['login_user'])){
 <div class="content" ><br><br>
 <br><br>
 <div style = "padding-left: 80px">
-About Me:<br>
+
 <form method="post" action="updateUserDetails.php" name="send" onSubmit="return check()">
 	<?php
 	include '../../dbscripts/credentials.php';
