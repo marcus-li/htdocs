@@ -25,7 +25,8 @@ if(!isset($_SESSION['login_user'])){
 <header>
   <div class="topbar">
     <div class="navbutton">
-      <nav> <a class="HomePage" href="../Main_Page.php">Main Page</a> <a href = "../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a> </nav>
+      <nav> <a class="topbutton" href="../Main_Page.php">Main Page</a> 
+      <a class="topbutton" href = "../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a> </nav>
     </div>
     <!-- navbutton --> 
   </div>
