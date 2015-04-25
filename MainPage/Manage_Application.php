@@ -40,9 +40,9 @@ if(!isset($_SESSION['login_user'])){
   <h1>Manage Application</h1>
   <div class="navbutton">
     <nav>
-      <a class="HomePage" href="Main_Page.php">Main Page</a>
-      <a class="HomePage" href="Search.php">Search</a>
-      <a class="HomePage">Manage Applications</a>
+      <a class="side_button" href="Main_Page.php">Main Page</a>
+      <a class="side_button" href="Search.php">Search</a>
+      <a class="side_button_select">Manage Applications</a>
 
   
     </nav>
