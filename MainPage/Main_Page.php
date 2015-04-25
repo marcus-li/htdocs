@@ -40,9 +40,9 @@ if(!isset($_SESSION['login_user'])){
   <h1>Uconn's Job Search</h1>
   <div class="navbutton">
     <nav>
-      <a class="HomePage" >Main Page</a>
-      <a class="HomePage" href="Search.php">Search</a>
-      <a class="HomePage" href="Manage_Application.php">Manage Applications</a>
+      <a class="side_button_select" >Main Page</a>
+      <a class="side_button" href="Search.php">Search</a>
+      <a class="side_button" href="Manage_Application.php">Manage Applications</a>
 
   
     </nav>
