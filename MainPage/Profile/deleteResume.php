@@ -1,25 +1,19 @@
 <?php
 	include '../../dbscripts/credentials.php';
-	header('Content-type: text/plain');
+	if(!isset($_POST["resumeID"])){
+		echo " not set";
+		exit;
+	}
+	$sql = "Delete from resume where resumeid ='".$_POST["resumeID"]."';";
 
-	session_start();
-
-	$sql = "Insert into resume (resumeid,seekerID) values (null, '".$_SESSION['login_user']."');";
-	
-	$result = NULL;
-  
 	// Create connection
     $conn = new mysqli($address, $username, $password, $database);
 	// Check connection	
 	 if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     } else {
-		//add resume
 	    $conn->query($sql);
-		
-		//link to user
-		$resumeId = $conn->query("select LAST_INSERT_ID() as a;")->fetch_object()->a;		
-		echo $resumeId;
+		echo "deleted resume";
 		$conn->close();
     }?>
 	
