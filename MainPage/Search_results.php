@@ -171,7 +171,7 @@ if(!isset($_SESSION['login_user'])){
 <script language = "javascript">
 
 function go(jobID){
-	alert(jobID);
+	location.assign("viewJob.php?jobid="+jobID);
 }
 </script>
 
