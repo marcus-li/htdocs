@@ -1,14 +1,10 @@
 <?php
 	include '../../dbscripts/credentials.php';
 	header('Content-type: text/plain');
-	if(!isset($_POST['sql'])){
-	echo var_dump($_POST);
-	echo "no data";
-	exit;
-	
-	}
+
 	session_start();
-	$sql = $_POST['sql'];
+
+	$sql = "Insert into resume (resumeid,seekerID) values (null, '".$_SESSION['login_user']."');";
 	
 	$result = NULL;
   
@@ -19,14 +15,10 @@
         die("Connection failed: " . $conn->connect_error);
     } else {
 		//add resume
-	    $conn->multi_query($sql);
+	    $conn->query($sql);
 		
 		//link to user
-		$resumeId = $conn->query("select LAST_INSERT_ID() as a;")->fetch_object()->a;
-		$conn->query("Insert into seeker (UserName, ResumeId) values 
-			
-			('". $_SESSION["login_user"]."',".$resumeId .");");
-		
+		$resumeId = $conn->query("select LAST_INSERT_ID() as a;")->fetch_object()->a;		
 		echo $resumeId;
 		$conn->close();
     }?>

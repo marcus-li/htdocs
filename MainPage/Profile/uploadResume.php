@@ -17,9 +17,8 @@
 	$content = addslashes($content);
 	fclose($fp);
 
-	if(!get_magic_quotes_gpc())
-	{
-    $fileName = addslashes($fileName);
+	if(!get_magic_quotes_gpc()){
+		$fileName = addslashes($fileName);
 	}
 	
 	
@@ -52,20 +51,9 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	    //$conn->query($sql);
 		$conn->close();
-		echo "success";
+		echo "filename ".$fileName.";  resumeid:".$_POST["resumeID"];
     }?>
 	
 	
