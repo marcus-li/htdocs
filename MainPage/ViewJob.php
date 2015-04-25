@@ -40,9 +40,9 @@ if(!isset($_SESSION['login_user'])){
   <h1>Job Search</h1>
   <div class="navbutton">
     <nav>
-      <a class="side_button" href="Main_Page.php">Main Page</a>
-      <a class="side_button_select">Search</a>
-      <a class="side_button" href="Manage_Application.php">Manage Applications</a>
+      <a class="HomePage" href="Main_Page.php">Main Page</a>
+      <a class="HomePage">Search</a>
+      <a class="HomePage" href="Manage_Application.php">Manage Applications</a>
     </nav>
   </div>
   <!-- navbutton --> 
@@ -145,7 +145,7 @@ function go(jobID){
 if (!window.confirm('Please confirm that you would like to apply to this job with the selected resume profile')) {
         return;
     }
-	alert(jobID + " " + document.getElementById("resumelist").id);
+	alert("TODO: Create php file to create application    " + jobID + " " + document.getElementById("resumelist").id);
 }
 </script>
 
