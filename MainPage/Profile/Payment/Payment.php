@@ -64,7 +64,7 @@ Insert Payment Information. To cancel, click on cancel.
 <form method ='post'>
             
     <?php
-	include '../../dbscripts/credentials.php';
+	include '../../../dbscripts/credentials.php';
 
 	$sql = "SELECT * FROM payment WHERE Job_JobID = '30'";
 	
@@ -88,13 +88,6 @@ Insert Payment Information. To cancel, click on cancel.
 		);	
 			}
     }?>
-            
-            <?php 
-			$query1 = mysql_query("SELECT  FROM hosts WHERE name!=''");
-			while($results = mysql_fetch_array($query1)){
-    			echo $result['column_name'];
-			}
-			?>
             
 			<table border='0'><tr>
            	<!-- I need to generate the paymentID auto from the db-->

@@ -28,7 +28,9 @@ if(!isset($_SESSION['login_user'])){
   <div class="navbutton">
     <nav>
          	<a class="topbutton" href="../Main_Page.php">Seeker</a>
-             <a class="topbutton" href = "../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
+             <a class="topbutton" href = "../../login/logout.php">Log out of [<b><?php 
+	echo "". $_SESSION['login_user'];
+	?>]</b></a>
   
     </nav>
   </div>
@@ -145,11 +147,13 @@ Create and Post new jobs. Exclusive option for Posters.
 <h3 class = "contentHeader">Post a new Job:</h3>
 <div style='padding-left:50px; padding-right:100px;'>
 
-<!-- Post a new job-->
+<!-- Post a new job -->
 
-<form method ='post' action='postNewJob.php'>
+<form method ='post' action='insertNewJob.php'>
 
 			<table border='0'><tr>
+            
+            <?php $PosterUserName = $_SESSION['login_user'];?>
             
 			<td>JobId: </td><td><input name="JobId" id="JobId"/></td></tr>
 			<td>Job List Date:</td> <td><input name = 'JobListDate' id="JobListDate"/></td></tr>		
@@ -158,6 +162,7 @@ Create and Post new jobs. Exclusive option for Posters.
 			<tr><td>Job City: </td><td> <input  name = "JobCity" id="JobCity" value="<?php echo $info["CompanyCity"];?>"/></td></tr>
             <tr><td>Job Zip: </td><td> <input  name = "JobZip" id="JobZip"/></td></tr>
             <tr><td>Job Duties: </td><td> <textarea  name = "JobDuties" id="JobDuties"></textarea></td></tr>
+            <tr><td>Job Description: </td><td> <textarea  name = "JobDescription" id="JobDescription"></textarea></td></tr>
             <tr><td>Years of Experience: </td><td> <input  name = "JobYRSExperience" id="JobYRSExperience"/></td></tr>
             <tr><td>Degree Type:</td> <td><select multiple class="select" name = "JobDegreeType">
 			<?php
@@ -186,7 +191,7 @@ Create and Post new jobs. Exclusive option for Posters.
             	<option value="No" selected>No</option>
             </select></td></tr>
             
-            <tr><td colspan='2' align='center'><br><input  type='submit' name = 'post' value = 'Post' onclick="window.location='Payment/Payment.php';"></td></tr>
+            <tr><td colspan='2' align='center'><br><input  type='submit' name = 'add' value = 'Post'></td></tr>
             
 </table></form></div><br><hr><br>	
             
