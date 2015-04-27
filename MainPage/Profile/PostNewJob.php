@@ -186,7 +186,7 @@ Create and Post new jobs. Exclusive option for Posters.
             	<option value="No" selected>No</option>
             </select></td></tr>
             
-            <tr><td colspan='2' align='center'><br><input  type='submit' name = 'post' value = 'Post'></td></tr>
+            <tr><td colspan='2' align='center'><br><input  type='submit' name = 'post' value = 'Post' onclick="window.location='Payment/Payment.php';"></td></tr>
             
 </table></form></div><br><hr><br>	
             
@@ -214,7 +214,6 @@ Create and Post new jobs. Exclusive option for Posters.
     });
 })();
 </script>
-
 
 
 
