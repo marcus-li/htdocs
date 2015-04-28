@@ -6,7 +6,10 @@ body{
 
 	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
 	background-image:url(../MainPage_img/IMG_6302.JPG);
+	background-color:#8f949d;
 	background-size:cover;
+	background-repeat:no-repeat;
+	
 }
 
 .topbar{
