@@ -19,7 +19,7 @@ if(!isset($_SESSION['login_user'])){
 <meta charset="utf-8">
 <title>New Job Payment (Poster)</title>
 <meta name="keywords" content="New Job Payment">
-<link href="../stylesheet_main.css" rel="stylesheet" type="text/css" >
+<link href="../../stylesheet_main.css" rel="stylesheet" type="text/css" >
 </head>
 
 <body>
@@ -27,7 +27,7 @@ if(!isset($_SESSION['login_user'])){
 <div class="topbar">
   <div class="navbutton">
     <nav>
-             <a class="topbutton" href = "../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
+             <a class="topbutton" href = "../../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
   
     </nav>
   </div>
@@ -36,7 +36,7 @@ if(!isset($_SESSION['login_user'])){
 <!-- topbar -->
 
 <div class="sidebar">
-  <h1><img src="../../MainPage_img/PostNewJob.png"></h1>
+  <h1><img src="../../../MainPage_img/PostNewJob.png"></h1>
   <div class="navbutton">
     <nav>
       <a class="side_button_select">New Job Payment</a>
@@ -92,19 +92,18 @@ Insert Payment Information. To cancel, click on cancel.
 			<table border='0'><tr>
            	<!-- I need to generate the paymentID auto from the db-->
 			<td>PaymentID: </td><td><input name="PaymentID" id="CompanyId" value="31" readonly/></td></tr>
-			<td>PaymentAmount: $</td> <td><input name = 'PaymentAmount' id="PaymentAmount" value="200.00" readonly/></td></tr>		
+			<td>PaymentAmount: </td> <td><input name = 'PaymentAmount' id="PaymentAmount" value="200.00" readonly/>$</td></tr>		
 			<tr><td>Payment Status: </td><td> <input  name = "PaymentStatus" id="PaymentStatus" value="In-Transit" readonly/></td></tr>
 			<tr><td>Payment Date: </td><td>
 <?php 
-echo "<input name='PaymentDate' id='PaymentDate' value='". date("Y/m/d") ."' />";
+echo "<input name='PaymentDate' id='PaymentDate' value='". date("m/d/Y") ."' />";
 echo "</td></tr>";
 ?>
 			<tr><td>JobId: </td><td> <input  name = "Job_JobID" id="Job_JobID" value="1" readonly/></td></tr>
-            <tr><td>Payment Method: </td><td> <td><select class="select" name = "PaymentMethod" id="PaymentMethod" onChange="getSelectedValue()">
+            <tr><td>Payment Method: </td><td><select class="select" name = "PaymentMethod" id="PaymentMethod" onChange="changeSelected(this)">
 			<?php
-				foreach($paymentMethod as $type){
+				foreach($PaymentMethod as $type){
 				echo "<option value='".$type."' ";
-					//if($type == $row["JobDegreeType"]) echo " selected";
 				echo ">".$type."</option>";
 				}
 			echo "</select></td></tr>";
@@ -121,7 +120,7 @@ echo "</td></tr>";
 
 			<table border='0'><tr>
             
-			<td>Show what type of payment was selected.</td>
+            <a id="status"><a>
             
             <tr><td colspan='2' align='center'><br>
   <input class="button" type="submit" value="Finish" name="Finish" id="button">
@@ -139,14 +138,20 @@ echo "</td></tr>";
 </body>
 </html>
 
-<script type="text/javascript">
-function getSelectedValue() {
-    var index = document.getElementById('PaymentMthod').selectedIndex;
-    alert("value="+document.getElementById('PaymentMethod').value);
-    alert("text="+document.getElementById('PaymentMethod').options[index].text);
-}
+<script>
+ function changeSelected(obj){
+    //alert(obj.options[obj.selectedIndex].value);
+	var paymentSel = obj.options[obj.selectedIndex].value;
+	$("#status").html('The payment method selected is: <STRONG> paymentSel </STRONG>.');
+  }
 </script>
 
 <script type="text/javascript">
+function getSelectedValue() {
+    var index = document.getElementById('PaymentMethod').selectedIndex;
+    alert("value="+document.getElementById('PaymentMethod').value);
+    alert("text="+document.getElementById('PaymentMethod').options[index].text);
+}
+
   document.getElementById('date').value = Date();
 </script>
