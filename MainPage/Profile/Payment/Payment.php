@@ -82,6 +82,7 @@ Insert Payment Information. To cancel, click on cancel.
 			exit;
 		}else{
 			$PaymentMethod = array(
+		"",
 		"Bank - Checking Account",
 		"Credit/Debit Card"
 		,"Online Service"
@@ -142,7 +143,7 @@ echo "</td></tr>";
  function changeSelected(obj){
     //alert(obj.options[obj.selectedIndex].value);
 	var paymentSel = obj.options[obj.selectedIndex].value;
-	$("#status").html('The payment method selected is: <STRONG> paymentSel </STRONG>.');
+	$("#status").html('The payment method selected is: <STRONG>' + paymentSel + '</STRONG>.');
   }
 </script>
 
