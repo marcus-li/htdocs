@@ -144,7 +144,7 @@ Create and Post new jobs. Exclusive option for Posters.
 </table></form></div><br><hr><br>	
 
 
-<h3 class = "contentHeader">Post a new Job:</h3>
+<h3 class = "contentHeader">1. Post a new Job:</h3>
 <div style='padding-left:50px; padding-right:100px;'>
 
 <!-- Post a new job -->

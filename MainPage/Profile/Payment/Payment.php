@@ -109,7 +109,9 @@ echo "</td></tr>";
 				}
 			echo "</select></td></tr>";
 			?>
-</table></form></div><br><hr><br>	
+            <tr><td><input class="button" type="submit" value="Select" name="submitBtn" id="button" ></td></tr>
+            
+</table></form></div><br><hr><br>
 
 
 <h3 class = "contentHeader">Type of Payment:</h3>
@@ -144,15 +146,16 @@ echo "</td></tr>";
     //alert(obj.options[obj.selectedIndex].value);
 	var paymentSel = obj.options[obj.selectedIndex].value;
 	$("#status").html('The payment method selected is: <STRONG>' + paymentSel + '</STRONG>.');
+	/*if(paymentSel == "Bank - Checking Account"){
+		$("#status").html('<tr><td>Bank Name: </td><td> <input  name = "BankPaymentName" id="BankPaymentName"></td></tr>');
+		$("#status").html('<tr><td>Bank Payment Number: </td><td> <input  name = "BankPaymentNumber" id="BankPaymentNumber"></td></tr>');
+		$("#status").html('<tr><td>Bank Payment Account Number: </td><td> <input  name = "BankPaymentAcctNumber" id="BankPaymentAcctNumber"></td></tr>');
+		$("#status").html('<tr><td>PaymentID: </td><td> <input  name = "PaymentID" id="PaymentID"></td></tr>');	
+	}*/
   }
 </script>
 
 <script type="text/javascript">
-function getSelectedValue() {
-    var index = document.getElementById('PaymentMethod').selectedIndex;
-    alert("value="+document.getElementById('PaymentMethod').value);
-    alert("text="+document.getElementById('PaymentMethod').options[index].text);
-}
 
   document.getElementById('date').value = Date();
 </script>
