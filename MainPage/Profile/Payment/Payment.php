@@ -109,7 +109,7 @@ echo "</td></tr>";
 				}
 			echo "</select></td></tr>";
 			?>
-            <tr><td><input type="submit" value="Subtmit" name="submit"></td></tr>
+            <tr><td><input type="submit" value="Make Payment" name="submit"></td></tr>
             
 </table></form></div><br><hr><br>	
             
@@ -149,15 +149,16 @@ echo "</td></tr>";
 			// Needs a select from the previous page => payment
 			echo '<tr><td>PaymentID: </td><td> <input  name = "PaymentID" id="PaymentID"></td></tr>';
 		}
+		
+		echo "<tr><td colspan='2' align='center'><br>";
+  		echo '<input class="button" type="submit" value="Finish" name="Finish" id="button">';
+  		echo '<input class="button" type="button" value="Cancel" name="Cancel" onClick="history.go(-1);return true;">';
+  
+  		echo "<div></td></tr>";
+  
+  		echo "</table></form></div><br><hr><br>";
 	}
 	?>
-                <tr><td colspan='2' align='center'><br>
-  <input class="button" type="submit" value="Finish" name="Finish" id="button">
-  <input class="button" type="button" value="Cancel" onClick="history.go(-2);return true;">
-  
-  <div></td></tr>
-  
-  </table></form></div><br><hr><br>
             
  <?php
 	$conn->close();
