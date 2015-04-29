@@ -22,7 +22,7 @@
 		if(!$resumeId)
 		{
 		header("HTTP/1.0 500 Fatal Error");
-		echo "Could not create new resume entry";
+		echo "Could not create new resume entry...error: " .$conn->error;
 		exit();
 		}
 		echo $resumeId;
