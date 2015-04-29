@@ -15,7 +15,16 @@
         die("Connection failed: " . $conn->connect_error);
     } else {
 		//add resume
-	    $conn->query($sql);
+			$result = $conn->query($sql);
+			
+			if(!$result)
+		{
+		header("HTTP/1.0 500 Fatal Error");
+		echo "error: " .$conn->error;
+		exit();
+		}
+		
+		
 		//link to user
 		$resumeId = $conn->query("select LAST_INSERT_ID() as a;")->fetch_object()->a;	
 
