@@ -44,7 +44,14 @@ function report2(){
 
 function report3(){
 	
-	alert("TODO report 3");
+	var filter = document.getElementById('report3').value;
+	if(filter==""){
+	alert('please input a company\'s name');
+	}
+	
+	var sql = "select  JobTitle, JobID, JobListDate , JobFillStatus FROM job "+
+ "where CompanyName = '"+filter+"' order by JobTitle";
+			display(sql);
 }
 function report4(){
 	
@@ -174,7 +181,9 @@ if(!isset($_SESSION['login_user'])){
 		echo "Last Name: <input id='report2' type='text'/>";
 		echo "<input type='submit' value='Go' onclick='report2()'><br><br>";
 		}elseif($selectedReport==3){
-		echo "1";
+		echo "Show Company's Postings<br><br>";
+		echo "Company Name: <input id='report3' type='text'/>";
+		echo "<input type='submit' value='Go' onclick='report3()'><br><br>";
 		}elseif($selectedReport==4){
 		echo "1";
 		}elseif($selectedReport==5){
