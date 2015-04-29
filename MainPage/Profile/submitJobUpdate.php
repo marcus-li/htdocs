@@ -2,6 +2,9 @@
 	include '../../dbscripts/credentials.php';
 	
 	if(isset($_POST['update'])){
+	
+	
+	
 			$sql = 
 				"UPDATE priorjobs SET 
 				PJCompanyName='".$_POST["company"]."',
@@ -46,6 +49,10 @@
 	{
 	session_start();
 	
+	
+		$end = $_POST["end"];
+		if($end == "") $end = "Current Employee";
+	
 	if(!$_POST["company"]=="") {
 	$sql = "INSERT INTO priorjobs (PJCompanyName, PJJobTitle, PJDuties, PJCity,PJState, PJStartDate,PJEndDate,UserId) VALUES(
 	'".$_POST["company"]."',
@@ -54,7 +61,7 @@
 	'".$_POST["city"]."', 
 	'".$_POST["state"]."',
 	'".$_POST["start"]."',
-	'".$_POST["end"]."',
+	'".$end."',
 	'".$_SESSION["login_user"]."');";
 	
 	

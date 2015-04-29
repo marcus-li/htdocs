@@ -78,7 +78,7 @@ if(!isset($_SESSION['login_user'])){
 	include '../../dbscripts/credentials.php';
 
 	$sql = "SELECT * FROM priorjobs WHERE UserID = '".  $_SESSION['login_user'].
-		"'  order by STR_TO_DATE(PJStartDate,'%d/%m/%Y') DESC ;";
+		"'  order by STR_TO_DATE(PJStartDate,'%m/%d/%Y') DESC ;";
 	
 	$result = NULL;
   
@@ -121,7 +121,74 @@ if(!isset($_SESSION['login_user'])){
 			
 			//PJState
 			echo "<tr><td>State: </td>";
-			echo '<td><input name="state" value = "'.$row["PJState"].'"> </input></td></tr>';
+			echo '<td><select name="state" > ';
+			
+		
+		
+			$states = array('AL'=>"Alabama",
+							'AK'=>"Alaska",
+							'AZ'=>"Arizona",
+							'AR'=>"Arkansas",
+							'CA'=>"California",
+							'CO'=>"Colorado",
+							'CT'=>"Connecticut",
+							'DE'=>"Delaware",
+							'DC'=>"District Of Columbia",
+							'FL'=>"Florida",
+							'GA'=>"Georgia",
+							'HI'=>"Hawaii",
+							'ID'=>"Idaho",
+							'IL'=>"Illinois",
+							'IN'=>"Indiana",
+							'IA'=>"Iowa",
+							'KS'=>"Kansas",
+							'KY'=>"Kentucky",
+							'LA'=>"Louisiana",
+							'ME'=>"Maine",
+							'MD'=>"Maryland",
+							'MA'=>"Massachusetts",
+							'MI'=>"Michigan",
+							'MN'=>"Minnesota",
+							'MS'=>"Mississippi",
+							'MO'=>"Missouri",
+							'MT'=>"Montana",
+							'NE'=>"Nebraska",
+							'NV'=>"Nevada",
+							'NH'=>"New Hampshire",
+							'NJ'=>"New Jersey",
+							'NM'=>"New Mexico",
+							'NY'=>"New York",
+							'NC'=>"North Carolina",
+							'ND'=>"North Dakota",
+							'OH'=>"Ohio",
+							'OK'=>"Oklahoma",
+							'OR'=>"Oregon",
+							'PA'=>"Pennsylvania",
+							'RI'=>"Rhode Island",
+							'SC'=>"South Carolina",
+							'SD'=>"South Dakota",
+							'TN'=>"Tennessee",
+							'TX'=>"Texas",
+							'UT'=>"Utah",
+							'VT'=>"Vermont",
+							'VA'=>"Virginia",
+							'WA'=>"Washington",
+							'WV'=>"West Virginia",
+							'WI'=>"Wisconsin",
+							'WY'=>"Wyoming");
+		
+
+      foreach($states as $key=>$value) { 
+			if($row["PJState"]==$value){
+			 echo  '<option value="'.$value.'" selected>'.$value .'</option>';
+			}else{
+			echo  '<option value="'.$value.'">'.$value .'</option>';
+			}
+        } 
+  echo '  </select></td></tr>';
+			
+			
+			
 			
 			//start date PJStartDate
 			echo "<tr><td>Estimated Start Date: </td><td>";   
@@ -142,22 +209,84 @@ if(!isset($_SESSION['login_user'])){
 ?>
 <h3 class = "contentHeader">Add New Work Experience:</h3><br>
 <!-- Add new work experience -->
-			<div style='padding-left:50px; padding-right:100px;'><form method ='post' action='submitJobUpdate.php'>
+			<div style='padding-left:50px; padding-right:100px;'><form method ='post' action='submitJobUpdate.php' onsubmit=" return check()">
 			<table border='0'>
 			<tr>
-			<td>Company/Organization: </td><td><input name="company"> </input></td>
+			<td>Company/Organization: </td><td><input id = "company" name="company"> </input></td>
 			</tr><tr>
-			<td>Position:</td> <td><input name = 'position'></td>
+			<td>Position:</td> <td><input id = "position" name = 'position'></td>
 			</tr><tr>
 			<td>Duties:</td><td> <textarea name = 'duties' > </textarea></td>
 			</tr><tr>
 			<td>City:</td> <td><input name = 'city'></td>
+			</tr><tr><td>State:</td><td>
+			<?php
+			function statesList() {
+				$states = array('AL'=>"Alabama",
+								'AK'=>"Alaska",
+								'AZ'=>"Arizona",
+								'AR'=>"Arkansas",
+								'CA'=>"California",
+								'CO'=>"Colorado",
+								'CT'=>"Connecticut",
+								'DE'=>"Delaware",
+								'DC'=>"District Of Columbia",
+								'FL'=>"Florida",
+								'GA'=>"Georgia",
+								'HI'=>"Hawaii",
+								'ID'=>"Idaho",
+								'IL'=>"Illinois",
+								'IN'=>"Indiana",
+								'IA'=>"Iowa",
+								'KS'=>"Kansas",
+								'KY'=>"Kentucky",
+								'LA'=>"Louisiana",
+								'ME'=>"Maine",
+								'MD'=>"Maryland",
+								'MA'=>"Massachusetts",
+								'MI'=>"Michigan",
+								'MN'=>"Minnesota",
+								'MS'=>"Mississippi",
+								'MO'=>"Missouri",
+								'MT'=>"Montana",
+								'NE'=>"Nebraska",
+								'NV'=>"Nevada",
+								'NH'=>"New Hampshire",
+								'NJ'=>"New Jersey",
+								'NM'=>"New Mexico",
+								'NY'=>"New York",
+								'NC'=>"North Carolina",
+								'ND'=>"North Dakota",
+								'OH'=>"Ohio",
+								'OK'=>"Oklahoma",
+								'OR'=>"Oregon",
+								'PA'=>"Pennsylvania",
+								'RI'=>"Rhode Island",
+								'SC'=>"South Carolina",
+								'SD'=>"South Dakota",
+								'TN'=>"Tennessee",
+								'TX'=>"Texas",
+								'UT'=>"Utah",
+								'VT'=>"Vermont",
+								'VA'=>"Virginia",
+								'WA'=>"Washington",
+								'WV'=>"West Virginia",
+								'WI'=>"Wisconsin",
+								'WY'=>"Wyoming");
+				return $states;
+		}
+
+		$states = statesList();
+		?>
+ <select name="state" >
+        <?php foreach($states as $key=>$value) { ?>
+            <option value="<?php echo $value; ?>"><?php echo $value; ?></option>
+        <?php } ?>
+    </select></td>
 			</tr><tr>
-			<td>State:</td> <td><input name = 'state'></td>
+			<td>Estimated Start Date: </td><td> <input name = "start" id = "startDate" class = "datepicker" readonly> </input></td>
 			</tr><tr>
-			<td>Estimated Start Date: </td><td> <input name = "start" class = "datepicker" readonly> </input></td>
-			</tr><tr>
-			<td>Estimated End Date: </td><td> <input name = "end" class = "datepicker"  readonly> </input></td>
+			<td>Estimated End Date: </td><td> <input name = "end" class = "datepicker"  readonly> </input></td><td> (leave blank if current employee)</td>
 			</tr><tr>
 			<td colspan='2' align='center'><br><input  type='submit' name = 'add' value = 'Submit Experience'></td></tr>
 			</table></form></div><br><hr><br>	
@@ -178,6 +307,7 @@ if(!isset($_SESSION['login_user'])){
 </body>
 
 <script language = "javascript">
+
 //date picker to choose start date and end dates
 $( ".datepicker" ).datepicker({
       changeMonth: true,
@@ -194,5 +324,30 @@ $( "#dialog-link, #icons li" ).hover(
 		$( this ).removeClass( "ui-state-hover" );
 	}
 );
+
+
+
+function check(){
+
+if(document.getElementById("company").value == ""){
+	alert("please enter the company name");
+	return false;
+}
+
+
+if(document.getElementById("position").value == ""){
+	alert("please enter the position");
+	return false;
+}
+if(document.getElementById("startDate").value == ""){
+	alert("please enter the starting date for the position");
+	return false;
+}
+
+
+
+
+return true;
+}
 </script>
 </html>
