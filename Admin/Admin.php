@@ -101,7 +101,9 @@ if(!isset($_SESSION['login_user'])){
 		}elseif($selectedReport==5){
 		echo "1";
 		}elseif($selectedReport==6){
-		echo "1";
+		echo "Select based on jobid<br><br>";
+		echo "Last Name: <input id='job' type='text'/>";
+		echo "<input type='submit' value='Go' onclick='report6()'>";
 		}elseif($selectedReport==7){
 		echo "1";
 		}elseif($selectedReport==8){
@@ -124,7 +126,47 @@ function report2(){
 	if(filter==""){
 	alert('please input a last name');
 	}
-	$sql = "SELECT 
+	alert("TODO");
+}
+
+function report3(){
+	
+	alert("TODO report 3");
+}
+function report4(){
+	
+	alert("TODO report 4");
+}
+function report5(){
+	
+	alert("TODO report 5");
+}
+function report6(){
+	
+	alert("TODO report 6");
+	
+	//TODO: get jobid
+	var sql = "SELECT UserFirstName, UserLastName, UserStreet1, UserStreet2, UserEmail FROM uconnjobsearch.user u INNER join  seeker s ON(u.Username = s.Username) WHERE jobID = ''" ;
+}
+function report7(){
+
+	alert("TODO report 7");
+}
+function report8(){
+
+	alert("TODO report 8");
+}
+
+function report9(){
+
+	alert("TODO report 9");
+}
+
+
+
+function report10(){
+
+	alert("TODO report 10");
 }
 </script>
 </html>
