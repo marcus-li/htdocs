@@ -78,7 +78,7 @@ if(!isset($_SESSION['login_user'])){
 	include '../../dbscripts/credentials.php';
 
 	$sql = "SELECT * FROM priorjobs WHERE UserID = '".  $_SESSION['login_user'].
-		"' ;";
+		"'  order by STR_TO_DATE(PJStartDate,'%d/%m/%Y') DESC ;";
 	
 	$result = NULL;
   
