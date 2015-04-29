@@ -8,7 +8,10 @@ if(!isset($_POST['sql']))
 	include '../dbscripts/credentials.php';
 	$conn = new mysqli($address, $username, $password, $database);
 	$sql = $_POST['sql'];
-	$result = $conn->query($sql);
+	if(!$result = $conn->query($sql)){
+		echo $conn->error;
+		exit;
+	}
 	$fieldsArr = $result->fetch_fields();
 	echo "<div style='overflow:scroll;'><table border =2><tr>";
 	foreach ($fieldsArr as $colName) {
