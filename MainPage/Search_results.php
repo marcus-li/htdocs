@@ -136,6 +136,8 @@ if(!isset($_SESSION['login_user'])){
 					echo "<td>" . $row["JobState"] . "</td>";
 					echo "<td>" . $row["JobCity"] . "</td>";
 				echo "</tr>";
+				
+				
 			  
 			   
 			   }
