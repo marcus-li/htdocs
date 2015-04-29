@@ -16,9 +16,15 @@
     } else {
 		//add resume
 	    $conn->query($sql);
-		
 		//link to user
-		$resumeId = $conn->query("select LAST_INSERT_ID() as a;")->fetch_object()->a;		
+		$resumeId = $conn->query("select LAST_INSERT_ID() as a;")->fetch_object()->a;	
+
+		if(!$resumeId)
+		{
+		header("HTTP/1.0 500 Fatal Error");
+		echo "Could not create new resume entry";
+		exit();
+		}
 		echo $resumeId;
 		$conn->close();
     }?>

@@ -60,7 +60,12 @@ Upload or modify a resume submission:<br>
 <form method="post" action="<?php $_PHP_SELF ?>" name="send">
 	<?php
 	include '../../dbscripts/credentials.php';
-
+	if(isset($_SESSION['error'])){
+	
+		echo $_SESSION['error']."<br><br>";
+	}
+	
+	
 	$sql = "SELECT * FROM resume WHERE SeekerId = '".  $_SESSION['login_user'].
 		"'";
 	
@@ -426,7 +431,10 @@ function sendNewResume() {
 	  $.ajax({
 			type : "POST",
 			url : "dbAddResumeGetID.php",	
-			success: updateNewResume
+			success: updateNewResume,
+			error: function(xhr, status, error) {
+  alert(xhr.responseText);
+}
 		});  
 }
 

@@ -1,4 +1,5 @@
 <?php
+session_start();
 	include '../../dbscripts/credentials.php';
 		if(!isset($_FILES["file"])){
 	echo var_dump($_POST);
@@ -20,12 +21,6 @@
 	if(!get_magic_quotes_gpc()){
 		$fileName = addslashes($fileName);
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -53,7 +48,7 @@
 	
 	    //$conn->query($sql);
 		$conn->close();
-		echo "filename ".$fileName.";  resumeid:".$_POST["resumeID"];
+		$_SESSION['error'] = "filename ".$fileName.";  resumeid:".$_POST["resumeID"];
     }?>
 	
 	
