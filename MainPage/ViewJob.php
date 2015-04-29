@@ -2,6 +2,7 @@
  <!doctype html>
 <html>
 <head>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>	
 <?php session_start();
 if(!isset($_SESSION['login_user'])){
 	
@@ -145,7 +146,16 @@ function go(jobID){
 if (!window.confirm('Please confirm that you would like to apply to this job with the selected resume profile')) {
         return;
     }
-	alert("TODO: Create php file to create application    " + jobID + " " + document.getElementById("resumelist").id);
+	$.ajax({
+    type : "POST",
+    url : "apply.php",
+	dataType:"text",
+	data: {resumeid :document.getElementById("resumelist").value,
+	jobid: jobID},		
+	success:function(data){
+		alert(data);
+	}
+		});
 }
 </script>
 
