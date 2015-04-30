@@ -82,14 +82,23 @@ function report5(){
 }
 function report6(){
 	
-	alert("TODO report 6");
+	var jobid = document.getElementById('job').value;
 	
-	//TODO: get jobid
-	var sql = "SELECT UserFirstName, UserLastName, UserStreet1, UserStreet2, UserEmail FROM uconnjobsearch.user u INNER join  seeker s ON(u.Username = s.Username) WHERE jobID = ''" ;
+	var sql = "SELECT UserFirstName, UserLastName, UserStreet1, UserStreet2, UserEmail FROM user, applies WHERE user.UserName = applies.seekerUserName and applies.job_jobID = "+jobid ;
+	display(sql);
+	
 }
 function report7(){
 
-	alert("TODO report 7");
+	
+	var edu = document.getElementById('edu').value;
+	if(edu==''){
+	alert('please fill in a school');
+	return;
+	}
+	var sql = "SELECT UserFirstName, UserLastName, UserStreet1, UserStreet2, UserEmail  FROM uconnjobsearch.user u INNER join  education s ON(u.UserName = s.UserID) WHERE EducationUniversity = '" + edu + "' AND EducationDegreeType = 'bachelors'";
+	display(sql);
+	
 }
 function report8(){
 
@@ -208,10 +217,12 @@ if(!isset($_SESSION['login_user'])){
 		
 		}elseif($selectedReport==6){
 			echo "Select based on jobid<br><br>";
-			echo "Last Name: <input id='job' type='text'/>";
+			echo "JobId: <input id='job' type='text'/>";
 			echo "<input type='submit' value='Go' onclick='report6()'>";
 		}elseif($selectedReport==7){
-			echo "1";
+			echo "Find bachelors degree holders from given university: <br><br>";
+			echo "School:<input id='edu' type='text'/>   ";
+			echo "<input type='submit' value='Go' onclick='report7()'>";
 		}elseif($selectedReport==8){
 			echo "1";
 		}elseif($selectedReport==9){
