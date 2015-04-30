@@ -51,52 +51,10 @@ if(!isset($_SESSION['login_user'])){
     
 <?php
 	include '../dbscripts/credentials.php';
-	
-	
-	$whereClause = "WHERE ";
-	$hasWhere =false;
-	if(($_POST["company"])!= ''){
-	$whereClause .= " CompanyName  LIKE '%". $_POST["company"]."%'";
-	$hasWhere=true;
-	}
-	if(isset($_POST["salary"]))
-	{
-		if($hasWhere==true)
-			{
-				$whereClause .= " AND ";
-			}
-		$whereClause .= "JobHighRange >= " .$_POST["salary"];
-			$hasWhere=true;
-	}
-	
-	if($_POST["jobname"]!='')
-	{
-		if($hasWhere==true)
-			{
-				$whereClause .= " AND ";
-			}
-		$whereClause .= "JobTitle LIKE '%".$_POST["jobname"] ."%'";
-			$hasWhere=true;
-	}
-	
-		if($_POST["state"]!="Any")
-	{
-		if($hasWhere==true)
-			{
-				$whereClause .= " AND ";
-			}
-		$whereClause .= "JobState = '".$_POST["state"] ."'";
-			$hasWhere=true;
-	}
-	
-	
-	
-	
-	$sql = "SELECT * FROM job ".$whereClause;
-	
-	
+	$sql = "SELECT * FROM applies ";
 	$result = NULL;
     
+	
 	// Create connection
     $conn = new mysqli($address, $username, $password, $database);
 	// Check connection	
@@ -132,20 +90,8 @@ if(!isset($_SESSION['login_user'])){
 			   
 			   }
 			   
-			   /*
-			   
-			   
-			   $array[] = $row;
-		
-		
-			$arr = json_decode(json_encode($array), true); //i prefer associative array in this context
 
-			echo "<table>";
-			foreach($array as $k=>$v)
-				echo "<tr><td>$k</td><td>$v</td></tr>";
-			echo "</table>";*/
 		}
-		//echo $sql;
 		$conn->close();
     }
 	
