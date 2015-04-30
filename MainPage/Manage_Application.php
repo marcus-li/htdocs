@@ -1,7 +1,28 @@
  <!doctype html>
 <html>
 <head>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+ 
+ <script langauge="javascript">
+	function go(appId){
+		 
+		$.ajax({
+			type : 'POST',
+			url : 'Manage_Application.php',
+			data: {cancelId :appId},
+			success:function(data){
+				window.location.href = window.location.protocol +'//'+ window.location.host + window.location.pathname;
+			}
+			});
+		
+	}
+	
+	
+	
+ </script>
 <?php session_start();
+include '../dbscripts/credentials.php';
 if(!isset($_SESSION['login_user'])){
 	
 	//in case of using back in browser after logging out
@@ -15,6 +36,19 @@ if(!isset($_SESSION['login_user'])){
 			exit;
 	};
 
+if(isset($_POST['cancelId'])){
+
+		$sql = "Delete from applies where applicationid = " .$_POST['cancelId'];
+		 $conn = new mysqli($address, $username, $password, $database);
+		  $result = $conn->query($sql);
+		if (!$result) {
+		    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+		} else{
+			exit;
+		}
+}	
+	
+	
 ?>
 <meta charset="utf-8">
 <title>Manage Applications</title>
@@ -57,9 +91,9 @@ if(!isset($_SESSION['login_user'])){
 
 
 <?php
-
-	include '../dbscripts/credentials.php';
-	$sql = "SELECT * FROM applies ";
+	
+	
+	$sql = "SELECT  jobid as id, JobTitle,CompanyName, JobFillStatus, ApplicationDate , ApplicationID FROM uconnjobsearch.applies, job where  SeekerUserName = '".$_SESSION['login_user']."' and applies.Job_JobID = job.JobID order by JobFillStatus ASC  ;";
 	
 	
 	$result = NULL;
@@ -73,30 +107,25 @@ if(!isset($_SESSION['login_user'])){
     } else {
 	    $result = $conn->query($sql);
 		if (!$result) {
-		    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+		    echo $conn->error;
 		} else {
 		
-		  $array = array();	
 		  
 		  echo "<table border='2' cellpadding='2' cellspacing='2'";
-			echo "<tr><td></td><td>Job Title</td><td>Salary Range</td>
-					<td>Company</td><td>State</td><td>City</td>";
+			echo "<tr><td></td><td>Job Title</td><td>Company</td><td>Filled</td><td>Date Applied</td>
+					";
 			
 			   while($row = $result->fetch_assoc()) 
 			   {
 			   
 			   echo "<tr>";
-					echo "<td><input type ='submit' value = 'view job' onClick='go(".$row["JobID"].")'/></td>";
-					echo "<td>" . $row["JobTitle"] . "</td>";
-					echo "<td>$" . $row["JobJLowRange"] ."-$".$row["JobHighRange"] . "</td>";
+					echo "<td><input type ='submit' value = 'cancel application' onClick='go(".$row["ApplicationID"].")'/></td>";
+					echo "<td><a href='viewJob.php?jobid=".$row["id"]."'>" . $row["JobTitle"] . "</a></td>";
 					echo "<td>" . $row["CompanyName"] . "</td>";
-					echo "<td>" . $row["JobState"] . "</td>";
-					echo "<td>" . $row["JobCity"] . "</td>";
+					echo "<td>" . $row["JobFillStatus"] . "</td>";
+					echo "<td>" . $row["ApplicationDate"] . "</td>";
 				echo "</tr>";
 				
-				
-			  
-			   
 			   }
 			   
 			   /*
