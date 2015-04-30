@@ -60,10 +60,7 @@ Upload or modify a resume submission:<br>
 <form method="post" action="<?php $_PHP_SELF ?>" name="send">
 	<?php
 	include '../../dbscripts/credentials.php';
-	if(isset($_SESSION['error'])){
-	
-		echo $_SESSION['error']."<br><br>";
-	}
+
 	
 	
 	$sql = "SELECT * FROM resume WHERE SeekerId = '".  $_SESSION['login_user'].

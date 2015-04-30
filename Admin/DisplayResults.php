@@ -13,7 +13,7 @@ if(!isset($_POST['sql']))
 		exit;
 	}
 	$fieldsArr = $result->fetch_fields();
-	echo "<div style='overflow:scroll;'><table border =2><tr>";
+	echo "<div style='overflow:auto;'><table border =2><tr>";
 	foreach ($fieldsArr as $colName) {
 		echo "<td>".$colName->name."</td>";
 	}
