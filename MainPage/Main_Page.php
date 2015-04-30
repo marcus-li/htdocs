@@ -55,7 +55,7 @@ if(!isset($_SESSION['login_user'])){
 	
 	$whereClause = "WHERE ";
 	$hasWhere =false;
-	if(($_POST["company"])!=''){
+	if(($_POST["company"])!= ''){
 	$whereClause .= " CompanyName  LIKE '%". $_POST["company"]."%'";
 	$hasWhere=true;
 	}
