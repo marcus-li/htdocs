@@ -50,27 +50,33 @@
 			}
 	
 	}
-	elseif(isset($_POST['add']))
+	elseif(isset($_POST['post']))
 	{
+		//JobDegreeTypes, JobDegreeAreas,
 	session_start();
-	$sql = "INSERT INTO job (JobListDate, JobTitle, JobCity, JobState, JobZip, JobDuties, JobYRSExperience, JobDegreeTypes, JobDegreeAreas, JobJLowRange, JobHighRange, JobFillStatus, PosterUserName, CompanyName, JobDescription) VALUES
+	$sql = "INSERT INTO job (JobTitle, JobCity, JobState, JobZip, JobDuties, JobYRSExperience, JobJLowRange, JobHighRange, JobFillStatus, PosterUserName, CompanyName, jobDescription) VALUES
     (
-	'".$_POST["JobListDate"]."',
 	'".$_POST["JobTitle"]."',
 	'".$_POST["JobCity"]."', 
 	'".$_POST["JobState"]."', 
 	'".$_POST["JobZip"]."',
 	'".$_POST["JobDuties"]."',
 	'".$_POST["JobYRSExperience"]."',
-	'".$_POST["JobDegreeTypes"]."',
-	'".$_POST["JobDegreeAreas"]."', 
 	'".$_POST["JobJLowRange"]."',
 	'".$_POST["JobHighRange"]."', 
 	'".$_POST["JobFillStatus"]."',
-	'".$_SESSION["login_user"]."',
+	'".$_POST["PosterUserName"]."',
 	'".$_POST["CompanyName"]."',
-	'".$_POST["JobDescription"]."'
+	'".$_POST["jobDescription"]."'
 	);";
+	
+	//INSERT INTO `uconnjobsearch`.`job` (`JobTitle`, `JobCity`, `JobState`, `JobZip`, `JobDuties`, `JobYRSExperience`, `JobJLowRange`, `JobHighRange`, `JobFillStatus`, `PosterUserName`, `CompanyName`, `jobDescription`) VALUES ('Drawer', 'storr', 'CT', '06269', 'Draw', '4', '2500', '25000', 'No', 'bob', 'Georgia Institute of Technology', 'Draw');
+	
+	//'".$_POST["JobDegreeTypes"]."',
+	//'".$_POST["JobDegreeAreas"]."', 
+	//'".$_SESSION["login_user"]."',
+	//'".$_POST["CompanyName"]."',
+
 	
 	
 			$result = NULL;
@@ -84,15 +90,9 @@
 				$conn->multi_query($sql);
 				$conn->close();
 			}
-	
-	
-	
 	}else{
 	echo "db error";
 	}
 	
 	header("Location:Payment/Payment.php");
-	
-	
-
     ?>
