@@ -59,7 +59,26 @@ function report4(){
 }
 function report5(){
 	
-	alert("TODO report 5");
+/*When given a salary value and a job title, display all of the jobs including: company name, job id, job list date, and salary.*/
+	
+	var lowinput = document.getElementById('salary').value;
+	if(!$.isNumeric(lowinput))
+	{
+		alert('please enter minimum salary requirement in USD');
+		return;
+	}
+	
+	
+	
+	var jobposition = document.getElementById('jobtitle').value;
+	if(jobposition=="")
+	{
+		alert('please enter a position');
+		return;
+	}
+	var sql = "SELECT CompanyName, JobID, JobListDate, JobJLowRange, JobHighRange FROM job where JobJLowRange>" + lowinput + 
+	" and JobTitle = '" + jobposition+"'";
+	display(sql);
 }
 function report6(){
 	
@@ -89,12 +108,6 @@ function report10(){
 	alert("TODO report 10");
 }
 </script>
- 
- 
- 
- 
- 
- 
  
  
  
@@ -177,29 +190,34 @@ if(!isset($_SESSION['login_user'])){
 			</script>
 		";
 		}elseif($selectedReport==2){
-		echo "Show applications by last name<br><br>";
-		echo "Last Name: <input id='report2' type='text'/>";
-		echo "<input type='submit' value='Go' onclick='report2()'><br><br>";
+			echo "Show applications by last name<br><br>";
+			echo "Last Name: <input id='report2' type='text'/>";
+			echo "<input type='submit' value='Go' onclick='report2()'><br><br>";
 		}elseif($selectedReport==3){
-		echo "Show Company's Postings<br><br>";
-		echo "Company Name: <input id='report3' type='text'/>";
-		echo "<input type='submit' value='Go' onclick='report3()'><br><br>";
+			echo "Show Company's Postings<br><br>";
+			echo "Company Name: <input id='report3' type='text'/>";
+			echo "<input type='submit' value='Go' onclick='report3()'><br><br>";
 		}elseif($selectedReport==4){
-		echo "1";
-		}elseif($selectedReport==5){
-		echo "1";
+			echo "TODO";
+		}elseif($selectedReport==5)
+		{
+			echo "Find job positions with at least the given salary: <br><br>";
+			echo "Min Salary: $<input id='salary' type='text'/>   ";
+			echo "Job Position: <input id='jobtitle' type='text'/><br>";
+			echo "<input type='submit' value='Go' onclick='report5()'>";
+		
 		}elseif($selectedReport==6){
-		echo "Select based on jobid<br><br>";
-		echo "Last Name: <input id='job' type='text'/>";
-		echo "<input type='submit' value='Go' onclick='report6()'>";
+			echo "Select based on jobid<br><br>";
+			echo "Last Name: <input id='job' type='text'/>";
+			echo "<input type='submit' value='Go' onclick='report6()'>";
 		}elseif($selectedReport==7){
-		echo "1";
+			echo "1";
 		}elseif($selectedReport==8){
-		echo "1";
+			echo "1";
 		}elseif($selectedReport==9){
-		echo "1";
+			echo "1";
 		}elseif($selectedReport==10){
-		echo "1";
+			echo "1";
 		}
 	}
 ?>

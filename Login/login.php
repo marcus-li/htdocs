@@ -26,6 +26,9 @@ $rows = mysql_num_rows($query);
 if ($rows == 1) {
 $_SESSION['login_user']=$UserName; // Initializing Session
 
+	//TODO: figure out if poster, seeker, admin
+	//change header location based on that
+
 
 if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
 		$uri = 'https://';
