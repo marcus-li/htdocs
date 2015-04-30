@@ -70,6 +70,7 @@
 	'".$_POST["jobDescription"]."'
 	);";
 	
+<<<<<<< HEAD
 	//INSERT INTO `uconnjobsearch`.`job` (`JobTitle`, `JobCity`, `JobState`, `JobZip`, `JobDuties`, `JobYRSExperience`, `JobJLowRange`, `JobHighRange`, `JobFillStatus`, `PosterUserName`, `CompanyName`, `jobDescription`) VALUES ('Drawer', 'storr', 'CT', '06269', 'Draw', '4', '2500', '25000', 'No', 'bob', 'Georgia Institute of Technology', 'Draw');
 	
 	//'".$_POST["JobDegreeTypes"]."',
@@ -80,6 +81,8 @@
 	
 	
 			$result = NULL;
+=======
+>>>>>>> c8fa6baf242e76bf2543510053567e52d59a04bc
 		  
 			// Create connection
 			$conn = new mysqli($address, $username, $password, $database);
@@ -87,7 +90,12 @@
 			 if ($conn->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			} else {
-				$conn->multi_query($sql);
+				$result = $conn->multi_query($sql);
+				if(!$result){
+				header("HTTP/1.0 500 Fatal Error");
+				echo "error: " .$conn->error. "<br>".$_POST["CompanyName"];
+				exit();
+				}
 				$conn->close();
 			}
 	}else{
