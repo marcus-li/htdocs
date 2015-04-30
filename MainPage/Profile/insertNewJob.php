@@ -72,8 +72,6 @@
 	'".$_POST["JobDescription"]."'
 	);";
 	
-	
-			$result = NULL;
 		  
 			// Create connection
 			$conn = new mysqli($address, $username, $password, $database);
@@ -81,7 +79,12 @@
 			 if ($conn->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			} else {
-				$conn->multi_query($sql);
+				$result = $conn->multi_query($sql);
+				if(!$result){
+				header("HTTP/1.0 500 Fatal Error");
+				echo "error: " .$conn->error. "<br>".$_POST["CompanyName"];
+				exit();
+				}
 				$conn->close();
 			}
 	

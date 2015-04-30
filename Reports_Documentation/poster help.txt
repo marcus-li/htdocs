@@ -1,0 +1,8 @@
+multi valued select: may need to use [] for html name
+
+http://stackoverflow.com/questions/11616659/post-values-from-a-multiple-select
+
+----------------------------------------------
+jdegreeareas and jdegreetypes should be removed from job
+(they go in separate table with job as one key, value as the other)
+

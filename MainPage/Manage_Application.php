@@ -17,7 +17,7 @@ if(!isset($_SESSION['login_user'])){
 
 ?>
 <meta charset="utf-8">
-<title>Manage Application</title>
+<title>Manage Applications</title>
 <meta name="keywords" content="Manage Application">
 <link href="stylesheet_main.css" rel="stylesheet" type="text/css" >
 </head>
@@ -51,6 +51,88 @@ if(!isset($_SESSION['login_user'])){
 </div>
 <!-- sidebar -->
 </header>
+
+<div class = "content" > 
+<div style ="padding-top:80px; padding-left:80px;">
+
+
+<?php
+
+	include '../dbscripts/credentials.php';
+	$sql = "SELECT * FROM applies ";
+	
+	
+	$result = NULL;
+    
+	// Create connection
+    $conn = new mysqli($address, $username, $password, $database);
+	// Check connection	
+	
+	 if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } else {
+	    $result = $conn->query($sql);
+		if (!$result) {
+		    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+		} else {
+		
+		  $array = array();	
+		  
+		  echo "<table border='2' cellpadding='2' cellspacing='2'";
+			echo "<tr><td></td><td>Job Title</td><td>Salary Range</td>
+					<td>Company</td><td>State</td><td>City</td>";
+			
+			   while($row = $result->fetch_assoc()) 
+			   {
+			   
+			   echo "<tr>";
+					echo "<td><input type ='submit' value = 'view job' onClick='go(".$row["JobID"].")'/></td>";
+					echo "<td>" . $row["JobTitle"] . "</td>";
+					echo "<td>$" . $row["JobJLowRange"] ."-$".$row["JobHighRange"] . "</td>";
+					echo "<td>" . $row["CompanyName"] . "</td>";
+					echo "<td>" . $row["JobState"] . "</td>";
+					echo "<td>" . $row["JobCity"] . "</td>";
+				echo "</tr>";
+				
+				
+			  
+			   
+			   }
+			   
+			   /*
+			   
+			   
+			   $array[] = $row;
+		
+		
+			$arr = json_decode(json_encode($array), true); //i prefer associative array in this context
+
+			echo "<table>";
+			foreach($array as $k=>$v)
+				echo "<tr><td>$k</td><td>$v</td></tr>";
+			echo "</table>";*/
+		}
+		//echo $sql;
+		$conn->close();
+    }
+	
+	
+	
+	
+		
+		
+?> 
+
+
+
+
+
+
+
+
+
+</div>
+</div>
 
 </body>
 </html>
