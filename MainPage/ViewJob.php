@@ -42,7 +42,7 @@ if(!isset($_SESSION['login_user'])){
   <div class="navbutton">
     <nav>
       <a class="side_button_select" href="Main_Page.php">Main Page</a>
-      <a class="side_button">Search</a>
+      <a class="side_button" href = "search.php">Search</a>
       <a class="side_button_select" href="Manage_Application.php">Manage Applications</a>
     </nav>
   </div>
@@ -61,7 +61,7 @@ if(!isset($_SESSION['login_user'])){
 	include '../dbscripts/credentials.php';
 	parse_str($_SERVER['QUERY_STRING'], $params);
 	//echo $params['jobid'];
-	$query = "Select * from job where jobid = ".$params['jobid'];
+	$query = "Select * from job,company where company.companyname = job.CompanyName and jobid = ".$params['jobid'];
 	 $conn = new mysqli($address, $username, $password, $database);
 	 
 	 if ($conn->connect_error) {
@@ -91,13 +91,100 @@ if(!isset($_SESSION['login_user'])){
 			
 			echo "<tr><td>Job Listed On: </td><td>".$row["JobListDate"]."</td></tr>";
 			
+		
+			//company phone
+			
+			echo "<tr><td>Company Phone Number: </td><td>".$row["CompanyPhone"]."</td></tr>";
+			
+			//company fax
+			echo "<tr><td>Company Fax: </td><td>".$row["CompanyFax"]."</td></tr>";
+			
+			//company website
+			echo "<tr><td>Company Web Page: </td><td>".$row["CompanyHomePage"]."</td></tr>";
+			
+		
+			//degree types
+			echo "<tr><td>Accepted Degrees: </td><td>";
+			$acceptedTypes = $conn->query("select distinct JobDegreeType from jDegreeTypes where jobid = ".$params['jobid']);
+			//print each type
+			$rows = mysqli_fetch_all($acceptedTypes,MYSQLI_NUM);
+			$rows2 = null;
+			foreach($rows as $dat) $rows2[] = $dat[0];	
+			echo implode(", " , $rows2);
+			echo "</td></tr>";
+			
+			
+			
+			//degree areas
+			
+				echo "<tr><td>Requested Majors: </td><td>";
+			$acceptedTypes = $conn->query("select distinct JobDegreeArea from jDegreeareAs where jobid = ".$params['jobid']);
+			//print each type
+			$rows = mysqli_fetch_all($acceptedTypes,MYSQLI_NUM);
+			$rows2 = null;
+			foreach($rows as $dat) $rows2[] = $dat[0];	
+			echo implode(", " , $rows2);
+			echo "</td></tr>";
+			
+			
+			//skills required
+			
+			
+			
+			echo "<tr><td>Preferred Skills: </td><td>";
+			$acceptedTypes = $conn->query("SELECT skillName FROM jobskillrequirements, skills where skills.skillid = jobskillrequirements.skillid and jobid = ".$params['jobid']);
+			//print each type
+			$rows = mysqli_fetch_all($acceptedTypes,MYSQLI_NUM);
+			$rows2 = null;
+			foreach($rows as $dat) $rows2[] = $dat[0];	
+			echo implode(", " , $rows2);
+			echo "</td></tr>";
+			
+			
+			
+			
+			
+			//number of applicants
+			$numApplicants = null;
+			$numApplicants = $conn->query("select count(*) as 'a' from applies where job_jobid = ".$params['jobid']);
+			
+			echo "<tr><td>Number of Applicants: </td><td>".strval($numApplicants->fetch_assoc()['a']).$conn->error."</td></tr>";
+			
+			
+			$filled = $row["JobFillStatus"];
+			//fill status
+			echo "<tr><td>Position Filled: </td><td>".$row["JobFillStatus"]."</td></tr>";
 			
 			echo "</table>";
 			  
 			
+		if($filled =="No"){	
+		
+		
+		$iApplied = null;
+		$iApplied = $conn->query("select count(*) as 'a' from applies where job_jobid = ".$params['jobid']);
+		if(!$iApplied)
+		{
+			echo $conn->error;
+		}else{
+		
+			if($iApplied->fetch_assoc()['a']==1){
 			
+			echo "<br><br><b> Application Submitted.</b>";
+			exit;
 			
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
 			
+		//if the position is open and the user hasn't applied yet
 		$result = $conn->query("SELECT * FROM resume WHERE SeekerId = '".  $_SESSION['login_user'].
 		"'");
 		if (!$result) {
@@ -108,9 +195,6 @@ if(!isset($_SESSION['login_user'])){
 		
 		echo '<br><br><br><b> You may apply from this page once you have uploaded a resume to your profile. Click "Portfolio" in the navigation bar at the top to get started.</b>';
 		}
-
-
-
 		else {
 		
 		 
@@ -131,6 +215,10 @@ if(!isset($_SESSION['login_user'])){
 		  
 		  echo "<br><br><input type='submit' value='Apply' onclick='go(".$params['jobid'].")'>";
 		}
+		
+		
+		}
+		
 		$conn->close();
     }}
 	?>
