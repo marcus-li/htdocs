@@ -71,7 +71,7 @@ Create and Post new jobs. Exclusive option for Posters.
     <?php
 	include '../../dbscripts/credentials.php';
 
-	$sql = "SELECT * FROM company WHERE CompanyId = '12'";
+	$sql = "SELECT * FROM company WHERE CompanyId = '01'";
 	
 	$result = NULL;
 	// Create connection
@@ -153,16 +153,15 @@ Create and Post new jobs. Exclusive option for Posters.
 
 			<table border='0'><tr>
             
-            <?php $PosterUserName = $_SESSION['login_user'];?>
-            
-			<td>JobId: </td><td><input name="JobId" id="JobId"/></td></tr>
-			<td>Job List Date:</td> <td><input name = 'JobListDate' id="JobListDate"/></td></tr>		
+			<td>JobId: </td><td><input name="JobId" id="JobId" hidden/></td></tr>
+			<td>Job List Date:</td> <td><input name = 'JobListDate' id="JobListDate" hidden/></td></tr>		
 			<tr><td>Company Name: </td><td> <input  name = "CompanyName" id="CompanyName" value="<?php echo $info["CompanyName"];?>" readonly/></td></tr>
 			<tr><td>Job Title: </td><td> <input  name = "JobTitle" id="JobTitle"/></td></tr>
 			<tr><td>Job City: </td><td> <input  name = "JobCity" id="JobCity" value="<?php echo $info["CompanyCity"];?>"/></td></tr>
+            <tr><td>Job State: </td><td> <input  name = "JobState" id="JobState"/></td></tr>
             <tr><td>Job Zip: </td><td> <input  name = "JobZip" id="JobZip"/></td></tr>
             <tr><td>Job Duties: </td><td> <textarea  name = "JobDuties" id="JobDuties"></textarea></td></tr>
-            <tr><td>Job Description: </td><td> <textarea  name = "JobDescription" id="JobDescription"></textarea></td></tr>
+            <tr><td>Job Description: </td><td> <textarea  name = "jobDescription" id="JobDescription"></textarea></td></tr>
             <tr><td>Years of Experience: </td><td> <input  name = "JobYRSExperience" id="JobYRSExperience"/></td></tr>
             <tr><td>Degree Type:</td> <td><select multiple class="select" name = "JobDegreeType">
 			<?php
@@ -184,14 +183,17 @@ Create and Post new jobs. Exclusive option for Posters.
 			echo "</select></td></tr>";
 			?>
             
-            
             <tr><td>Job Low Range: </td><td> <input  name = "JobJLowRange" id="JobJLowRange"/></td></tr>
             <tr><td>Job High Range: </td><td> <input  name = "JobHighRange" id="JobHighRange"/></td></tr>
-            <tr><td>Job Fill Status: </td><td> <select  name = "JobFillStatus" id="JobFillStatus"><option value="Yes">Yes</option>
+            <tr><td>Job Fill Status: </td><td> <select  name = "JobFillStatus" id="JobFillStatus"><option value=" "></option>
             	<option value="No" selected>No</option>
+                <option value="Yes">Yes</option>
             </select></td></tr>
+                        
+            <!-- The user must be a poster in order to succeed -->
+            <input name="PosterUserName" id="PosterUserName" value="<?php echo $_SESSION['login_user'];?>" hidden/>
             
-            <tr><td colspan='2' align='center'><br><input  type='submit' name = 'add' value = 'Post'></td></tr>
+            <tr><td colspan='2' align='center'><br><input  type='submit' name = 'post' value = 'Post'></td></tr>
             
 </table></form></div><br><hr><br>	
             

@@ -67,13 +67,14 @@ if(!isset($_SESSION['login_user'])){
 <div class="content" id = "centered_inputs" align="center">
 <form method="post" action="search_results.php" name="send">
  <h2>Search Criteria:</h2><br>
-<table> 
+<table cellspacing = 2 cellpadding = 15> 
 <tr>
-<td>Company Name: </td><td>  <input type="text" name="company" size="20" id="company"></td>
+<td>Company Name(s): </td><td>  <input type="text" name="company" size="20" id="company"> *</td>
  </tr>
  <tr>
- <td>Minimum Salary:</td>
-   <td><select name="salary" id="salary">
+ <td>Salary Range: </td>
+   <td>Minimum not < than: <select name="salary" id="salary">
+   <option value = 0>any</option>
    <!-- loop to create salary list -->
     <?php 
 	for ($i = 1; $i <= 25; $i++) : 
@@ -82,11 +83,21 @@ if(!isset($_SESSION['login_user'])){
     endfor; 
 	?>
    </select>
+  <br><br>
+  Maximum not > than: <select name="salarymax" id="salarymax">
+   <!-- loop to create salary list -->
+   <option value =0>any</option>
+    <?php 
+	for ($i = 1; $i <= 25; $i++) : 
+		$j = $i*10000;
+       echo "<option value=".$j.">$".$j."</option>";
+    endfor; 
+	?>
+   </select>
   </td>
-  
   </tr>
-  <tr><td>Job Title：</td><td>
-  <input name="jobname" type="text" id="jobname">
+  <tr><td>Job Title(s)：</td><td>
+  <input name="jobname" type="text" id="jobname"> *
 </td></tr>
   <tr>
   <td>State：</td><td>
@@ -156,8 +167,8 @@ if(!isset($_SESSION['login_user'])){
         <?php } ?>
     </select>
 	</td></tr></table>
-  
-  <input class="button" type="submit" value="search" name="submitBtn" id="button">
+	<br><br>
+  <input class="button" type="submit" value="search" name="submitBtn" id="button"><br><br>*semicolon separated for multiple values
 </form>
 </div>
 <!-- end mli mods-->

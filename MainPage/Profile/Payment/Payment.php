@@ -56,7 +56,7 @@ if(!isset($_SESSION['login_user'])){
 Insert Payment Information. To cancel, click on cancel.
 </div><br><hr><br>
 
-<h3 class = "contentHeader">Company Information:</h3>
+<h3 class = "contentHeader">Payment Information:</h3>
 
 <!-- Payment Info-->
 
@@ -65,8 +65,16 @@ Insert Payment Information. To cancel, click on cancel.
             
     <?php
 	include '../../../dbscripts/credentials.php';
+	
+	$PosterUserName = $_SESSION['login_user'];
+	
+	// The time in my VM is messed up so this should be just -2 minutes. now -362
+	$newTime = strtotime('-361 minutes');
+	$date = date('Y-m-d H:i:s', $newTime);
 
-	$sql = "SELECT * FROM payment WHERE Job_JobID = '30'";
+	$currDate = date("Y-m-d H:i:s");
+
+	$sql = "SELECT * FROM job WHERE PosterUserName ='$PosterUserName' AND JobFillStatus = 'No' AND JobListDate > '$date'";
 	
 	$result = NULL;
 	// Create connection
@@ -83,16 +91,16 @@ Insert Payment Information. To cancel, click on cancel.
 		}else{
 			$PaymentMethod = array(
 		"",
-		"Bank - Checking Account",
-		"Credit/Debit Card"
-		,"Online Service"
+		"Bank",
+		"Credit"
+		,"Online"
 		);	
 			}
     }?>
             
 			<table border='0'><tr>
            	<!-- I need to generate the paymentID auto from the db-->
-			<td>PaymentID: </td><td><input name="PaymentID" id="CompanyId" value="31" readonly/></td></tr>
+			<td>PaymentID: </td><td><input name="PaymentID" id="CompanyId" hidden/></td></tr>
 			<td>PaymentAmount: </td> <td><input name = 'PaymentAmount' id="PaymentAmount" value="200.00" readonly/>$</td></tr>		
 			<tr><td>Payment Status: </td><td> <input  name = "PaymentStatus" id="PaymentStatus" value="In-Transit" readonly/></td></tr>
 			<tr><td>Payment Date: </td><td>
@@ -100,7 +108,7 @@ Insert Payment Information. To cancel, click on cancel.
 echo "<input name='PaymentDate' id='PaymentDate' value='". date("m/d/Y") ."' />";
 echo "</td></tr>";
 ?>
-			<tr><td>JobId: </td><td> <input  name = "Job_JobID" id="Job_JobID" value="1" readonly/></td></tr>
+			<tr><td>JobId: </td><td> <input  name = "Job_JobID" id="Job_JobID" value="<?php echo $info["JobID"];?>" readonly/></td></tr>
             <tr><td>Payment Method: </td><td><select class="select" name = "PaymentMethod" id="PaymentMethod" onChange="changeSelected(this)">
 			<?php
 				foreach($PaymentMethod as $type){
@@ -114,23 +122,42 @@ echo "</td></tr>";
 </table></form></div><br><hr><br>	
             
 	<?php
-	//After resume selected and confirmed:
 	if(isset($_POST["PaymentMethod"]))
 	{
 		include '../../../dbscripts/credentials.php';
 		
+		$sql = "INSERT INTO payment (PaymentAmount, PaymentStatus, Job_JobID, 		PaymentMethod) VALUES (
+	'".$_POST["PaymentAmount"]."',
+	'".$_POST["PaymentStatus"]."',
+	'".$_POST["Job_JobID"]."', 
+	'".$_POST["PaymentMethod"]."');";
+	
+	$TempJobID = $_POST["Job_JobID"];
+	$TempPaymentMethod = $_POST["PaymentMethod"];
+		
 		$conn = new mysqli($address, $username, $password, $database);
+		
+					$result = NULL;
+		  
+			// Create connection
+			$conn = new mysqli($address, $username, $password, $database);
+			// Check connection	
+			 if ($conn->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+			} else {
+				$conn->multi_query($sql);
+			}
 		
 		echo '<h3 class = "contentHeader">Type of Payment: ' .$_POST["PaymentMethod"]. "</h3>";
 		echo "<div style='padding-left:50px; padding-right:100px;'>";
 
 		// <!-- Type of Payment-->
 		
-		if($_POST["PaymentMethod"] == "Bank - Checking Account"){
+		if($_POST["PaymentMethod"] == "Bank"){
 			displayBankPayment($conn);
-		}elseif($_POST["PaymentMethod"] == "Credit/Debit Card"){
+		}elseif($_POST["PaymentMethod"] == "Credit"){
 			displayCreditCardPayment($conn);
-		}elseif ($_POST["PaymentMethod"] == "Online Service"){
+		}elseif ($_POST["PaymentMethod"] == "Online"){
 			displayOnlineService($conn);
 		}
 		
@@ -143,7 +170,19 @@ echo "</td></tr>";
 </html>
 
 <?php
+
 	function displayBankPayment($conn){
+		// The time in my VM is messed up so this should be just -2 minutes. now -362
+	$newTime = strtotime('-361 minutes');
+	$dateP = date('Y-m-d H:i:s', $newTime);
+		
+		$sql = "SELECT * FROM payment WHERE PaymentMethod = 'bank' AND PaymentDate > '$dateP'";
+	
+		$result = NULL;
+		
+		$result = $conn->query($sql);
+		$info = $result1->fetch_assoc();
+		
 		echo "<form method ='post' action='addBankPayment.php'>";
 
 		echo "<table border='0'><tr>";
@@ -152,7 +191,9 @@ echo "</td></tr>";
 			echo '<tr><td>Bank Payment Number: </td><td> <input  name = "BankPaymentNumber" id="BankPaymentNumber"></td></tr>';
 			echo '<tr><td>Bank Payment Account Number: </td><td> <input  name = "BankPaymentAcctNumber" id="BankPaymentAcctNumber"></td></tr>';
 			// Needs a select from the previous page => payment
-			echo '<tr><td>PaymentID: </td><td> <input  name = "PaymentID" id="PaymentID"></td></tr>';
+			echo '<tr><td>PaymentID: </td><td> <input  name = "PaymentID" id="PaymentID" value="'.$info["PaymentID"].'" readonly></td></tr>';
+			
+			echo '<td> <input  name = "Job_JobID" id="Job_JobID" value="'.$info["Job_JobID"].'" hidden></td>';
 			
 		echo "<tr><td colspan='2' align='center'><br><input  type='submit' name = 'submit' value = 'Submit'></td></tr>";
 			echo "<tr><td colspan='2' align='center'><input  type='submit' name = 'cancel' value = 'Cancel'></td></tr>";
@@ -163,6 +204,17 @@ echo "</td></tr>";
 	}
 	
 	function displayCreditCardPayment($conn){
+		// The time in my VM is messed up so this should be just -2 minutes. now -362
+	$newTime = strtotime('-361 minutes');
+	$dateP = date('Y-m-d H:i:s', $newTime);
+		
+		$sql = "SELECT * FROM payment WHERE PaymentMethod = 'credit' AND PaymentDate > '$dateP'";
+	
+		$result = NULL;
+		
+		$result = $conn->query($sql);
+		$info = $result->fetch_assoc();
+		
 		echo "<form method ='post' action='addCreditCardPayment.php'>";
 
 		echo "<table border='0'><tr>";
@@ -172,7 +224,9 @@ echo "</td></tr>";
 			echo '<tr><td>Credit Card Expiration Date: </td><td> <input  name = "CreditCardExpirDate" id="CreditCardExpirDate"></td></tr>';
 			echo '<tr><td>Credit Card Date: </td><td> <input  name = "CreditCardDate" id="CreditCardDate"></td></tr>';
 			// Needs a select from the previous page => payment
-			echo '<tr><td>PaymentID: </td><td> <input  name = "PaymentID" id="PaymentID"></td></tr>';
+			echo '<tr><td>PaymentID: </td><td> <input  name = "PaymentID" id="PaymentID" value="'.$info["PaymentID"].'" readonly></td></tr>';
+			
+			echo '<td> <input  name = "Job_JobID" id="Job_JobID" value="'.$info["Job_JobID"].'" hidden></td>';
 		
 		echo "<tr><td colspan='2' align='center'><br><input  type='submit' name = 'submit' value = 'Submit'></td></tr>";
 			echo "<tr><td colspan='2' align='center'><input  type='submit' name = 'cancel' value = 'Cancel'></td></tr>";
@@ -183,6 +237,17 @@ echo "</td></tr>";
 	}
 	
 	function displayOnlineService($conn){
+		// The time in my VM is messed up so this should be just -2 minutes. now -362
+	$newTime = strtotime('-361 minutes');
+	$dateP = date('Y-m-d H:i:s', $newTime);
+		
+		$sql = "SELECT * FROM payment WHERE PaymentMethod = 'online' AND PaymentDate > '$dateP'";
+	
+		$result = NULL;
+		
+		$result = $conn->query($sql);
+		$info = $result->fetch_assoc();
+		
 		echo "<form method ='post' action='addOnlineServicePayment.php'>";
 
 		echo "<table border='0'><tr>";
@@ -192,7 +257,9 @@ echo "</td></tr>";
 			echo '<tr><td>Service Transaction Id: </td><td> <input  name = "ServiceTransID" id="ServiceTransID"></td></tr>';
 			echo '<tr><td>Service Fee: </td><td> <input  name = "ServiceFee" id="ServiceFee"></td></tr>';
 			// Needs a select from the previous page => payment
-			echo '<tr><td>PaymentID: </td><td> <input  name = "PaymentID" id="PaymentID"></td></tr>';
+			echo '<tr><td>PaymentID: </td><td> <input  name = "PaymentID" id="PaymentID" value="'.$info["PaymentID"].'" readonly></td></tr>';
+			
+			echo '<td> <input  name = "Job_JobID" id="Job_JobID" value="'.$info["Job_JobID"].'" hidden></td>';
 		
 		echo "<tr><td colspan='2' align='center'><br><input  type='submit' name = 'submit' value = 'Submit'></td></tr>";
 			echo "<tr><td colspan='2' align='center'><input  type='submit' name = 'cancel' value = 'Cancel'></td></tr>";
