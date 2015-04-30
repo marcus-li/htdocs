@@ -57,7 +57,7 @@ if(!isset($_SESSION['login_user'])){
 <body>
 
 <div class = "content" > 
-<div style ="padding-top:80px; padding-left:80px;">
+<div style ="padding-top:80px; padding-left:80px;padding-right:20px;overflow:auto;">
 
 <?php
 	include '../dbscripts/credentials.php';
@@ -65,32 +65,88 @@ if(!isset($_SESSION['login_user'])){
 	
 	$whereClause = "WHERE ";
 	$hasWhere =false;
-	if(($_POST["company"])!=''){
-	$whereClause .= " CompanyName  LIKE '%". $_POST["company"]."%'";
-	$hasWhere=true;
+	
+	if(trim($_POST["company"])!=''){
+	$companies = explode(';', $_POST["company"]);
+		if(count($companies)>1){
+			//build parenthesis if multiple companies
+			$whereClause.="(";
+			foreach($companies as $name){
+				if($hasWhere==true)
+					{
+						$whereClause .= " OR ";
+					}
+				$whereClause .= " CompanyName  LIKE '%". trim($name)."%' ";
+				$hasWhere=true;
+				
+			}
+			$whereClause.=")";
+		}else{
+			$whereClause .= " CompanyName  LIKE '%". $name."%' ";
+			$hasWhere=true;
+		}
+	
 	}
 	if(isset($_POST["salary"]))
 	{
-		if($hasWhere==true)
-			{
-				$whereClause .= " AND ";
-			}
-		$whereClause .= "JobHighRange >= " .$_POST["salary"];
-			$hasWhere=true;
+	
+		if($_POST["salary"]!=0){
+		
+			if($hasWhere==true)
+				{
+					$whereClause .= " AND ";
+				}
+			$whereClause .= "JobJLowRange >= " .$_POST["salary"];
+				$hasWhere=true;
+		}
 	}
 	
-	if($_POST["jobname"]!='')
+		if(isset($_POST["salarymax"]))
 	{
+		if($_POST["salarymax"]!=0){
+		
 		if($hasWhere==true)
 			{
 				$whereClause .= " AND ";
 			}
-		$whereClause .= "JobTitle LIKE '%".$_POST["jobname"] ."%'";
+		$whereClause .= "JobHighRange <= " .$_POST["salarymax"];
 			$hasWhere=true;
+		}
+	}
+	
+	if(trim($_POST["jobname"])!='')
+	{
+		if($hasWhere==true)
+		{
+			$whereClause .= " AND ";
+		}
+		$hasWhere=true;
+		
+	$positions = explode(';', $_POST["jobname"]);
+		if(count($positions)>1){
+			
+			$whereClause .=" (";
+			$first = true;
+			foreach($positions as $p){
+				if($first){
+					$first=false;
+					$whereClause .= "JobTitle = '".trim($p) ."'";
+				}else{
+					$whereClause .= " OR JobTitle ='".trim($p) ."' ";
+				}
+			
+			}
+			$whereClause.=") ";
+
+		
+		}else{
+			$whereClause .= "JobTitle LIKE '%".$_POST["jobname"] ."%'";
+			}
 	}
 	
 		if($_POST["state"]!="Any")
 	{
+	
 		if($hasWhere==true)
 			{
 				$whereClause .= " AND ";
@@ -101,8 +157,11 @@ if(!isset($_SESSION['login_user'])){
 	
 	
 	
-	
+	if(!$hasWhere){
+	$whereClause ="";
+	}
 	$sql = "SELECT * FROM job ".$whereClause;
+	
 	
 	
 	$result = NULL;
@@ -112,15 +171,17 @@ if(!isset($_SESSION['login_user'])){
 	// Check connection	
 	
 	 if ($conn->connect_error) {
+		
         die("Connection failed: " . $conn->connect_error);
     } else {
 	    $result = $conn->query($sql);
 		if (!$result) {
-		    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+		echo $sql."<br>";
+		    echo $conn->error;
 		} else {
 		
 		  $array = array();	
-		  
+		  echo "For easier grading, here is the query based on the search parameters: <br><br> ". $sql."<br><br>";
 		  echo "<table border='2' cellpadding='2' cellspacing='2'";
 			echo "<tr><td></td><td>Job Title</td><td>Salary Range</td>
 					<td>Company</td><td>State</td><td>City</td>";
