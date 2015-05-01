@@ -45,12 +45,28 @@ function report3(){
 	}
 	
 	var sql = "select  JobTitle, JobID, JobListDate , JobFillStatus FROM job "+
- "where CompanyName = '"+filter+"' order by JobTitle";
+		"where CompanyName = '"+filter+"' order by JobTitle";
 			display(sql);
 }
 function report4(){
+	var start = document.getElementById('start').value;
+	
+     var end = document.getElementById('end').value;
+	 
+	if(start ==""){
+		alert("please fill in a start date");
+		return;
+	}
+	if(end =="")
+	{
+		alert("please fill in an end date");
+		return;
+	}
+	
+	alert('done');
 	/*When a date range (start and end date) is entered, display all of the jobs newly listed, including the company name, job id, job list date, and job title.*/
 }
+
 function report5(){
 	
 /*When given a salary value and a job title, display all of the jobs including: company name, job id, job list date, and salary.*/
@@ -61,9 +77,7 @@ function report5(){
 		alert('please enter minimum salary requirement in USD');
 		return;
 	}
-	
-	
-	
+
 	var jobposition = document.getElementById('jobtitle').value;
 	if(jobposition=="")
 	{
@@ -95,6 +109,20 @@ function report7(){
 	
 }
 function report8(){
+
+	var start = document.getElementById('start').value;
+	var end = document.getElementById('end').value;
+	if(start==""){
+		alert("please fill in a start date");
+		return;
+	}
+	if(end=="")
+	{
+		alert("please fill in an end date");
+		return;
+	}
+	
+	
 	/*Generate a payment report for UConnJobSearch that is initiated by a date range (start and end date) and includes the payment ID, Payment amount, Payment status, payment type (invoice, credit card or bank), and payment date, for all jobs listed between that date range.*/
 }
 
@@ -248,10 +276,10 @@ include '../dbscripts/credentials.php';
 		
 			echo "When a date range (start and end date) is entered, display all of the jobs newly listed, including the company name, job id, job list date, and job title.";
 			echo "<br><br>Start Date: ";   
-			echo '<input name = "start" class = "datepicker" readonly> </input>';
+			echo '<input id = "start" class = "datepicker" value ="" readonly></input>';
 			//Graduation Date
 			echo "End Date: ";   
-			echo '<input name = "end" class = "datepicker" readonly> </input>';
+			echo '<input id = "end" class = "datepicker"  value="" readonly></input>';
 			echo "<input type='submit' value='Go' onclick='report4()'><br><br>";
 		}elseif($selectedReport==5)
 		{
@@ -272,10 +300,10 @@ include '../dbscripts/credentials.php';
 			echo "Generate a payment report for UConnJobSearch that is initiated by a date range (start and end date) and includes the payment ID, Payment amount, Payment status, payment type (invoice, credit card or bank), and payment date, for all jobs listed between that date range.";
 			
 			echo "<br><br>Start Date: ";   
-			echo '<input name = "start" class = "datepicker" readonly> </input>';
+			echo '<input id= "start" class = "datepicker" value="" readonly></input>';
 			//Graduation Date
 			echo "End Date: ";   
-			echo '<input name = "end" class = "datepicker" readonly> </input>';
+			echo '<input id = "end" class = "datepicker" value="" readonly></input>';
 			echo "<input type='submit' value='Go' onclick='report8()'><br><br>";
 		}elseif($selectedReport==9){
 			//Create a table to display all skills
