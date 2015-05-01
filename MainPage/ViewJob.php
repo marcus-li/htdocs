@@ -165,7 +165,7 @@ if(!isset($_SESSION['login_user'])){
 		
 		
 		$iApplied = null;
-		$iApplied = $conn->query("select count(*) as 'a' from applies where job_jobid = ".$params['jobid']);
+		$iApplied = $conn->query("select count(*) as 'a' from applies where job_jobid = ".$params['jobid']. " and seekerusername='".$_SESSION["login_user"]."'");
 		if(!$iApplied)
 		{
 			echo $conn->error;
