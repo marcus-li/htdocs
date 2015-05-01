@@ -91,10 +91,10 @@ function go(jobID){
 	  echo "<table border='2' cellpadding='2' cellspacing='2'";
 		echo "<tr><td></td><td>Job Title</td><td>Salary Range</td>
 				<td>Company</td><td>State</td><td>City</td>";
-		
+		$jobslisted = null;
 		   while($row = $result->fetch_assoc()) 
 		   {
-		   
+		   $jobslisted[$row["JobID"]] = 1;
 		   echo "<tr>";
 				echo "<td><input type ='submit' value = 'view job' onClick='go(".$row["JobID"].")'/></td>";
 				echo "<td>" . $row["JobTitle"] . "</td>";
@@ -103,17 +103,18 @@ function go(jobID){
 				echo "<td>" . $row["JobState"] . "</td>";
 				echo "<td>" . $row["JobCity"] . "</td>";
 			echo "</tr>";
-		   
 		   }
 		 //build table from skills in case few rows populated by degree requirements 
-		   if($secondQueryLimit !=0)
+		   if($secondQueryLimit !=0&&false)
 		   {
 		   $row = null;
 		   $result = null;
 		   $sql = "select * from job,
 			(select job.jobid from job,jobskillrequirements
 			where jobskillrequirements.SkillID in
-			 (select distinct skillid from resumelistedskills,resume,user where user.username = '".$_SESSION["login_user"]."' and resume.ResumeID=resumelistedskills.ResumeID)
+			 (select distinct skillid 
+					from resumelistedskills,resume,user 
+                    where resume.ResumeID=resumelistedskills.ResumeID and resume.SeekerId='".$_SESSION["login_user"]."')
 			 and job.JobID = jobskillrequirements.JobID) as edumatches
 			where job.jobid= edumatches.jobid and job.JobFillStatus = 'No'
 			and job.jobid not in (
@@ -128,7 +129,7 @@ function go(jobID){
 		   
 		   while($row = $result->fetch_assoc()) 
 		   {
-		   
+		   if(!$jobslisted[$row["JobID"]]){
 		   echo "<tr>";
 				echo "<td><input type ='submit' value = 'view job' onClick='go(".$row["JobID"].")'/></td>";
 				echo "<td>" . $row["JobTitle"] . "</td>";
@@ -137,7 +138,7 @@ function go(jobID){
 				echo "<td>" . $row["JobState"] . "</td>";
 				echo "<td>" . $row["JobCity"] . "</td>";
 			echo "</tr>";
-		   
+		   }
 		   }
 		 }
 		echo "</table>";

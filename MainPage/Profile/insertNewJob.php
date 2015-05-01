@@ -68,22 +68,7 @@
 	'".$_POST["PosterUserName"]."',
 	'".$_POST["CompanyName"]."',
 	'".$_POST["jobDescription"]."'
-	);";
-	
-<<<<<<< HEAD
-	//INSERT INTO `uconnjobsearch`.`job` (`JobTitle`, `JobCity`, `JobState`, `JobZip`, `JobDuties`, `JobYRSExperience`, `JobJLowRange`, `JobHighRange`, `JobFillStatus`, `PosterUserName`, `CompanyName`, `jobDescription`) VALUES ('Drawer', 'storr', 'CT', '06269', 'Draw', '4', '2500', '25000', 'No', 'bob', 'Georgia Institute of Technology', 'Draw');
-	
-	//'".$_POST["JobDegreeTypes"]."',
-	//'".$_POST["JobDegreeAreas"]."', 
-	//'".$_SESSION["login_user"]."',
-	//'".$_POST["CompanyName"]."',
-
-	
-	
-			$result = NULL;
-=======
->>>>>>> c8fa6baf242e76bf2543510053567e52d59a04bc
-		  
+	);";  
 			// Create connection
 			$conn = new mysqli($address, $username, $password, $database);
 			// Check connection	
