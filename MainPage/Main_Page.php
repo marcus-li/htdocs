@@ -94,7 +94,9 @@ function go(jobID){
 		$jobslisted = null;
 		   while($row = $result->fetch_assoc()) 
 		   {
+
 		   $jobslisted[' '.$row["JobID"]] = 1;
+
 		   echo "<tr>";
 				echo "<td><input type ='submit' value = 'view job' onClick='go(".$row["JobID"].")'/></td>";
 				echo "<td>" . $row["JobTitle"] . "</td>";
@@ -129,7 +131,9 @@ function go(jobID){
 		   
 		   while($row = $result->fetch_assoc()) 
 		   {
+
 		   if(!isset($jobslisted[' '.$row["JobID"]])){
+
 		   echo "<tr>";
 				echo "<td><input type ='submit' value = 'view job' onClick='go(".$row["JobID"].")'/></td>";
 				echo "<td>" . $row["JobTitle"] . "</td>";
