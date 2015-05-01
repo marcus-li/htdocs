@@ -4,10 +4,8 @@
 	if(isset($_POST['cancel'])){
 			$sql = 
 				"DELETE from job 
-				WHERE JobID='".$_POST["PaymentID"]."';";
-				
-			$sql1 = 
-				"DELETE from payment 
+				WHERE JobID='".$_POST["JobID"]."';
+				DELETE from payment 
 				WHERE PaymentID='".$_POST["PaymentID"]."';";
 			
 			$result = NULL;
@@ -19,7 +17,6 @@
 				die("Connection failed: " . $conn->connect_error);
 			} else {
 				$conn->multi_query($sql);
-				$conn->multi_query($sql1);
 				$conn->close();
 			}
 	
