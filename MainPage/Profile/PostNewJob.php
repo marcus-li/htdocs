@@ -44,6 +44,7 @@ if(!isset($_SESSION['login_user'])){
     <nav>
       <a class="side_button_select">Post New Job</a>
       <a class="side_button" href="ReviewJobs.php">Review Previous Jobs</a>
+      <a class="side_button" href="Poster_Settings.php">Profile Settings</a>
   
     </nav>
   </div>
