@@ -27,8 +27,17 @@ $rows = mysql_num_rows($query);
 if ($rows == 1) {
 $_SESSION['login_user']=$UserName; // Initializing Session
 
+	$landingPage = '/mainpage/main_page.php';
 	//TODO: figure out if poster, seeker, admin
 	//change header location based on that
+	$query = mysql_query("select * from administrator where UserName='$UserName'", $connection);
+	$rows = mysql_num_rows($query);
+	if($rows==1) $landingPage = '/admin/admin.php';
+	
+	
+	$query = mysql_query("select * from poster where UserName='$UserName'", $connection);
+	$rows = mysql_num_rows($query);
+	if($rows==1) $landingPage = '/mainpage/profile/PostNewJob.php';
 
 
 if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
@@ -37,7 +46,7 @@ if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
 		$uri = 'http://';
 	}
 	$uri .= $_SERVER['HTTP_HOST'];
-	header('Location: '.$uri.'/mainpage/main_page.php');
+	header('Location: '.$uri.$landingPage);
 	exit;
 
 
