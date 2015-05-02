@@ -30,7 +30,6 @@ function go(jobID){
   <div class="topbar">
     <div class="navbutton">
       <nav> <a>Welcome!</a> 
-      <a class="topbutton" href="Profile/PostNewJob.php">Poster</a> 
       <a class="topbutton" href="Profile/Update_Resume.php">Portfolio</a> <a class="topbutton" href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a> </nav>
     </div>
     <!-- navbutton --> 
@@ -107,7 +106,7 @@ function go(jobID){
 			echo "</tr>";
 		   }
 		 //build table from skills in case few rows populated by degree requirements 
-		   if($secondQueryLimit !=0)
+		   if($secondQueryLimit !=0 )
 		   {
 		   $row = null;
 		   $result = null;
