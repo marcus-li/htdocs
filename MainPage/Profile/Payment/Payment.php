@@ -105,7 +105,7 @@ Insert Payment Information. To cancel, click on cancel.
 			<tr><td>Payment Status: </td><td> <input  name = "PaymentStatus" id="PaymentStatus" value="In-Transit" readonly/></td></tr>
 			<tr><td>Payment Date: </td><td>
 <?php 
-echo "<input name='PaymentDate' id='PaymentDate' value='". date("m/d/Y") ."' />";
+echo "<input name='PaymentDate' id='PaymentDate' value='". date("Y-m-d") ."' />";
 echo "</td></tr>";
 ?>
 			<tr><td>JobId: </td><td> <input  name = "JobID" id="JobID" value="<?php echo $info["JobID"];?>" readonly/></td></tr>
@@ -172,12 +172,14 @@ echo "</td></tr>";
 
 	function displayBankPayment($conn, $jid){
 		
-		$sql = "SELECT * FROM payment WHERE PaymentMethod = 'bank' AND JobID = '$jid'";
+		$sql = "SELECT * FROM payment WHERE PaymentMethod = 'bank' AND JobID ='".$jid."';";
 	
 		$result = NULL;
 		
 		$result = $conn->query($sql);
 		$pid = $result->fetch_assoc();
+		
+		echo $pid["PaymentDate"];
 		
 		echo "<form method ='post' action='addBankPayment.php'>";
 
@@ -188,7 +190,7 @@ echo "</td></tr>";
 			echo '<tr><td>Bank Payment Account Number: </td><td> <input  name = "BankPaymentAcctNumber" id="BankPaymentAcctNumber"></td></tr>';
 			// Needs a select from the previous page => payment
 			echo '<tr><td>PaymentID: </td><td> <input  name = "PaymentID" id="PaymentID" value="'.$pid["PaymentID"].'" readonly></td></tr>';
-			
+			echo '<tr><td>JobID: </td>';
 			echo '<td> <input  name = "JobID" id="JobID" value="'.$pid["JobID"].'" readonly></td>';
 			
 		echo "<tr><td colspan='2' align='center'><br><input  type='submit' name = 'submit' value = 'Submit'></td></tr>";
@@ -200,12 +202,14 @@ echo "</td></tr>";
 	}
 	
 	function displayCreditCardPayment($conn, $jid){
-		$sql = "SELECT * FROM payment WHERE PaymentMethod = 'bank' AND JobID = '$jid'";
+		$sql = "SELECT * FROM payment WHERE PaymentMethod = 'credit' AND JobID ='".$jid."';";
 	
 		$result = NULL;
 		
 		$result = $conn->query($sql);
 		$pid = $result->fetch_assoc();
+		
+		echo $pid["PaymentDate"];
 		
 		echo "<form method ='post' action='addCreditCardPayment.php'>";
 
@@ -217,7 +221,7 @@ echo "</td></tr>";
 			echo '<tr><td>Credit Card Date: </td><td> <input  name = "CreditCardDate" id="CreditCardDate"></td></tr>';
 			// Needs a select from the previous page => payment
 			echo '<tr><td>PaymentID: </td><td> <input  name = "PaymentID" id="PaymentID" value="'.$pid["PaymentID"].'" readonly></td></tr>';
-			
+			echo '<tr><td>JobID: </td>';
 			echo '<td> <input  name = "JobID" id="JobID" value="'.$pid["JobID"].'" readonly></td>';
 		
 		echo "<tr><td colspan='2' align='center'><br><input  type='submit' name = 'submit' value = 'Submit'></td></tr>";
@@ -229,12 +233,16 @@ echo "</td></tr>";
 	}
 	
 	function displayOnlineService($conn,$jid){
-		$sql = "SELECT * FROM payment WHERE PaymentMethod = 'bank' AND JobID = '$jid'";
-	
+		$sql = "SELECT * FROM payment WHERE PaymentMethod = 'online' AND JobID ='".$jid."';";
+		
+		echo $jid;
+		
 		$result = NULL;
 		
 		$result = $conn->query($sql);
 		$pid = $result->fetch_assoc();
+		
+		echo $pid["PaymentDate"];
 		
 		echo "<form method ='post' action='addOnlineServicePayment.php'>";
 
@@ -246,7 +254,7 @@ echo "</td></tr>";
 			echo '<tr><td>Service Fee: </td><td> <input  name = "ServiceFee" id="ServiceFee"></td></tr>';
 			// Needs a select from the previous page => payment
 			echo '<tr><td>PaymentID: </td><td> <input  name = "PaymentID" id="PaymentID" value="'.$pid["PaymentID"].'" readonly></td></tr>';
-			
+			echo '<tr><td>JobID: </td>';
 			echo '<td> <input  name = "JobID" id="JobID" value="'.$pid["JobID"].'" readonly></td>';
 		
 		echo "<tr><td colspan='2' align='center'><br><input  type='submit' name = 'submit' value = 'Submit'></td></tr>";

@@ -27,7 +27,6 @@ if(!isset($_SESSION['login_user'])){
 <div class="topbar">
   <div class="navbutton">
     <nav>
-         	<a class="topbutton" href="../Main_Page.php">Seeker</a>
              <a class="topbutton" href = "../../login/logout.php">Log out of [<b><?php 
 	echo "". $_SESSION['login_user'];
 	?>]</b></a>
@@ -71,12 +70,22 @@ Create and Post new jobs. Exclusive option for Posters.
             
     <?php
 	include '../../dbscripts/credentials.php';
-
-	$sql = "SELECT * FROM company WHERE CompanyId = '01'";
 	
-	$result = NULL;
+	$sql1 = "SELECT * FROM poster WHERE UserName ='".$_SESSION['login_user']."';";
+	
 	// Create connection
     $conn = new mysqli($address, $username, $password, $database);
+	
+	$result1 = NULL;
+	
+	$result1 = $conn->query($sql1);
+	$value = $result1->fetch_assoc();
+	$cname = $value['CompanyName'];
+	echo $cname;
+
+	$sql = "SELECT * FROM company WHERE CompanyName = '".$cname."';";
+	
+	$result = NULL;
 	// Check connection	
 	 if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
