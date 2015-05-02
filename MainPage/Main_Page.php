@@ -30,7 +30,6 @@ function go(jobID){
   <div class="topbar">
     <div class="navbutton">
       <nav> <a>Welcome!</a> 
-      <a class="topbutton" href="Profile/PostNewJob.php">Poster</a> 
       <a class="topbutton" href="Profile/Update_Resume.php">Portfolio</a> <a class="topbutton" href = "../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a> </nav>
     </div>
     <!-- navbutton --> 
@@ -94,9 +93,7 @@ function go(jobID){
 		$jobslisted = null;
 		   while($row = $result->fetch_assoc()) 
 		   {
-
 		   $jobslisted[' '.$row["JobID"]] = 1;
-
 		   echo "<tr>";
 				echo "<td><input type ='submit' value = 'view job' onClick='go(".$row["JobID"].")'/></td>";
 				echo "<td>" . $row["JobTitle"] . "</td>";
@@ -107,7 +104,7 @@ function go(jobID){
 			echo "</tr>";
 		   }
 		 //build table from skills in case few rows populated by degree requirements 
-		   if($secondQueryLimit !=0)
+		   if($secondQueryLimit !=0 )
 		   {
 		   $row = null;
 		   $result = null;
@@ -131,9 +128,7 @@ function go(jobID){
 		   
 		   while($row = $result->fetch_assoc()) 
 		   {
-
 		   if(!isset($jobslisted[' '.$row["JobID"]])){
-
 		   echo "<tr>";
 				echo "<td><input type ='submit' value = 'view job' onClick='go(".$row["JobID"].")'/></td>";
 				echo "<td>" . $row["JobTitle"] . "</td>";
