@@ -23,7 +23,6 @@
 	}
 	elseif(isset($_POST['submit']))
 	{
-	session_start();
 	$sql = "INSERT INTO creditcard (CreditCardNumber, CreditCardType, CreditCardExpirDate, CreditCardDate, PaymentID) VALUES
     (
 	'".$_POST["CreditCardNumber"]."',

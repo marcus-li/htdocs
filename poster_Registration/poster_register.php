@@ -13,9 +13,9 @@ pic1.src = "loader.gif";
 
 $(document).ready(function(){
 	
-$("#CompanyId").change(function() { 
+$("#CompanyName").change(function() { 
 
-var id = $("#CompanyId").val();
+var id = $("#CompanyName").val();
 
 if(id.length >= 2)
 {
@@ -24,21 +24,21 @@ $("#status1").html('<img src="loader.gif" align="absmiddle">&nbsp;Checking avail
     $.ajax({  
     type: "POST",  
     url: "check_companyid.php",  
-    data: "CompanyId="+ id,  
+    data: "CompanyName="+ id,  
     success: function(msg){  
    
    $("#status1").ajaxComplete(function(event, request, settings){ 
 
 	if(msg == 'OK')
 	{ 
-        $("#CompanyId").removeClass('object_error'); // if necessary
-		$("#CompanyId").addClass("object_ok");
+        $("#CompanyName").removeClass('object_error'); // if necessary
+		$("#CompanyName").addClass("object_ok");
 		$(this).html(msg);
 	}  
 	else  
 	{  
-		$("#CompanyId").removeClass('object_ok'); // if necessary
-		$("#CompanyId").addClass("object_error");
+		$("#CompanyName").removeClass('object_ok'); // if necessary
+		$("#CompanyName").addClass("object_error");
 		$(this).html(msg);
 	}  
    
@@ -162,23 +162,16 @@ if(isset($_POST['submit']))
 	   $UserPhone = $_POST['UserPhone'];
 	}
 
-	$sql = "INSERT INTO user ".
-		   "(UserName, UserPassword, UserFirstName, UserLastName, UserStreet1, UserStreet2, UserCity, UserState, UserZip, UserEmail, UserPhone) ".
-		   "VALUES('$UserName','$UserPassword', '$UserFirstName', '$UserLastName', '$UserStreet1', '$UserStreet2', '$UserCity', '$UserState', '$UserZip', '$UserEmail', '$UserPhone')";
+	$sql = "INSERT INTO user 
+		   (UserName, UserPassword, UserFirstName, UserLastName, UserStreet1, UserStreet2, UserCity, UserState, UserZip, UserEmail, UserPhone) ".
+		   "VALUES('$UserName','$UserPassword', '$UserFirstName', '$UserLastName', '$UserStreet1', '$UserStreet2', '$UserCity', '$UserState', '$UserZip', '$UserEmail', '$UserPhone');
+		   INSERT INTO poster (UserName, PosterPosition, PosterContactEmail, CompanyName) VALUES ('$UserName', '$PosterPosition', '$UserEmail', '$CompanyName');";
 		   
 	mysql_select_db($database);
 	$retval = mysql_query( $sql, $conn);
 
 	if(!$retval or mysql_errno() == 1062)
 	{
-			/*if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
-				$uri = 'https://';
-			} else {
-				$uri = 'http://';
-			}
-			$uri .= $_SERVER['HTTP_HOST'];
-			header('Location: '.$uri.'/Registration/wrong_username.php');
-			exit;*/
 			echo "dberror";
 		
 		
@@ -204,10 +197,7 @@ else
   <form method="post" action="<?php $_PHP_SELF ?>" name="send" onSubmit="return Check()">
     <h2>Account Information:</h2>
     <br>
-    <a>CompanyID:</a>
-    <input type="text" name="CompanyId" size="20" id="CompanyId" class="c3a">
-    <a id="status1"></a> <br>
-    <a>UserID:</a>
+    <a>User Name:</a>
     <input type="text" name="UserName" size="20" id="UserName" class="c3a">
     <a id="status"></a> <br>
     <a>Email:</a>
@@ -306,9 +296,18 @@ else
     <input type="tel" name="fax" size="20" class="c3a" placeholder="(xxx)xxx-xxxx">
     (Optional) <br>
     <a>Home Page: </a>
-    <input type="tel" name="homepage" size="20" class="c3a">
+    <input type="text" name="homepage" size="20" class="c3a">
     (Optional) <br>
+    <br>
+    <h2> Poster Information: </h2>
+   	<b>
+     <a>Job Postion: </a>
+    <input type="text" name="PosterPosition" size="20" id="PosterPosition" class="c3a" placeholder="i.e. IT Assistant">
     <b>
+     <a>Company Name: </a>
+    <input type="text" name="CompanyName" size="20" id="CompanyName" class="c3a" placeholder="i.e. AT&T">
+    <a id="status1"></a> <br>
+    <br>
     <input class="button" type="submit" value="Submit" name="submit" id="button">
     <input class="button" type="reset" value="Redo">
     <div> <b class="login" id="Login"><a href="../Login/login_main.php">Already registered? Login</a></b> </div>
@@ -320,13 +319,7 @@ var exists = false;
 
 
 function Check()
-{
-	if (document.send.CompanyId.value=="") 
-	{
-	        window.alert('Please enter your CompanyID'); 
-        
-        return false;
-    }    
+{   
 		if (document.send.UserName.value=="") 
 	{
 	        window.alert('Please enter your userID'); 
@@ -401,6 +394,18 @@ function Check()
 		  if (document.send.UserState.value=="") 
 	   {
 	        window.alert('Please select your state'); 
+        
+        return false;
+    } 
+	if (document.send.CompanyName.value=="") 
+	{
+	        window.alert('Please enter your Company Name'); 
+        
+        return false;
+    } 
+	if (document.send.PosterPostion.value=="") 
+	{
+	        window.alert('Please enter your Job Postion'); 
         
         return false;
     } 

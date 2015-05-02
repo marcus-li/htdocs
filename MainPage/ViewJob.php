@@ -139,6 +139,7 @@ if(!isset($_SESSION['login_user'])){
 			$rows = mysqli_fetch_all($acceptedTypes,MYSQLI_NUM);
 			$rows2 = null;
 			foreach($rows as $dat) $rows2[] = $dat[0];	
+			if(count($rows2))
 			echo implode(", " , $rows2);
 			echo "</td></tr>";
 			
@@ -164,7 +165,7 @@ if(!isset($_SESSION['login_user'])){
 		
 		
 		$iApplied = null;
-		$iApplied = $conn->query("select count(*) as 'a' from applies where job_jobid = ".$params['jobid']);
+		$iApplied = $conn->query("select count(*) as 'a' from applies where job_jobid = ".$params['jobid']. " and seekerusername='".$_SESSION["login_user"]."'");
 		if(!$iApplied)
 		{
 			echo $conn->error;

@@ -1,10 +1,7 @@
 <!doctype html>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-  <script src="jquery-ui.min.js"></script>
- 
-  
 <html>
+<head>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>	
 <?php session_start();
 if(!isset($_SESSION['login_user'])){
 	
@@ -18,62 +15,64 @@ if(!isset($_SESSION['login_user'])){
 			header('Location: '.$uri.'/login/login_main.php');
 			exit;
 	};?>
-<head>
 <meta charset="utf-8">
-<title>Review Jobs Previously Posted (Poster)</title>
-<meta name="keywords" content="Review Jobs">
+<title>Previously Posted Job</title>
+<meta name="keywords" content="search">
 <link href="../stylesheet_main.css" rel="stylesheet" type="text/css" >
-<link href="jquery-ui.css" rel="stylesheet">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>	
 <script language = "javascript">
 function go(jobID){
-	location.assign("viewPostedJob.php?jobid="+jobID);
+	location.assign("viewJobSeeker.php?jobid="+jobID);
 }
 </script>
-<body>
 <header>
 <div class="topbar">
   <div class="navbutton">
     <nav>
             <a class="topbutton" href = "../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
-  
     </nav>
   </div>
   <!-- navbutton --> 
 </div>
 <!-- topbar -->
 
+
+
+
+
 <div class="sidebar">
-  <h1><img  src="../../MainPage_img/ReviewPreviousJob.png"></h1>
+  <h1><img src="../../MainPage_img/search.png"></h1>
   <div class="navbutton">
     <nav>
       <a class="side_button" href="PostNewJob.php">Post New Job</a>
-      <a class="side_button_select">Review Previous Jobs</a>
-      <a class="side_button" href="Poster_Settings.php">Profile Settings</a>
-  
+      <a class="side_button_select" href = "ReviewJobs.php">Review Previous Jobs</a>
+      <a class="side_button" href = "Poster_Settings.php">Poster Settings</a>
     </nav>
   </div>
   <!-- navbutton --> 
 </div>
 <!-- sidebar -->
+
 </header>
 
+<body>
 
-<!-- BEGIN CONTENT -->
-<div class = "content" >
-  <div style ="padding-top:80px; padding-left:80px;padding-right:30px;overflow:auto">
-    <h2>Previously Posted Jobs</h2>
+<div class = "content" > 
+<div style ="padding-top:80px; padding-left:80px;">
+
+    <h2>Seekers</h2>
     
 <?php
 	include '../../dbscripts/credentials.php';
+	parse_str($_SERVER['QUERY_STRING'], $params);
 	// Create connection
     $conn = new mysqli($address, $username, $password, $database);
 	 if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
 		exit;
     }
-	$sql = "SELECT * FROM job WHERE PosterUserName = '".$_SESSION["login_user"]."'";
+	$sql = "SELECT * FROM applies WHERE Job_JobID = '".$params['jobid']."'";
 	
 	
 	$result = NULL;
@@ -91,25 +90,29 @@ function go(jobID){
 	  $array = array();	
 	  
 	  echo "<table border='2' cellpadding='2' cellspacing='2'";
-		echo "<tr><td></td><td>Job Title</td><td>Job List Date</td>
-				<td>Company Name</td><td>Job Fill Status</td>";
+		echo "<tr><td></td><td>Application ID</td><td>Application Date</td>
+				<td>Seeker Name</td><td>Job Status</td>";
 		$jobslisted = null;
 		   while($row = $result->fetch_assoc()) 
 		   {
 
-		   $jobslisted[' '.$row["JobID"]] = 1;
+		   $jobslisted[' '.$row["Job_JobID"]] = 1;
+		   
+		   $_SESSION['SeekerUserName'] = $row["SeekerUserName"];
 
 		   echo "<tr>";
-				echo "<td><input type ='submit' value = 'view job' onClick='go(".$row["JobID"].")'/></td>";
-				echo "<td>" . $row["JobTitle"] . "</td>";
-				echo "<td>" . $row["JobListDate"] . "</td>";
-				echo "<td>" . $row["CompanyName"] . "</td>";
-				echo "<td>" . $row["JobFillStatus"] . "</td>";
+				echo "<td><input type ='submit' value = 'view seeker' onClick='go(".$row["Job_JobID"].")'/></td>";
+				echo "<td>" . $row["ApplicationID"] . "</td>";
+				echo "<td>" . $row["ApplicationDate"] . "</td>";
+				echo "<td>" . $row["SeekerUserName"] . "</td>";
+				echo "<td>" . $row["Status"] . "</td>";
 			echo "</tr>";
 		   }
 	$conn->close();	
-?> 
-  </div>
+?>
+	
 </div>
+</div>
+
 </body>
 </html>

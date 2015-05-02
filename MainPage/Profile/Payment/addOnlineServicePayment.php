@@ -23,7 +23,6 @@
 	}
 	elseif(isset($_POST['submit']))
 	{
-	session_start();
 	$sql = "INSERT INTO onlineservice (ServiceName, ServiceTransitID, ServiceFee, PaymentID) VALUES
     (
 	'".$_POST["ServiceName"]."',
@@ -46,5 +45,5 @@
 	}else{
 	echo "db error";
 	}
-	header("Location:..\PostNewJob.php");
+	header("Location:..\ReviewJobs.php");
 ?>
