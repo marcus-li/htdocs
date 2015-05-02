@@ -25,7 +25,7 @@ if(!isset($_SESSION['login_user'])){
 <header>
   <div class="topbar">
     <div class="navbutton">
-      <nav> <a class="topbutton" href="../Main_Page.php">Main Page</a> 
+      <nav>
       <a class="topbutton" href = "../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a> </nav>
     </div>
     <!-- navbutton --> 
@@ -36,8 +36,8 @@ if(!isset($_SESSION['login_user'])){
     <h1><img src="../../MainPage_img/Update Profile.png"></h1>
     <div class="navbutton">
       <a class="side_button" href="PostNewJob.php">Post New Job</a>
-      <a class="side_button_select" href="ReviewJobs.php">Review Previous Jobs</a>
-      <a class="side_button">Profile Settings</a>
+      <a class="side_button" href="ReviewJobs.php">Review Previous Jobs</a>
+      <a class="side_button_select">Profile Settings</a>
     </div>
     <!-- navbutton --> 
   </div>
@@ -50,14 +50,17 @@ if(!isset($_SESSION['login_user'])){
   <br>
   <br>
   <div style = "padding-left: 80px">
-  <form method="post" action="updateUserDetails.php" name="send" onSubmit="return check()">
+  <form method="post" action="updatePosterDetails.php" name="send" onSubmit="return check()">
     <?php
 	include '../../dbscripts/credentials.php';
 
 	$sql = "SELECT * FROM user WHERE username = '".  $_SESSION['login_user'].
-		"'";
+		"';";
+	$sql1 = "SELECT * FROM poster WHERE username = '".  $_SESSION['login_user'].
+		"';";
 	
 	$result = NULL;
+	$result1 = NULL;
 	// Create connection
     $conn = new mysqli($address, $username, $password, $database);
 	// Check connection	
@@ -66,6 +69,9 @@ if(!isset($_SESSION['login_user'])){
     } else {
 	    $result = $conn->query($sql);
 		$info = $result->fetch_assoc();
+		
+		$result1 = $conn->query($sql1);
+		$info1 = $result1->fetch_assoc();
 		if (!$result) {
 		    echo "<b>database result error</b>";
 			exit;
@@ -183,6 +189,18 @@ if(!isset($_SESSION['login_user'])){
         <td> Home Page: </td>
         <td><input type = "text" name = "homepage" value= "<?php echo $info["UserHomePage"];?>"/></td>
       </tr>
+      
+      
+      <tr>
+        <td> Job Position: </td>
+        <td><input type = "text" name = "jobposition" value= "<?php echo $info1["PosterPosition"];?>"/></td>
+      </tr>
+      <tr>
+        <td> Company Name: </td>
+        <td><input type = "text" name = "companyname" value= "<?php echo $info1["CompanyName"];?>"/></td>
+      </tr>
+      
+      
       <tr>
         <td><b>Old password: </b></td>
         <td><input type ="password" name="oldpassword" value= "" placeholder = "*****"/></td>
@@ -214,6 +232,15 @@ if(!isset($_SESSION['login_user'])){
 				return false;
 			} 
 		
+			if (document.send.companyname.value.trim()==""){
+				window.alert('Please enter your company name'); 
+				return false;
+			}
+			
+			if (document.send.jobposition.value.trim()==""){
+				window.alert('Please enter your job position'); 
+				return false;
+			}
 			
 			if (document.send.street1.value.trim()=="") 
 			{

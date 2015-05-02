@@ -36,7 +36,6 @@ function go(jobID){
 <div class="topbar">
   <div class="navbutton">
     <nav>
-         	<a class="topbutton" href="../Main_Page.php">Seeker</a>
             <a class="topbutton" href = "../../login/logout.php">Log out of [<b><?php echo "". $_SESSION['login_user'];?>]</b></a>
   
     </nav>
