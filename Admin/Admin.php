@@ -62,9 +62,16 @@ function report4(){
 		alert("please fill in an end date");
 		return;
 	}
-	
-	alert('done');
+	//	0 1    2      2   0   1   fill in
+	// mm/dd/yyyy to yyyy-mm-dd 23:59:59
+	var startsplit = start.split("/");
+	var endsplit = end.split("/");
+	var sql = "select CompanyName, JobId, JobListDate, JobTitle from job where JobListDate between '"+
+	 startsplit[2]  +"-"+startsplit[0]+"-"+startsplit[1]+" 00:00:00' and '" +
+	 endsplit[2] +"-"+endsplit[0]+"-"+endsplit[1]+ " 23:59:59'";
+	display(sql);
 	/*When a date range (start and end date) is entered, display all of the jobs newly listed, including the company name, job id, job list date, and job title.*/
+	
 }
 
 function report5(){
@@ -122,7 +129,19 @@ function report8(){
 		return;
 	}
 	
+		//	0 1    2      2   0   1   fill in
+	// mm/dd/yyyy to yyyy-mm-dd 23:59:59
+	var startsplit = start.split("/");
+	var endsplit = end.split("/");
 	
+	var between =" between '"+
+	 startsplit[2]  +"-"+startsplit[0]+"-"+startsplit[1]+" 00:00:00' and '" +
+	 endsplit[2] +"-"+endsplit[0]+"-"+endsplit[1]+ " 23:59:59'";
+	 
+	 var sql = "select PaymentId, PaymentAmount, PaymentStatus, PaymentMethod, PaymentDate from payment where " +
+	 "PaymentDate " + between;
+	 
+	 display(sql);
 	/*Generate a payment report for UConnJobSearch that is initiated by a date range (start and end date) and includes the payment ID, Payment amount, Payment status, payment type (invoice, credit card or bank), and payment date, for all jobs listed between that date range.*/
 }
 
